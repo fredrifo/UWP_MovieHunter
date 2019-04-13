@@ -8,11 +8,107 @@
     mc:Ignorable="d">
     <Grid
         x:Name="ContentArea"
-        Margin="{StaticResource MediumLeftRightMargin}">
+        Margin="{StaticResource XSmallTopMargin}">
         <Grid
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
             <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                 Place your content here.-->
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Row 0-->
+                <TextBlock Text="{x:Bind CoverTitle}"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Grid.Row="0"
+                           FontSize="60"
+                           TextDecorations="Underline"
+                           FontWeight="Bold"/>
+                <!--Row 1-->
+                <TextBlock Text="Category"
+                           Grid.Column="0"
+                           Grid.Row="1"
+                           FontSize="40"
+                           FontWeight="Bold"/>
+
+                <TextBlock Text="{x:Bind Category}"
+                           Grid.Column="1"
+                           Grid.Row="1"
+                           FontSize="40"/>
+                <!--Row 2-->
+                <TextBlock Text="Director"
+                           Grid.Column="0"
+                           Grid.Row="2"
+                           FontSize="40"
+                           FontWeight="Bold"/>
+
+                <TextBlock Text="{x:Bind Director}"
+                           Grid.Column="1"
+                           Grid.Row="2"
+                           FontSize="40"/>
+                <!--Row 3-->
+                <TextBlock Text="Writers"
+                           Grid.Column="0"
+                           Grid.Row="3"
+                           FontSize="40"
+                           FontWeight="Bold"/>
+
+                <TextBlock Text="{x:Bind Writer}"
+                           Grid.Column="1"
+                           Grid.Row="3"
+                           FontSize="40"/>
+
+                <!--Row 4-->
+                <TextBlock Text="Stars"
+                           Grid.Column="0"
+                           Grid.Row="4"
+                           FontSize="40"
+                           FontWeight="Bold"/>
+
+                <TextBlock Text="{x:Bind Stars}"
+                           Grid.Column="1"
+                           Grid.Row="4"
+                           FontSize="40"/>
+                <!--Row 5-->
+
+                <Frame Background="LightGray"
+                       Grid.Column="0"
+                           Grid.ColumnSpan="3"
+                           Grid.Row="5"
+                           FontSize="40"
+                           Padding="20">
+
+                    <TextBlock TextWrapping="WrapWholeWords"
+                               Text="{x:Bind Summary}"
+                               />
+                </Frame>
+                
+                <!--Row 1-5 -->
+                <Image Grid.Column="2"
+                       Grid.Row="0"
+                       Grid.RowSpan="5"
+                       >
+                    <Image.Source>
+                        <BitmapImage UriSource="{x:Bind CoverUri}" />
+                    </Image.Source>
+                </Image>
+                <!--Row 7-->
+            </Grid>
         </Grid>
     </Grid>
 </Page>
