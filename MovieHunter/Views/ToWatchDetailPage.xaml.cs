@@ -12,6 +12,7 @@ namespace MovieHunter.Views
 {
     public sealed partial class ToWatchDetailPage : Page
     {
+        string ImageSource;
         private ToWatchDetailViewModel ViewModel
         {
             get { return ViewModelLocator.Current.ToWatchDetailViewModel; }
@@ -22,6 +23,7 @@ namespace MovieHunter.Views
         public ToWatchDetailPage()
         {
             InitializeComponent();
+            ImageSource = "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Forrest_Gump_poster.jpg/220px-Forrest_Gump_poster.jpg";
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
