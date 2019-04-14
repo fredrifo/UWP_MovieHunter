@@ -11,7 +11,25 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        <controls:AdaptiveGridView
+        <ListView x:Name="list"
+            ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollMode="Enabled"                  
+                    ScrollViewer.VerticalScrollMode="Disabled">
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Background="Transparent" Orientation="Horizontal">
+                        <TextBlock Text="hello-"></TextBlock>
+                        <TextBlock Text="{Binding CoverTitle}"></TextBlock>
+                        <TextBlock Text="-noo"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        
+        <!--<controls:AdaptiveGridView
             ItemsSource="{x:Bind ViewModel.Source,Mode=OneWay}"
             ItemClickCommand="{x:Bind ViewModel.ItemClickCommand}"
             StretchContentForSingleRow="False"
@@ -20,26 +38,48 @@
             Padding="{StaticResource MediumLeftRightMargin}"
             animations:Connected.ListItemElementName="itemThumbnail"
             animations:Connected.ListItemKey="animationKeyToWatch"
-            DesiredWidth="180"
-            ItemHeight="160">
+            DesiredWidth="400"
+            ItemHeight="300">
             <controls:AdaptiveGridView.ItemTemplate>
+                
                 <DataTemplate x:DataType="models:SampleOrder">
-                    <Grid
-                        x:Name="itemThumbnail"
-                        Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
-                        Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <FontIcon
+                   
+
+
+                        <Grid
+                            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+                            x:Name="itemThumbnail"
+                                >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon Grid.Column="0"
                                 Glyph="{x:Bind Symbol}" />
-                            <TextBlock
+                                <Image Grid.Column="0"
+                                       Grid.RowSpan="5"
+                                       >
+                                    
+                                    <Image.Source>
+                                        <BitmapImage UriSource="https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Forrest_Gump_poster.jpg/220px-Forrest_Gump_poster.jpg" />
+                                    </Image.Source>
+                                </Image>
+
+                                <TextBlock Grid.Column="1"
                                 Margin="{StaticResource XXSmallTopMargin}"
                                 HorizontalAlignment="Center"
-                                Text="{x:Bind Company}"
+                                Text="Hellooo
+                                           he
+                                           heeeh
+                                           e"
                                 Style="{ThemeResource BodyTextStyle}" />
-                        </StackPanel>
-                    </Grid>
+                                
+                            </Grid>
+                            
+                            
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>
+        </controls:AdaptiveGridView>-->
     </Grid>
 </Page>
