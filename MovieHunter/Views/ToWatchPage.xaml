@@ -10,25 +10,122 @@
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
+    <!-- Grid for the whole page-->
     <Grid x:Name="ContentArea">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Comedy"
+                   FontSize="24"
+                   
+                   Grid.Row="0"
+                   Grid.Column="1"
+                   Margin="20,30,0,0"/>
+        
+        <!-- ScrollLeft button-->
+        <Frame Grid.Row="1" Grid.Column="0" Background="White">
+            <TextBlock Text="&#11176;"  VerticalAlignment="Center"/>
+        </Frame>
+        
+        <!-- ScrollRight button-->
+        <Frame Grid.Row="1" Grid.Column="3" Background="White">
+            <TextBlock Text="&#11177;" VerticalAlignment="Center"/>
+        </Frame>
+
+        <!-- ListView First-->
         <ListView x:Name="list"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                    ScrollViewer.HorizontalScrollMode="Enabled"                  
-                    ScrollViewer.VerticalScrollMode="Disabled">
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="1"
+                  IsItemClickEnabled="True"
+                  
+                  ItemClick="openMovieAsync"
+                 
+                  Margin="0,5,0,3"
+                  ScrollViewer.HorizontalScrollMode="Enabled"
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                  ScrollViewer.IsHorizontalRailEnabled="True"
+                  ScrollViewer.VerticalScrollMode="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  
+                  Height="240">
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    
+                    <VirtualizingStackPanel Orientation="Horizontal"
+                                            Background="Transparent"
+
+                                            >
+                    </VirtualizingStackPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <!--First Item-->
+                    
+                </DataTemplate>
+            </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Background="Transparent" Orientation="Horizontal">
-                        <TextBlock Text="hello-"></TextBlock>
-                        <TextBlock Text="{Binding CoverTitle}"></TextBlock>
-                        <TextBlock Text="-noo"></TextBlock>
-                    </StackPanel>
+
+                    <!--  DataTemplate for the horizontal movie listView  -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="160"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Image Grid.Column="0"
+                                   Grid.Row="0"
+                                   Grid.RowSpan="3">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding CoverUri}" />
+                            </Image.Source>
+                        </Image>
+
+                        <TextBlock Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="22"
+                                       Padding="6,0,0,0"
+                                       TextWrapping="WrapWholeWords"
+                                       Text="{Binding CoverTitle}"/>
+
+                        <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       Padding="24,0,0,0"
+                                       Text="Rating 8.8/10"/>
+
+                        <TextBlock Grid.Column="1"
+                                       Grid.Row="2"
+                                       Padding="6,0,0,0"
+                                       TextWrapping="WrapWholeWords"
+                                       Text="{Binding Summary}"/>
+
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
         </ListView>
 
-        
+
         <!--<controls:AdaptiveGridView
             ItemsSource="{x:Bind ViewModel.Source,Mode=OneWay}"
             ItemClickCommand="{x:Bind ViewModel.ItemClickCommand}"
