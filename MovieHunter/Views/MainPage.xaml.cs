@@ -3,6 +3,7 @@
 using MovieHunter.ViewModels;
 
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace MovieHunter.Views
 {
@@ -83,5 +84,14 @@ namespace MovieHunter.Views
             this.Summary = Summary;
             this.CoverUri = CoverUri;
         }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            var parameters = e.Parameter as MainPage;
+
+            if(parameters != null)
+                this.CoverTitle = parameters.CoverTitle;
+        }
+
     }
 }
