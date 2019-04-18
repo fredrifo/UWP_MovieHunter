@@ -26,24 +26,27 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
+
+        <!-- OLD CODE Before creating dynamic lists
         <TextBlock Text="Comedy"
                    FontSize="24"
                    
                    Grid.Row="0"
                    Grid.Column="1"
                    Margin="20,30,0,0"/>
-        
-        <!-- ScrollLeft button-->
+
+       
+ScrollLeft button
         <Frame Grid.Row="1" Grid.Column="0" Background="White">
             <TextBlock Text="&#11176;"  VerticalAlignment="Center"/>
         </Frame>
         
-        <!-- ScrollRight button-->
+ScrollRight button
         <Frame Grid.Row="1" Grid.Column="3" Background="White">
             <TextBlock Text="&#11177;" VerticalAlignment="Center"/>
         </Frame>
 
-        <!-- ListView First-->
+ListView First
         <ListView x:Name="list"
                   Grid.Row="1"
                   Grid.Column="1"
@@ -74,14 +77,14 @@
             
             <ListView.HeaderTemplate>
                 <DataTemplate>
-                    <!--First Item-->
+First Item
                     
                 </DataTemplate>
             </ListView.HeaderTemplate>
             <ListView.ItemTemplate>
                 <DataTemplate>
 
-                    <!--  DataTemplate for the horizontal movie listView  -->
+DataTemplate for the horizontal movie listView 
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -124,6 +127,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        -->
 
         <!--Listview programmatically-->
         <StackPanel x:Name="Stack_listViews"

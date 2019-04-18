@@ -1,5 +1,5 @@
 ﻿using System;
-
+using MovieHunter.Classes;
 using MovieHunter.ViewModels;
 
 using Windows.UI.Xaml.Controls;
@@ -87,7 +87,7 @@ namespace MovieHunter.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            var parameters = e.Parameter as MainPage;
+            var parameters = e.Parameter as Movie;
 
             if(parameters != null)
                 this.CoverTitle = parameters.CoverTitle;
