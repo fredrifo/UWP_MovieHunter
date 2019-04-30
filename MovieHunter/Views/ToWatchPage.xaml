@@ -15,10 +15,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            
+
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -27,114 +26,34 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
-        <!-- OLD CODE Before creating dynamic lists
-        <TextBlock Text="Comedy"
-                   FontSize="24"
-                   
-                   Grid.Row="0"
-                   Grid.Column="1"
-                   Margin="20,30,0,0"/>
+        <!-- Buttons for automatic sliding of listviews
 
-       
-ScrollLeft button
         <Frame Grid.Row="1" Grid.Column="0" Background="White">
             <TextBlock Text="&#11176;"  VerticalAlignment="Center"/>
         </Frame>
         
-ScrollRight button
         <Frame Grid.Row="1" Grid.Column="3" Background="White">
             <TextBlock Text="&#11177;" VerticalAlignment="Center"/>
-        </Frame>
+        </Frame>-->
 
-ListView First
-        <ListView x:Name="list"
-                  Grid.Row="1"
-                  Grid.Column="1"
-                  Grid.ColumnSpan="1"
-                  IsItemClickEnabled="True"
-                  
-                  ItemClick="openMovieAsync"
-                 
-                  Margin="0,5,0,3"
-                  ScrollViewer.HorizontalScrollMode="Enabled"
-                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                  ScrollViewer.IsHorizontalRailEnabled="True"
-                  ScrollViewer.VerticalScrollMode="Disabled"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                  
-                  Height="240">
-
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    
-                    <VirtualizingStackPanel Orientation="Horizontal"
-                                            Background="Transparent"
-
-                                            >
-                    </VirtualizingStackPanel>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            
-            <ListView.HeaderTemplate>
-                <DataTemplate>
-First Item
-                    
-                </DataTemplate>
-            </ListView.HeaderTemplate>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-
-DataTemplate for the horizontal movie listView 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="200"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40"/>
-                            <RowDefinition Height="40"/>
-                            <RowDefinition Height="160"/>
-
-                        </Grid.RowDefinitions>
-
-                        <Image Grid.Column="0"
-                                   Grid.Row="0"
-                                   Grid.RowSpan="3">
-                            <Image.Source>
-                                <BitmapImage UriSource="{Binding CoverUri}" />
-                            </Image.Source>
-                        </Image>
-
-                        <TextBlock Grid.Column="1"
-                                       Grid.Row="0"
-                                       FontSize="22"
-                                       Padding="6,0,0,0"
-                                       TextWrapping="WrapWholeWords"
-                                       Text="{Binding CoverTitle}"/>
-
-                        <TextBlock Grid.Column="1"
-                                       Grid.Row="1"
-                                       Padding="24,0,0,0"
-                                       Text="Rating 8.8/10"/>
-
-                        <TextBlock Grid.Column="1"
-                                       Grid.Row="2"
-                                       Padding="6,0,0,0"
-                                       TextWrapping="WrapWholeWords"
-                                       Text="{Binding Summary}"/>
-
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        -->
 
         <!--Listview programmatically-->
-        <StackPanel x:Name="Stack_listViews"
-                    Grid.Row="2" Grid.ColumnSpan="3"
-                    Orientation="Vertical">
+        <ScrollViewer VerticalScrollBarVisibility="Visible"
+                      HorizontalScrollBarVisibility="Disabled"
+                      HorizontalAlignment="Left"
+                      Width="auto"
+                      
+                      Margin="12,0,0,0"
+                      Grid.Row="2" Grid.ColumnSpan="3"
+                      >
             
-        </StackPanel>
+            <StackPanel x:Name="Stack_listViews"
+                        Height="auto"
+                        Orientation="Vertical"
+                        >
+            
+            </StackPanel>
+        </ScrollViewer>
 
 
         <!--<controls:AdaptiveGridView
