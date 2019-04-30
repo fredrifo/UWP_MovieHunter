@@ -23,6 +23,25 @@ namespace MovieHunter.Views
             get;
             set;
         }
+
+        public string Rating
+        {
+            get;
+            set;
+        }
+
+        public string ReleaseYear
+        {
+            get;
+            set;
+        }
+
+        public string Runtime
+        {
+            get;
+            set;
+        }
+
         public string Director
         {
             get;
@@ -59,30 +78,31 @@ namespace MovieHunter.Views
         public MainPage()
         {
             InitializeComponent();
-            string coverurl = "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Forrest_Gump_poster.jpg/220px-Forrest_Gump_poster.jpg";
+            string coverurl = "https://pdfimages.wondershare.com/forms-templates/medium/movie-poster-template-3.png";
 
             //If page opens with no movie params
-            this.CoverTitle = "CoverTitle";
-            this.Category = "Category";
-            this.Director = "Director";
-            this.Writer = "Writer";
-            this.Stars = "Stars";
-            this.Summary = "Summary: The presidencies of Kennedy and Johnson, the events of Vietnam, Watergate, and other history unfold through the perspective of an Alabama man with an IQ of 75.";
+            this.CoverTitle = "Null";
+            this.Category = "Null";
+            this.Director = "Null";
+            this.Writer = "Null";
+            this.Stars = "Null";
+            this.Summary = "Summary: Null";
             this.CoverUri = coverurl;
 
-            MainPage movie = new MainPage("Forrest Gump", "Drama", null, null, null, coverurl);
+            //MainPage movie = new MainPage("Null", "Null", "Null", "Null", "Null", coverurl);
         }
 
-        public MainPage(string CoverTitle,  string Category, string Director, string Stars, string Summary, string CoverUri)
+        public MainPage(string CoverTitle,  string Category, string Director, string Stars, string Summary, string CoverUri, int Rating)
         {
             InitializeComponent();
 
-            this.CoverTitle = CoverTitle;
-            this.Category = Category;
-            this.Director = Director;
-            this.Stars = Stars;
-            this.Summary = Summary;
-            this.CoverUri = CoverUri;
+            //this.CoverTitle = CoverTitle;
+            //this.Category = Category;
+            //this.Director = Director;
+            //this.Stars = Stars;
+            //this.Summary = Summary;
+            //this.CoverUri = CoverUri;
+
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -90,7 +110,18 @@ namespace MovieHunter.Views
             var parameters = e.Parameter as Movie;
 
             if(parameters != null)
+            {
                 this.CoverTitle = parameters.CoverTitle;
+                this.Category = parameters.Category;
+                this.Director = parameters.Director;
+                this.Writer = parameters.Writer;
+                this.Stars = parameters.Stars;
+                this.Summary = parameters.Summary;
+                this.CoverUri = parameters.CoverUri;
+                this.starRating.Width = (6 * 68) / 2; //(6 IMDB score * 68pixels each star) / 2 to get it to a  3/5
+            }
+                
+                
         }
 
     }
