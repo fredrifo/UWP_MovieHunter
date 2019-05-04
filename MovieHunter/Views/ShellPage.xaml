@@ -24,6 +24,11 @@
         SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
         IsSettingsVisible="True"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+        <!--
+        <winui:NavigationView.PanelHeader>
+            <TextBlock Text="Hehe"/>
+        </winui:NavigationView.PanelHeader>
+        -->
         <winui:NavigationView.MenuItems>
             <!--
             TODO WTS: Change the symbols for each item as appropriate for your app
@@ -33,7 +38,9 @@
             -->
             <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.MainViewModel" />
             <winui:NavigationViewItem x:Uid="Shell_ToWatch" Icon="SolidStar" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ToWatchViewModel" />
-            <winui:NavigationViewItem x:Uid="Shell_ToWatched" Icon="Pictures" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ToWatchedViewModel" />
+            <!--<winui:NavigationViewItem x:Uid="Shell_ToWatched" Icon="Pictures" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ToWatchedViewModel" />-->
+            <winui:NavigationViewItem x:Uid="Shell_Movie" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.MovieViewModel" />
+            <winui:NavigationViewItem x:Uid="Shell_Login" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.LoginViewModel" />
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior
