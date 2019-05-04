@@ -25,7 +25,13 @@ namespace MovieHunter.ViewModels
             Register<ToWatchedViewModel, ToWatchedPage>();
             Register<ToWatchedDetailViewModel, ToWatchedDetailPage>();
             Register<SettingsViewModel, SettingsPage>();
+            Register<MovieViewModel, MoviePage>();
+            Register<LoginViewModel, LoginPage>();
         }
+
+        public LoginViewModel LoginViewModel => SimpleIoc.Default.GetInstance<LoginViewModel>();
+
+        public MovieViewModel MovieViewModel => SimpleIoc.Default.GetInstance<MovieViewModel>();
 
         public SettingsViewModel SettingsViewModel => SimpleIoc.Default.GetInstance<SettingsViewModel>();
 
