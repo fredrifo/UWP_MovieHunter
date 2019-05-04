@@ -11,113 +11,69 @@ namespace MovieHunter.Views
 {
     public sealed partial class ToWatchPage : Page
     {
-        private ObservableCollection<Movie> movies;
-
-        private ToWatchViewModel ViewModel
-        {
-            get { return ViewModelLocator.Current.ToWatchViewModel; }
-        }
-
-        public ToWatchPage()
-        {
-            InitializeComponent();
-
-            movies = new ObservableCollection<Movie>()
-            {
-
-                new Movie(
+        Movie gump = new Movie(
                     //Title
                     "Forrest Gump (1994)",
-
                     //Genre
                     "Drama, Romance",
-
                     //Director
                     "Robert Zemeckis",
-
                     //Stars
                     "Tom Hanks, Robin Wright, Gary Sinise",
-
                     //Summary
                     "The presidencies of Kennedy and Johnson, the events of " +
                     "Vietnam, Watergate, and other history unfold through the " +
                     "perspective of an Alabama man with an IQ of 75.",
-
                     //Cover Image
-                    "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Forrest_Gump_poster.jpg/220px-Forrest_Gump_poster.jpg")
-
-                ,
-
-                new Movie(
+                    "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Forrest_Gump_poster.jpg/220px-Forrest_Gump_poster.jpg");
+        Movie fight = new Movie(
                     //Title
                     "Fight Club (1999)",
-
                     //Genre
                     "Drama",
-
                     //Director
                     "David Fincher",
-
                     //Stars
                     "Brad Pitt, Edward Norton, Meat Loaf ",
-
                     //Summary
                     "An insomniac office worker and a devil-may-care" +
                     " soapmaker form an underground fight club that " +
                     "evolves into something much, much more.",
-
                     //Cover Image
-                    "https://m.media-amazon.com/images/M/MV5BMjJmYTNkNmItYjYyZC00MGUxLWJhNWMtZDY4Nzc1MDAwMzU5XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg")
-
-                ,
-
-                new Movie(
+                    "https://m.media-amazon.com/images/M/MV5BMjJmYTNkNmItYjYyZC00MGUxLWJhNWMtZDY4Nzc1MDAwMzU5XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg");
+        Movie seven = new Movie(
                     //Title
                     "Se7en (1995)",
-
                     //Genre
                     "Crime, Drama, Mystery",
-
                     //Director
                     "David Fincher",
-
                     //Stars
                     "Morgan Freeman, Brad Pitt, Kevin Spacey",
-
                     //Summary
                     "Two detectives, a rookie and a veteran, " +
                     "hunt a serial killer who uses the seven " +
                     "deadly sins as his motives.",
-
                     //Cover Image
                     "https://m.media-amazon.com/images/M/MV5BOTUwODM5MTctZjczMi00OTk4LTg3NWUtNmVhMTAzNTNjYjcyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX182_CR0,0,182,268_AL_.jpg")
-
-                ,
-
-                new Movie(
+                ;
+        Movie privateRyan = new Movie(
                     //Title
                     "Saving Private Ryan (1998)",
-
                     //Genre
                     "Drama, War",
-
                     //Director
                     "Steven Spielberg",
-
                     //Stars
                     "Tom Hanks, Matt Damon, Tom Sizemore ",
-
                     //Summary
                     "Following the Normandy Landings, a group of U.S. soldiers " +
                     "go behind enemy lines to retrieve a paratrooper whose " +
                     "brothers have been killed in action.",
-
                     //Cover Image
                     "https://m.media-amazon.com/images/M/MV5BZjhkMDM4MWItZTVjOC00ZDRhLThmYTAtM2I5NzBmNmNlMzI1XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_UY268_CR0,0,182,268_AL_.jpg")
-
-                ,
-
-                new Movie(
+                ;
+        Movie greenMile = new Movie(
                     //Title
                     "The Green Mile (1999)",
 
@@ -138,9 +94,8 @@ namespace MovieHunter.Views
                     //Cover Image
                     "https://m.media-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1_UX182_CR0,0,182,268_AL_.jpg")
 
-                ,
-
-                new Movie(
+                ;
+        Movie firstMan = new Movie(
                     //Title
                     "First Man (2018)",
 
@@ -161,9 +116,9 @@ namespace MovieHunter.Views
                     //Cover Image
                     "https://m.media-amazon.com/images/M/MV5BMDBhOTMxN2UtYjllYS00NWNiLWE1MzAtZjg3NmExODliMDQ0XkEyXkFqcGdeQXVyMjMxOTE0ODA@._V1_UX182_CR0,0,182,268_AL_.jpg")
 
-                ,
+                ;
 
-                new Movie(
+        Movie dunkirk = new Movie(
                     //Title
                     "Dunkirk (2017)",
 
@@ -184,18 +139,45 @@ namespace MovieHunter.Views
                     //Cover Image
                     "https://m.media-amazon.com/images/M/MV5BN2YyZjQ0NTEtNzU5MS00NGZkLTg0MTEtYzJmMWY3MWRhZjM2XkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg")
 
-                ,
+                ;
 
-            };
+        private ObservableCollection<Movie> allMovies;
+        private ObservableCollection<Movie> action;
+        private ObservableCollection<Movie> comedy;
+        private ObservableCollection<Movie> drama;
+        private ObservableCollection<Movie> empty;
+        private ObservableCollection<Movie> thriller;
+
+        private ToWatchViewModel ViewModel
+        {
+            get { return ViewModelLocator.Current.ToWatchViewModel; }
+        }
+
+        public ToWatchPage()
+        {
+            InitializeComponent();
+            
+
+            allMovies = new ObservableCollection<Movie>() { gump, fight, seven, privateRyan, greenMile, firstMan, dunkirk };
+            action = new ObservableCollection<Movie>() {dunkirk, seven, greenMile, firstMan };
+            comedy = new ObservableCollection<Movie>() { seven, gump, greenMile };
+            drama = new ObservableCollection<Movie>() { privateRyan, greenMile, dunkirk, firstMan };
+            thriller = new ObservableCollection<Movie>() { seven, greenMile, firstMan };
+
+
+
+
+
 
             //list.ItemsSource = movies //OLD listView;
 
 
-            DynamicListViewCreator("Drama");
-            DynamicListViewCreator("Action");
-            DynamicListViewCreator("Thriller");
-            DynamicListViewCreator("Romance");
-            DynamicListViewCreator("History");
+            DynamicListViewCreator("Everything", allMovies);
+            DynamicListViewCreator("Thriller", thriller);
+            DynamicListViewCreator("Action", action);
+            
+            DynamicListViewCreator("Empty", empty);
+            DynamicListViewCreator("Comedy", comedy);
 
 
 
@@ -203,10 +185,15 @@ namespace MovieHunter.Views
 
         //programmatically clickevent for listview
 
-        private void DynamicListViewCreator(string genre)
+        private void DynamicListViewCreator(string genre, ObservableCollection<Movie> movieCollection)
         {
             //listview programmatically
 
+            //If list is empty return
+            if (movieCollection == null)
+            {
+                return;
+            }
             //Genre title
             TextBlock Genre = new TextBlock();
             Genre.Text = genre;
@@ -219,7 +206,7 @@ namespace MovieHunter.Views
 
             string[] test = { "test", "test2", "test3", "test4" };
             ListView listview = new ListView();
-            listview.ItemsSource = movies;
+            listview.ItemsSource = movieCollection;
             //listview.SelectionChanged += listViewEvent;
             Stack_listViews.Children.Add(listview);
 
@@ -348,7 +335,7 @@ namespace MovieHunter.Views
                     //Found the answer from a similar issue at https://stackoverflow.com/questions/23995504/listview-containerfromitem-returns-null-after-a-new-item-is-added-in-windows-8-1
                     //Another sollution is to use a viewmodel
                     await Task.Delay(50);
-                    Frame.Navigate(typeof(MainPage), parameters);
+                    Frame.Navigate(typeof(MoviePage), parameters);
                 }
                 
                 
