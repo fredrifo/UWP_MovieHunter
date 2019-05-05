@@ -70,9 +70,21 @@ namespace MovieHunter.ViewModels
         {
             // Keyboard accelerators are added here to avoid showing 'Alt + left' tooltip on the page.
             // More info on tracking issue https://github.com/Microsoft/microsoft-ui-xaml/issues/8
-            _keyboardAccelerators.Add(_altLeftKeyboardAccelerator);
-            _keyboardAccelerators.Add(_backKeyboardAccelerator);
-            await Task.CompletedTask;
+
+            try
+            {
+                _keyboardAccelerators.Add(_altLeftKeyboardAccelerator);
+           
+                _keyboardAccelerators.Add(_backKeyboardAccelerator);
+                await Task.CompletedTask;
+            }
+
+            catch
+            {
+                return;
+            }
+
+            
         }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
