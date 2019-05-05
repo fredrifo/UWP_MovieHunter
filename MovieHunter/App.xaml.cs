@@ -39,7 +39,11 @@ namespace MovieHunter
 
         private ActivationService CreateActivationService()
         {
-            return new ActivationService(this, typeof(ViewModels.MainViewModel), new Lazy<UIElement>(CreateShell));
+            //Default navigate to program
+            //return new ActivationService(this, typeof(ViewModels.MainViewModel), new Lazy<UIElement>(CreateShell));
+
+            //Navigate to login Page
+            return new ActivationService(this, typeof(ViewModels.LoginViewModel));
         }
 
         private UIElement CreateShell()
