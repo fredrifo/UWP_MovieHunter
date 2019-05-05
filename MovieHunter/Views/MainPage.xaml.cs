@@ -24,38 +24,38 @@ namespace MovieHunter.Views
         }
         public void CreateRandomGrid()
         {
-            Grid content = contentGrid;
+            //Grid content = contentGrid;
 
-            Random random = new Random();
+            //Random random = new Random();
 
-            int columnAmount = 10;
-            int rowAmount = 5;
+            //int columnAmount = 10;
+            //int rowAmount = 5;
 
 
-            for (int x = 0; x<rowAmount; x++)
-            {
-                RowDefinition rw = new RowDefinition();
-                rw.Height = new GridLength(1, GridUnitType.Star);
-                content.RowDefinitions.Add(rw);
+            //for (int x = 0; x<rowAmount; x++)
+            //{
+            //    RowDefinition rw = new RowDefinition();
+            //    rw.Height = new GridLength(1, GridUnitType.Star);
+            //    content.RowDefinitions.Add(rw);
 
-                for (int i = 0; i<columnAmount; i++)
-                {
+            //    for (int i = 0; i<columnAmount; i++)
+            //    {
                     
 
-                    ColumnDefinition clm = new ColumnDefinition();
-                    clm.Width = new GridLength(1, GridUnitType.Star);
+            //        ColumnDefinition clm = new ColumnDefinition();
+            //        clm.Width = new GridLength(1, GridUnitType.Star);
 
-                    content.ColumnDefinitions.Add(clm);
+            //        content.ColumnDefinitions.Add(clm);
 
-                    Frame btn = new Frame();
-                    btn.Background = new SolidColorBrush(Color.FromArgb(255, 48, 179, 221));
-                    btn.Margin = new Windows.UI.Xaml.Thickness(2);
-                    btn.SetValue(Grid.RowProperty, x);
-                    btn.SetValue(Grid.ColumnProperty, i);
-                    content.Children.Add(btn);
-                }
+            //        Frame btn = new Frame();
+            //        btn.Background = new SolidColorBrush(Color.FromArgb(255, 48, 179, 221));
+            //        btn.Margin = new Windows.UI.Xaml.Thickness(2);
+            //        btn.SetValue(Grid.RowProperty, x);
+            //        btn.SetValue(Grid.ColumnProperty, i);
+            //        content.Children.Add(btn);
+            //    }
 
-            }
+            //}
         }
     }
 }
