@@ -32,15 +32,15 @@ namespace MovieHunter.Views
             //int rowAmount = 5;
 
 
-            //for (int x = 0; x<rowAmount; x++)
+            //for (int x = 0; x < rowAmount; x++)
             //{
             //    RowDefinition rw = new RowDefinition();
             //    rw.Height = new GridLength(1, GridUnitType.Star);
             //    content.RowDefinitions.Add(rw);
 
-            //    for (int i = 0; i<columnAmount; i++)
+            //    for (int i = 0; i < columnAmount; i++)
             //    {
-                    
+
 
             //        ColumnDefinition clm = new ColumnDefinition();
             //        clm.Width = new GridLength(1, GridUnitType.Star);
