@@ -272,6 +272,10 @@
       <Project>{F8EC39BE-B17A-4CD2-B9EE-D5F32C7E8622}</Project>
       <Name>MovieHunter.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MovieHunter.DataAccess\MovieHunter.DataAccess.csproj">
+      <Project>{77efc9ec-b79c-4282-9cd2-49510eb95c4b}</Project>
+      <Name>MovieHunter.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
