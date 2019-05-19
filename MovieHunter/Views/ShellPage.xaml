@@ -40,7 +40,7 @@
             <winui:NavigationViewItem x:Uid="Shell_ToWatch" Icon="SolidStar" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ToWatchViewModel" />
             <!--<winui:NavigationViewItem x:Uid="Shell_ToWatched" Icon="Pictures" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ToWatchedViewModel" />-->
             <winui:NavigationViewItem x:Uid="Shell_Movie" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.MovieViewModel" />
-            <winui:NavigationViewItem x:Uid="Shell_Login" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.LoginViewModel" />
+            <winui:NavigationViewItem x:Uid="Shell_Administration" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.AdministrationViewModel" />
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior
