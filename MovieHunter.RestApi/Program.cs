@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace MovieHunter.RestApi
+namespace MovieHunter.RESTApi
 {
     public class Program
     {
