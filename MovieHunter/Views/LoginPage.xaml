@@ -43,8 +43,8 @@
                                Grid.Column="0"
                                VerticalAlignment="Top"/>
                     
-                    <TextBox Text="Uname122"
-                             x:Name="username"
+                    <TextBox 
+                             x:Name="inp_Username"
                              Grid.Row="0"
                              Grid.Column="1"
                              FontSize="40"
@@ -58,7 +58,7 @@
                                VerticalAlignment="Top"/>
 
                     <PasswordBox
-                             x:Name="password"
+                             x:Name="inp_Password"
                              Grid.Row="1"
                              Grid.Column="1"
                              FontSize="40"
@@ -66,11 +66,18 @@
                              VerticalAlignment="Top"/>
 
                     <Button Grid.Row="2"
-                            Grid.ColumnSpan="2"
+                            Grid.ColumnSpan="1"
                             Content="Login"
                             FontSize="50"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Stretch"
                             Click="Login_Click"/>
+                    
+                    <Button Grid.Row="2"
+                            Grid.Column="1"
+                            Content="Register"
+                            FontSize="50"
+                            HorizontalAlignment="Stretch"
+                            Click="Register_Click"/>
 
                 </Grid>
                 
