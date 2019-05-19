@@ -132,5 +132,17 @@ namespace MovieHunter.Views
                 TrailerPopup.IsOpen = false;
             }
         }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog notification = new ContentDialog
+            {
+                Title = "Login Token",
+                Content = LoginPage.token,
+                CloseButtonText = "Ok"
+            };
+            ContentDialogResult resulst = await notification.ShowAsync();
+            
+        }
     }
 }
