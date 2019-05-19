@@ -1,0 +1,133 @@
+﻿<Page
+    x:Class="MovieHunter.Views.RegisterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid
+            Background="Transparent">
+            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+                Place your content here.-->
+
+
+
+
+            <Grid VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Height="600"
+                  Width="1000"
+                  Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+
+                <Grid VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Height="530"
+                      Width="640">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1.5*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="User name:"
+                               FontSize="50"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+
+                    <TextBox 
+                             x:Name="inp_Username"
+                             Grid.Row="0"
+                             Grid.Column="1"
+                             FontSize="40"
+                             Height="80"
+                             VerticalAlignment="Top"/>
+
+                    <TextBlock Text="First Name:"
+                               FontSize="50"
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+
+                    <TextBox 
+                             x:Name="inp_FirstName"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             FontSize="40"
+                             Height="80"
+                             VerticalAlignment="Top"/>
+
+                    <TextBlock Text="Last Name:"
+                               FontSize="50"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+
+                    <TextBox 
+                             x:Name="inp_LastName"
+                             Grid.Row="2"
+                             Grid.Column="1"
+                             FontSize="40"
+                             Height="80"
+                             VerticalAlignment="Top"/>
+
+                    <TextBlock Text="Password:"
+                               FontSize="50"
+                               Grid.Row="3"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+
+                    <PasswordBox
+                             x:Name="inp_Password1"
+                             Grid.Row="3"
+                             Grid.Column="1"
+                             FontSize="40"
+                             Height="80"
+                             VerticalAlignment="Top"/>
+
+                    <TextBlock Text="Password:"
+                               FontSize="50"
+                               Grid.Row="4"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+
+                    <PasswordBox
+                             x:Name="inp_Password2"
+                             Grid.Row="4"
+                             Grid.Column="1"
+                             FontSize="40"
+                             Height="80"
+                             VerticalAlignment="Top"/>
+
+                    <Button Grid.Row="5"
+                            Grid.ColumnSpan="1"
+                            Content="Login"
+                            FontSize="50"
+                            HorizontalAlignment="Stretch"
+                            Click="Login_Click"/>
+
+                    <Button Grid.Row="5"
+                            Grid.Column="1"
+                            Content="Register"
+                            FontSize="50"
+                            HorizontalAlignment="Stretch"
+                            Click="Register_Click"/>
+
+                </Grid>
+
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
