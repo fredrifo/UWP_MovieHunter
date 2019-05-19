@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="MovieHunter.Views.AdministrationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+                Place your content here.-->
+
+            <Pivot x:Name="rootPivot" Title="Add people, movies etc..." HorizontalAlignment="Stretch">
+                <PivotItem Header="Add movies to the database">
+                    <!--Pivot content goes here-->
+                    <StackPanel>
+                        <AutoSuggestBox
+                            x:Name="txtAutoSuggestBox_Person"
+                            PlaceholderText="Search"
+                            HorizontalAlignment="Left"
+                            QueryIcon="Find" Width="200"
+                            TextChanged="AutoSuggestBox_Person_TextChanged"
+                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"
+                            SuggestionChosen="AutoSuggestBox_Person_SuggestionChosen"/>
+                        
+                        <TextBlock Text="Content of section 1.."/>
+                        <TextBlock Text="Content of section 1..."/>
+                        <TextBlock Text="Content of section 1...."/>
+                        <TextBlock Text="Content of section 1..."/>
+                        <TextBlock Text="Content of section 1.."/>
+                        <TextBlock Text="Content of section 1."/>
+                    </StackPanel>
+                    
+                </PivotItem>
+                <PivotItem Header="Add people to the database">
+                    <!--Pivot content goes here-->
+                    <TextBlock Text="Content of section 2."/>
+                </PivotItem>
+            </Pivot>
+
+        </Grid>
+    </Grid>
+</Page>
