@@ -14,11 +14,16 @@ using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 using MovieHunter.DataAccess.Models;
 using Newtonsoft.Json;
+using System.Text;
+using System.Net.Http;
+using HttpClient = System.Net.Http.HttpClient;
+using System.Collections.Generic;
 
 namespace MovieHunter.Views
 {
     public sealed partial class LoginPage : Page
     {
+        public static string token;
         private LoginViewModel ViewModel
         {
             get { return ViewModelLocator.Current.LoginViewModel; }
@@ -41,7 +46,7 @@ namespace MovieHunter.Views
             InitializeComponent();
         }
 
-        public string UserHasher(string username, string password)
+        public static string UserHasher(string username, string password)
         {
 
             // put the string in a buffer, UTF-8 encoded...
@@ -63,77 +68,60 @@ namespace MovieHunter.Views
             set;
         }
 
+
+
+        class LoginResponse
+        {
+            public string Token { get; set; }
+            public string Result { get; set; }
+        }
+
         private async void Login_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            string username = inp_Username.Text;
+            string password = inp_Password.Password;
+            string password_Hashed = UserHasher(username, password);
 
-            // DisplayAlert for the clicked item
-            string passwordHashed = UserHasher(username.Text, password.Password);
+            User loginInformation = new User()
+            {
+                UserName = username,
+                Password = password_Hashed,
+            };
+
+            string loginInformation_Json = JsonConvert.SerializeObject(loginInformation);
 
 
-            Uri requestUri1 = new Uri("http://localhost:62841/api/UsersController_Json");
-
-            //Send the GET request asynchronously and retrieve the response as a string.
-            //Create an HTTP client object
-            Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient();
-
-            Windows.Web.Http.HttpResponseMessage httpResponse = new Windows.Web.Http.HttpResponseMessage();
-            string httpResponseBody = "";
-            //
+            var client = new HttpClient();
             try
             {
-                //Send the GET request
+                string uri = "http://localhost:59713/api/Users/login";
+                var httpResponse = await client.PostAsync(uri, new StringContent(loginInformation_Json, Encoding.UTF8, "application/json"));
 
-                HttpResponseMessage result = await httpClient.GetAsync(requestUri1);
-                string json = await result.Content.ReadAsStringAsync();
-                User[] users = JsonConvert.DeserializeObject<User[]>(json);
-
-                foreach (User user in users)
+                if (httpResponse.Content != null)
                 {
-                    if (user.UserName == username.Text && !isLoggedIn)
+                    var json = await httpResponse.Content.ReadAsStringAsync();
+                    LoginResponse loginResponse = JsonConvert.DeserializeObject<LoginResponse>(json);
+                    if (loginResponse.Token != "Null")
                     {
+                        token = loginResponse.Token;
                         Frame.Navigate(typeof(ShellPage));
-                        isLoggedIn = true;
                     }
-                    
+                    else
+                    {
+                        return;
+                    }
                 }
-
-
-                httpResponse = await httpClient.GetAsync(requestUri1);
-                httpResponse.EnsureSuccessStatusCode();
-                httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
             }
-            catch (Exception ex)
+            catch
             {
-                httpResponseBody = "Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message;
-                ContentDialog notification = new ContentDialog
-                {
-                    Title = "Login button clicked",
-                    Content = "The username and password combined creates the salted hashvalue: '" +
-                    passwordHashed + "'. Every time the user login this value will be checked against the password saved in the database             " + httpResponseBody,
-                    CloseButtonText = "Ok"
-                };
-                ContentDialogResult resulst = await notification.ShowAsync();
+                //Write error as feedback
             }
-            finally
-            {
-                //courses.Add(httpResponseBody);
-                //courses.Add("test1");
-                //courses.Add("test2");
-
-
-                //listView_Students.ItemsSource = students;
-            }
-            //}
-
-            
-
-
-
-
-            //If login is successfull show mainpage with navigation enabled
-
 
         }
 
+        private void Register_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(RegisterPage));
+        }
     }
 }
