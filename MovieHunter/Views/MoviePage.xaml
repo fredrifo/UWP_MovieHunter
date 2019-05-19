@@ -243,7 +243,8 @@
                             Grid.Column="0"
                             VerticalAlignment="Stretch"
                             FontSize="30"
-                            HorizontalAlignment="Stretch"/>
+                            HorizontalAlignment="Stretch"
+                            Click="Button_Click"/>
 
                         <Button
                             Content="Watch Trailer"
