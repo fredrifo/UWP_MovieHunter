@@ -229,4 +229,8 @@
     <value>Administration</value>
     <comment>Navigation view item name for Administration</comment>
   </data>
+  <data name="Shell_ManageLists.Content" xml:space="preserve">
+    <value>ManageLists</value>
+    <comment>Navigation view item name for ManageLists</comment>
+  </data>
 </root>
