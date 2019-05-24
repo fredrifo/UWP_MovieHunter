@@ -87,17 +87,28 @@ namespace MovieHunter.RESTApi.Controllers
         // POST: api/Users
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        public async Task<JsonResult> PostUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Json(new { Result = "Failed" } );
             }
 
+
+            //Creating a new user. This code is not necessary due ti _context.List.Add will automatically create the user if it does not exist
             _context.User.Add(user);
+
+
+            //Adding the two default lists for "ToWatch" and "Watched".
+            _context.List.Add(new List() { ListName = "ToWatch", User = user });
+            _context.List.Add(new List() { ListName = "Watched", User = user});
+
+
+            //Updating the tables
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            //Returning a Json message to the user client
+            return Json(new { Result = "Registered" } );
         }
 
         // POST: api/Users
@@ -109,12 +120,17 @@ namespace MovieHunter.RESTApi.Controllers
             var allUsers = _context.User;
             User existingUser = null;
 
+            //Checking if user exist and password is correct
+            //Can replace with something like this: var list = _context.List.Where(c => c.UserId == id);
             foreach (User u in allUsers){
                 if(u.UserName == user.UserName && u.Password == user.Password)
                 {
                     existingUser = u;
                 }
             }
+            
+
+
             if (existingUser == null)
             {
                 return Json(new
@@ -128,15 +144,17 @@ namespace MovieHunter.RESTApi.Controllers
             //Generates a token that will be used for clients to communicate with the server. 
             string token = Validator.GenerateToken(user.UserName, user.Password, DateTime.Now, user.UserId);
 
-            //var context = new fredrifoContext();
             
             //Generates a TokenValidator object that contains all of the information required by the database.
-            //Valid from logs whenever a user logs in. ValidTo decides if the token is still valid.
+                //Valid from logs whenever a user logs in. ValidTo decides if the token is still valid.
+               
             TokenValidator tokenObject = new TokenValidator() { Token = token, UserId = existingUser.UserId, ValidFrom = DateTime.Now, ValidTo = DateTime.Now.AddDays(2) };
 
             //Adding the new token Object to the database
             //Users can now send in their token string, and the server will know what tables to display based on the userId
             _context.TokenValidator.Add(tokenObject);
+
+
 
             //Updating the database
             await _context.SaveChangesAsync(); 
@@ -145,8 +163,13 @@ namespace MovieHunter.RESTApi.Controllers
             //Returns a string with information to the client. The client will save the token for his session.
             return Json(new
             {
+                //Tells the userclient that a new user has been created successfully.
                 Result = "Success",
+
+                //Returning the input values sent from the user client. This can be removed.
                 Input = "Username: " + user.UserName.ToString() + ", Password: " + user.Password,
+
+                //Return a token to the user client. Whenever database actions happen, the user will send this token in to a verificator.
                 Token = token
             });
         }
