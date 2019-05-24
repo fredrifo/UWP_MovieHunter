@@ -27,7 +27,10 @@ namespace MovieHunter.ViewModels
             Register<LoginViewModel, LoginPage>();
             Register<RegisterViewModel, RegisterPage>();
             Register<AdministrationViewModel, AdministrationPage>();
+            Register<ManageListsViewModel, ManageListsPage>();
         }
+
+        public ManageListsViewModel ManageListsViewModel => SimpleIoc.Default.GetInstance<ManageListsViewModel>();
 
         public AdministrationViewModel AdministrationViewModel => SimpleIoc.Default.GetInstance<AdministrationViewModel>();
 
