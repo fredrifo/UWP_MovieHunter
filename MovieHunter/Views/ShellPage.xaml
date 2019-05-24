@@ -39,9 +39,10 @@
             <winui:NavigationViewItem x:Uid="Shell_Main" Icon="Home" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.MainViewModel" />
             <winui:NavigationViewItem x:Uid="Shell_ToWatch" Icon="SolidStar" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ToWatchViewModel" />
             <!--<winui:NavigationViewItem x:Uid="Shell_ToWatched" Icon="Pictures" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ToWatchedViewModel" />-->
-            <winui:NavigationViewItem x:Uid="Shell_Movie" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.MovieViewModel" />
+            <!--<winui:NavigationViewItem x:Uid="Shell_Movie" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.MovieViewModel" />
+            <winui:NavigationViewItem x:Uid="Shell_ManageLists" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ManageListsViewModel" /> -->
             <winui:NavigationViewItem x:Uid="Shell_Administration" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.AdministrationViewModel" />
-            <winui:NavigationViewItem x:Uid="Shell_ManageLists" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ManageListsViewModel" />
+            
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior
