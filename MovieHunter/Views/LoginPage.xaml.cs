@@ -49,7 +49,7 @@ namespace MovieHunter.Views
         public static string UserHasher(string username, string password)
         {
 
-            // put the string in a buffer, UTF-8 encoded...
+            //put the string in a buffer, UTF-8 encoded
             IBuffer preHashed = CryptographicBuffer.ConvertStringToBinary(password + username,
                 BinaryStringEncoding.Utf8);
 
