@@ -51,7 +51,18 @@ namespace MovieHunter.Views
             string uri = "http://localhost:59713/api/Users/register";
             await client.PostAsync(uri, new StringContent(loginInformation_Json, Encoding.UTF8, "application/json"));
 
+            Frame.Navigate(typeof(LoginPage));
+
             return;
+        }
+
+        //When the user clicks enter they will register
+        private void OnKeyDownHandler(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                Register_Click(null, null);
+            }
         }
 
     }
