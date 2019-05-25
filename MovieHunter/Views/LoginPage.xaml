@@ -21,7 +21,8 @@
                   HorizontalAlignment="Center"
                   Height="600"
                   Width="1000"
-                  Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                  Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+                  KeyDown="OnKeyDownHandler">
                 
                 <Grid VerticalAlignment="Center"
                       HorizontalAlignment="Center"
