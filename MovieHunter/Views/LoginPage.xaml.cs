@@ -123,5 +123,14 @@ namespace MovieHunter.Views
         {
             Frame.Navigate(typeof(RegisterPage));
         }
+
+        //When the user clicks enter they will login
+        private void OnKeyDownHandler(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                Login_Click(null, null);
+            }
+        }
     }
 }
