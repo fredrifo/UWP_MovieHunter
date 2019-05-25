@@ -14,31 +14,116 @@
             <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
                 Place your content here.-->
 
-            <Pivot x:Name="rootPivot" Title="Add people, movies etc..." HorizontalAlignment="Stretch">
+            <Pivot
+                x:Name="rootPivot"
+                Title="Add people, movies etc..."
+                HorizontalAlignment="Stretch"
+                IsHeaderItemsCarouselEnabled="False">
+                
                 <PivotItem Header="Add movies to the database">
-                    <!--Pivot content goes here-->
-                    <StackPanel>
-                        <AutoSuggestBox
-                            x:Name="txtAutoSuggestBox_Person"
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Row 1 -->
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+
+                            <TextBox
+                                Header="Title"
+                                x:Name="inp_MovieTitle"/>
+
+                            <TextBox
+                                Header="Cover image link"
+                                InputScope="Number"
+                                x:Name="inp_MovieImageLink"/>
+
+                            <AutoSuggestBox
+                            Header="Genre"
+                            x:Name="txtAutoSuggestBox_Genre"
+                            PlaceholderText="Search"
+                            HorizontalAlignment="Left"
+                            QueryIcon="Find" Width="200"
+                            TextChanged="AutoSuggestBox_Genre_TextChanged"
+                            QuerySubmitted="AutoSuggestBox_Genre_QuerySubmitted"
+                            SuggestionChosen="AutoSuggestBox_Genre_SuggestionChosen"/>
+
+                            <TextBox
+                                Header="Summary"
+                                x:Name="inp_MovieSummary"/>
+
+                            <TextBox
+                                InputScope="Number"
+                                Header="Rating"
+                                x:Name="inp_MovieRating"/>
+
+
+                            <AutoSuggestBox
+                            Header="Director"
+                            x:Name="txtAutoSuggestBox_Director"
                             PlaceholderText="Search"
                             HorizontalAlignment="Left"
                             QueryIcon="Find" Width="200"
                             TextChanged="AutoSuggestBox_Person_TextChanged"
                             QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"
                             SuggestionChosen="AutoSuggestBox_Person_SuggestionChosen"/>
-                        
-                        <TextBlock Text="Content of section 1.."/>
-                        <TextBlock Text="Content of section 1..."/>
-                        <TextBlock Text="Content of section 1...."/>
-                        <TextBlock Text="Content of section 1..."/>
-                        <TextBlock Text="Content of section 1.."/>
-                        <TextBlock Text="Content of section 1."/>
-                    </StackPanel>
-                    
+
+                            <AutoSuggestBox
+                            Header="Writer"
+                            x:Name="txtAutoSuggestBox_Writer"
+                            PlaceholderText="Search"
+                            HorizontalAlignment="Left"
+                            QueryIcon="Find" Width="200"
+                            TextChanged="AutoSuggestBox_Person_TextChanged"
+                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"
+                            SuggestionChosen="AutoSuggestBox_Person_SuggestionChosen"/>
+
+                            <AutoSuggestBox
+                            Header="Star actor"
+                            x:Name="txtAutoSuggestBox_StarActor"
+                            PlaceholderText="Search"
+                            HorizontalAlignment="Left"
+                            QueryIcon="Find" Width="200"
+                            TextChanged="AutoSuggestBox_Person_TextChanged"
+                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"
+                            SuggestionChosen="AutoSuggestBox_Person_SuggestionChosen"/>
+
+                            <Button
+                                Content="Add to database"
+                                Click="Btn_AddMovie"/>
+
+                        </StackPanel>
+                    </Grid>
                 </PivotItem>
-                <PivotItem Header="Add people to the database">
+
+                
+                <PivotItem Header="Add a person to the database">
                     <!--Pivot content goes here-->
-                    <TextBlock Text="Content of section 2."/>
+                    <StackPanel>
+                        <TextBox x:Name="inp_PersonFirstName" Header="First name"/>
+
+                        <TextBox x:Name="inp_PersonLastName" Header="Last name"/>
+
+                        <DatePicker x:Name="inp_PersonBirthDate" Header="Date of birth"/>
+
+                        <TextBox x:Name="inp_PersonPicture" Header="Picture link"/>
+
+                        <Button
+                            Content="Add to database"
+                            Click="Btn_AddPerson"/>
+                    </StackPanel>
+
+                </PivotItem>
+
+                <PivotItem Header="Add Genre to the database">
+                    <!--Pivot content goes here-->
+                    <StackPanel>
+                        <TextBox x:Name="inp_Genre" Header="Genre name"/>
+                        <Button
+                            Content="Add to database"
+                            Click="Btn_AddGenre"/>
+                    </StackPanel>
                 </PivotItem>
             </Pivot>
 
