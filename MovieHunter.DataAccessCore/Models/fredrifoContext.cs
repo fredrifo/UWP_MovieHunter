@@ -15,6 +15,7 @@ namespace MovieHunter.DataAccessCore.Models
         {
         }
 
+        public virtual DbSet<Genre> Genre { get; set; }
         public virtual DbSet<List> List { get; set; }
         public virtual DbSet<ListItem> ListItem { get; set; }
         public virtual DbSet<Movie> Movie { get; set; }
@@ -33,6 +34,14 @@ namespace MovieHunter.DataAccessCore.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Genre>(entity =>
+            {
+                entity.Property(e => e.GenreName)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<List>(entity =>
             {
                 entity.Property(e => e.ListName)
@@ -64,6 +73,7 @@ namespace MovieHunter.DataAccessCore.Models
 
             modelBuilder.Entity<Movie>(entity =>
             {
+
                 entity.Property(e => e.CoverImage)
                     .HasMaxLength(200)
                     .IsUnicode(false);
@@ -81,6 +91,11 @@ namespace MovieHunter.DataAccessCore.Models
                     .WithMany(p => p.MovieDirector)
                     .HasForeignKey(d => d.DirectorId)
                     .HasConstraintName("FK_Movie_Person1");
+
+                entity.HasOne(d => d.Genre)
+                    .WithMany(p => p.Movie)
+                    .HasForeignKey(d => d.GenreId)
+                    .HasConstraintName("FK_Movie_Genre");
 
                 entity.HasOne(d => d.StarNavigation)
                     .WithMany(p => p.MovieStarNavigation)
