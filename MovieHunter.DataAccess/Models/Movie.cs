@@ -21,6 +21,7 @@ namespace MovieHunter.DataAccess.Models
         public int? Star { get; set; }
 
         public Person Director { get; set; }
+        public Genre Genre { get; set; }
         public Person StarNavigation { get; set; }
         public Person Writer { get; set; }
         public ICollection<ListItem> ListItem { get; set; }
