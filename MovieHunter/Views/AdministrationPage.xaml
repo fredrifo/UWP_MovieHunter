@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Grid
@@ -22,22 +23,64 @@
                 
                 <PivotItem Header="Add movies to the database">
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
+                    <ScrollViewer>
 
                         <!-- Row 1 -->
-                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <StackPanel Orientation="Vertical">
 
                             <TextBox
                                 Header="Title"
-                                x:Name="inp_MovieTitle"/>
+                                x:Name="inp_MovieTitle"
+                                Width="600"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap"/>
 
+                            <!-- Text changed sets the new link in the coverimage display beneath -->
                             <TextBox
                                 Header="Cover image link"
                                 InputScope="Number"
-                                x:Name="inp_MovieImageLink"/>
+                                x:Name="inp_MovieImageLink"
+                                TextChanged="Inp_MovieImageLink_TextChanged"
+                                Width="600"
+                                TextWrapping="Wrap"
+                                HorizontalAlignment="Left"/>
+                            
+                            <!-- Cover image for the movie -->
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Image Preview"/>
+
+                                <!--Creates a small border around the picture-->
+                                <Border
+                                    BorderBrush="White"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    Width="auto"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,4,0,4">
+                                    <Image
+                                        HorizontalAlignment="Left"
+                                        MaxHeight="250"
+                                        Width="auto"
+                                        
+                                        >
+
+                                        <Image.Source >
+
+                                            <!--
+                                            Default image to a template cover
+                                            TextBox_SearchChanged method updates
+                                            UriSource depending on user input
+                                        -->
+                                            <BitmapImage
+                                        x:Name="image_Cover"
+                                        UriSource = "https://nouberoakland.org/g/014-movie-poster-outline-resume-one-page-brochure-template-free-beautiful-word-image.jpg" />
+
+                                        </Image.Source >
+
+                                    </Image>
+                                </Border>
+                            </StackPanel>
+                            
 
                             <AutoSuggestBox
                             Header="Genre"
@@ -46,17 +89,38 @@
                             HorizontalAlignment="Left"
                             QueryIcon="Find" Width="200"
                             TextChanged="AutoSuggestBox_Genre_TextChanged"
-                            QuerySubmitted="AutoSuggestBox_Genre_QuerySubmitted"
-                            SuggestionChosen="AutoSuggestBox_Genre_SuggestionChosen"/>
+                            QuerySubmitted="AutoSuggestBox_Genre_QuerySubmitted"/>
 
                             <TextBox
                                 Header="Summary"
-                                x:Name="inp_MovieSummary"/>
+                                x:Name="inp_MovieSummary"
+                                Width="600"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap"
+                                />
 
-                            <TextBox
-                                InputScope="Number"
-                                Header="Rating"
-                                x:Name="inp_MovieRating"/>
+                            <TextBlock
+                                Text="Movie Rating"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    x:Name="txt_rating"
+                                    Text="0"
+                                    Width="15"/>
+                                
+                                <Slider
+                                x:Name="inp_MovieRating" 
+	                            Minimum="0"
+                                Margin="10,0,0,0"
+                                Width="175"
+	                            Maximum="10"
+                                HorizontalAlignment="Left"
+	                            StepFrequency="0.1"
+                                ValueChanged="MovieRatingChanged"/>
+                            </StackPanel>
+                            
+
+
 
 
                             <AutoSuggestBox
@@ -66,8 +130,7 @@
                             HorizontalAlignment="Left"
                             QueryIcon="Find" Width="200"
                             TextChanged="AutoSuggestBox_Person_TextChanged"
-                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"
-                            SuggestionChosen="AutoSuggestBox_Person_SuggestionChosen"/>
+                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"/>
 
                             <AutoSuggestBox
                             Header="Writer"
@@ -76,8 +139,7 @@
                             HorizontalAlignment="Left"
                             QueryIcon="Find" Width="200"
                             TextChanged="AutoSuggestBox_Person_TextChanged"
-                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"
-                            SuggestionChosen="AutoSuggestBox_Person_SuggestionChosen"/>
+                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"/>
 
                             <AutoSuggestBox
                             Header="Star actor"
@@ -86,32 +148,85 @@
                             HorizontalAlignment="Left"
                             QueryIcon="Find" Width="200"
                             TextChanged="AutoSuggestBox_Person_TextChanged"
-                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"
-                            SuggestionChosen="AutoSuggestBox_Person_SuggestionChosen"/>
+                            QuerySubmitted="AutoSuggestBox_Person_QuerySubmitted"/>
 
                             <Button
                                 Content="Add to database"
                                 Click="Btn_AddMovie"/>
 
+                            <TextBlock
+                                Foreground="Red"
+                                x:Name="output_Movie"
+                                Visibility="Collapsed"/>
+
                         </StackPanel>
-                    </Grid>
+                    </ScrollViewer>
                 </PivotItem>
 
                 
                 <PivotItem Header="Add a person to the database">
                     <!--Pivot content goes here-->
                     <StackPanel>
-                        <TextBox x:Name="inp_PersonFirstName" Header="First name"/>
+                        <TextBox
+                            x:Name="inp_PersonFirstName"
+                            Header="First name"
+                            Width="600"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap"/>
 
-                        <TextBox x:Name="inp_PersonLastName" Header="Last name"/>
+                        <TextBox
+                            x:Name="inp_PersonLastName"
+                            Header="Last name"
+                            Width="600"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap"/>
 
-                        <DatePicker x:Name="inp_PersonBirthDate" Header="Date of birth"/>
+                        <DatePicker
+                            x:Name="inp_PersonBirthDate"
+                            Header="Date of birth"
+                            HorizontalAlignment="Left"/>
 
-                        <TextBox x:Name="inp_PersonPicture" Header="Picture link"/>
+                        <!-- Text changed changes image preview URL img link-->
+                        <TextBox
+                            x:Name="inp_PersonPicture"
+                            Header="Picture link"
+                            TextChanged="Inp_PersonPicture_TextChanged"
+                            Width="600"
+                            TextWrapping="Wrap"
+                            HorizontalAlignment="Left"/>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Image Preview"/>
+                            <Image
+                                HorizontalAlignment="Left"
+                                MaxHeight="250"
+                                Width="auto"
+                                Margin="20,0,0,0">
+
+                                <Image.Source >
+
+                                    <!--
+                                            Default image to a template cover
+                                            TextBox_SearchChanged method updates
+                                            UriSource depending on user input
+                                        -->
+                                    <BitmapImage
+                                        x:Name="image_Person"
+                                        UriSource = "https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__340.png" />
+
+                                </Image.Source >
+
+                            </Image>
+                        </StackPanel>
 
                         <Button
                             Content="Add to database"
                             Click="Btn_AddPerson"/>
+                        <TextBlock
+                                Foreground="Red"
+                                x:Name="output_Person"
+                                Visibility="Collapsed"/>
+
                     </StackPanel>
 
                 </PivotItem>
@@ -119,7 +234,12 @@
                 <PivotItem Header="Add Genre to the database">
                     <!--Pivot content goes here-->
                     <StackPanel>
-                        <TextBox x:Name="inp_Genre" Header="Genre name"/>
+                        <TextBox
+                            x:Name="inp_Genre"
+                            Header="Genre name"
+                            TextWrapping="Wrap"
+                            Width="200"
+                            HorizontalAlignment="Left"/>
                         <Button
                             Content="Add to database"
                             Click="Btn_AddGenre"/>

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieHunter.DataAccessCore\MovieHunter.DataAccessCore.csproj" />
+    <ProjectReference Include="..\MovieHunter.DataAccessCore\MovieHunter.DataAccess.RESTApi.csproj" />
   </ItemGroup>
 
 </Project>

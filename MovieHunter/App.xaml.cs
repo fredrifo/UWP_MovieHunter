@@ -46,6 +46,7 @@ namespace MovieHunter
             return new ActivationService(this, typeof(ViewModels.LoginViewModel));
         }
 
+
         private UIElement CreateShell()
         {
             return new Views.ShellPage();

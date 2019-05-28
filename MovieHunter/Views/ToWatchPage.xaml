@@ -37,19 +37,19 @@
         </Frame>-->
 
 
-        <!--Listview programmatically-->
+        <!-- Listview programmatically -->
         <ScrollViewer VerticalScrollBarVisibility="Visible"
                       HorizontalScrollBarVisibility="Disabled"
                       HorizontalAlignment="Left"
                       Width="auto"
-                      
                       Margin="12,0,0,0"
                       Grid.Row="2" Grid.ColumnSpan="3"
+                      IsScrollInertiaEnabled="True"
                       >
             
             <StackPanel x:Name="Stack_listViews"
                         Height="auto"
-                        Orientation="Vertical"
+                        Orientation="Vertical" 
                         >
             
             </StackPanel>

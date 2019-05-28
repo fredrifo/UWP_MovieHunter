@@ -34,6 +34,7 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition Height="1.5*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -111,14 +112,22 @@
                              Height="80"
                              VerticalAlignment="Top"/>
 
-                    <Button Grid.Row="5"
+                    <ProgressRing
+                        Grid.Row="5"
+                        Grid.ColumnSpan="2"
+                        x:Name="loadingIndicator"
+                        IsActive="False"
+                        Height="40"
+                        Width="40"/>
+
+                    <Button Grid.Row="6"
                             Grid.ColumnSpan="1"
                             Content="Login"
                             FontSize="50"
                             HorizontalAlignment="Stretch"
                             Click="Login_Click"/>
 
-                    <Button Grid.Row="5"
+                    <Button Grid.Row="6"
                             Grid.Column="1"
                             Content="Register"
                             FontSize="50"

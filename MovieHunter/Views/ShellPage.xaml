@@ -43,6 +43,7 @@
             <winui:NavigationViewItem x:Uid="Shell_ManageLists" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.ManageListsViewModel" /> 
             <winui:NavigationViewItem x:Uid="Shell_Administration" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.AdministrationViewModel" />
             
+            <winui:NavigationViewItem x:Uid="Shell_MovieList" Icon="Document" helpers:NavHelper.NavigateTo="MovieHunter.ViewModels.MovieListViewModel" />
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior

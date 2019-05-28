@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
+using MovieHunter.DataAccess.Client.ApiCalls;
+using MovieHunter.DataAccess.Client.Models;
 using MovieHunter.ViewModels;
 using Newtonsoft.Json;
 using Windows.UI.Popups;
@@ -25,12 +28,13 @@ namespace MovieHunter.Views
             public string listName { get; set; }
         }
 
-        private ObservableCollection<AllLists> _listItems = new ObservableCollection<AllLists>();
+        private ObservableCollection<AllList> _listItems = new ObservableCollection<AllList>();
 
         //Collection for listItems in the listview
-        private ObservableCollection<AllLists> ListItems
+        private ObservableCollection<AllList> ListItems
         {
             get { return this._listItems; }
+            set { this._listItems = value; }
         }
 
 
@@ -39,7 +43,7 @@ namespace MovieHunter.Views
             InitializeComponent();
 
             //Default listitem
-            ListItems.Add(new AllLists() { listName = "Loading"});
+            ListItems.Add(new AllList() { listName = "Loading"});
 
             getListsAsync();
 
@@ -53,45 +57,53 @@ namespace MovieHunter.Views
         {
             //The users current login token
             string token = LoginPage.token;
-            string jsonInput = JsonConvert.SerializeObject(token);
+            
+                        //Adding object to the list
+                           //If database api request fails delete listview content.
+            ListItems.Clear();
+            ObservableCollection<AllList> returnedCollection = await ListCalls.getTokenOwnerLists(token);
 
-            var client = new HttpClient();
-            try
+            foreach( AllList a in returnedCollection)
             {
-                string uri = "http://localhost:59713/api/Lists/userLists";
-                var httpResponse = await client.PostAsync(uri, new StringContent(jsonInput, Encoding.UTF8, "application/json"));
-
-                if (httpResponse.Content != null)
-                {
-                    var json = await httpResponse.Content.ReadAsStringAsync();
-
-                    //await new MessageDialog(json, "Title of the message dialog").ShowAsync(); //Display message
-
-                    //Deleting content in Listview
-                    ListItems.Clear();
-
-                    //Itterating through the response dyamically so that it will fetch the item parameters at runtime
-                    dynamic dynJson = JsonConvert.DeserializeObject(json);
-                    foreach (var item in dynJson)
+                ListItems.Add(
+                    new AllList()
                     {
-                        ListItems.Add(new AllLists() { userId = item.userId, listId = item.listId, listName = item.listName });
+                        listId = a.listId,
+                        listName = a.listName,
+                        userId = a.userId
                     }
-                            
-                       
-                }
+                    );
             }
-            catch
-            {
-                ListItems.Clear();
-                ListItems.Add(new AllLists() { listName = "Loading failed.." });
-            }
+            
+            
         }
 
         private async void SelectedItem_ListView(object sender, ItemClickEventArgs e)
         {
-            AllLists clickedItem = e.ClickedItem as AllLists;
+            AllList clickedItem = e.ClickedItem as AllList;
 
-            await new MessageDialog(clickedItem.listName, "Title of the message dialog").ShowAsync(); //Display message
+            //await new MessageDialog(clickedItem.listId.ToString(), "Title of the message dialog").ShowAsync(); //Display message
+
+
+
+
+            try
+            {
+                var param = clickedItem.listId as int?;
+                //Task delay to fix a bug that causes the OnNavigateTo function to not recieve
+                //Found the answer from a similar issue at https://stackoverflow.com/questions/23995504/listview-containerfromitem-returns-null-after-a-new-item-is-added-in-windows-8-1
+                //Another sollution is to use a viewmodel
+                await Task.Delay(50);
+
+                
+                Frame.Navigate(typeof(MovieListPage), param);
+
+
+            } 
+            catch
+            {
+                await new MessageDialog(clickedItem.listName, "Could not open list").ShowAsync(); //Display message
+            }
         }
     }
 }

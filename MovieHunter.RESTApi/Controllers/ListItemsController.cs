@@ -11,67 +11,56 @@ namespace MovieHunter.RESTApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ListsController : ControllerBase
+    public class ListItemsController : ControllerBase
     {
         private readonly fredrifoContext _context;
 
-        public ListsController(fredrifoContext context)
+        public ListItemsController(fredrifoContext context)
         {
             _context = context;
         }
 
-        // GET: api/Lists
+        // GET: api/ListItems
         [HttpGet]
-        public IEnumerable<List> GetList()
+        public IEnumerable<ListItem> GetListItem()
         {
-            return _context.List;
+            return _context.ListItem;
         }
 
-        // GET: api/Lists/userLists
-        //Since the token is being transferred its using HttpPost. 
-        //This is because HttpGet sends the information in the header. 
-        //The header is easy to see by people monitoring the network. 
-        [HttpPost]
-        [Route("userLists")]
-        public async Task<IActionResult> GetList([FromBody] string token)
+        // GET: api/ListItems/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetListItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            Nullable<int> id = SharedControllerFuntions.TokenVerificator(token);
 
-            //ID only excists if it gets an int as the return value
-            if (id == null)
+            var listItem = await _context.ListItem.FindAsync(id);
+
+            if (listItem == null)
             {
                 return NotFound();
             }
 
-            var list = _context.List.Where(c => c.UserId == id);
-
-            if (list == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(list);
+            return Ok(listItem);
         }
 
-        // PUT: api/Lists/5
+        // PUT: api/ListItems/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutList([FromRoute] int id, [FromBody] List list)
+        public async Task<IActionResult> PutListItem([FromRoute] int id, [FromBody] ListItem listItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != list.ListId)
+            if (id != listItem.ListItemId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(list).State = EntityState.Modified;
+            _context.Entry(listItem).State = EntityState.Modified;
 
             try
             {
@@ -79,7 +68,7 @@ namespace MovieHunter.RESTApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ListExists(id))
+                if (!ListItemExists(id))
                 {
                     return NotFound();
                 }
@@ -92,45 +81,45 @@ namespace MovieHunter.RESTApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Lists/userLists
+        // POST: api/ListItems
         [HttpPost]
-        public async Task<IActionResult> PostList([FromBody] List list)
+        public async Task<IActionResult> PostListItem([FromBody] ListItem listItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.List.Add(list);
+            _context.ListItem.Add(listItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetList", new { id = list.ListId }, list);
+            return CreatedAtAction("GetListItem", new { id = listItem.ListItemId }, listItem);
         }
 
-        // DELETE: api/Lists/5
+        // DELETE: api/ListItems/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteList([FromRoute] int id)
+        public async Task<IActionResult> DeleteListItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var list = await _context.List.FindAsync(id);
-            if (list == null)
+            var listItem = await _context.ListItem.FindAsync(id);
+            if (listItem == null)
             {
                 return NotFound();
             }
 
-            _context.List.Remove(list);
+            _context.ListItem.Remove(listItem);
             await _context.SaveChangesAsync();
 
-            return Ok(list);
+            return Ok(listItem);
         }
 
-        private bool ListExists(int id)
+        private bool ListItemExists(int id)
         {
-            return _context.List.Any(e => e.ListId == id);
+            return _context.ListItem.Any(e => e.ListItemId == id);
         }
     }
 }

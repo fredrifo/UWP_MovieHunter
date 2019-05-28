@@ -131,6 +131,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ManageListsViewModel.cs" />
     <Compile Include="ViewModels\MediaPlayerViewModel.cs" />
+    <Compile Include="ViewModels\MovieListViewModel.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -154,6 +155,9 @@
     </Compile>
     <Compile Include="Views\MediaPlayerPage.xaml.cs">
       <DependentUpon>MediaPlayerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MovieListPage.xaml.cs">
+      <DependentUpon>MovieListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MoviePage.xaml.cs">
       <DependentUpon>MoviePage.xaml</DependentUpon>
@@ -221,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\MovieListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MoviePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -279,13 +287,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MovieHunter.Core\MovieHunter.Core.csproj">
-      <Project>{F8EC39BE-B17A-4CD2-B9EE-D5F32C7E8622}</Project>
+      <Project>{272b3819-7fcf-4efa-9b64-0895a51a06a1}</Project>
       <Name>MovieHunter.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MovieHunter.DataAccess\MovieHunter.DataAccess.csproj">
+    <ProjectReference Include="..\MovieHunter.DataAccess\MovieHunter.DataAccess.Client.csproj">
       <Project>{77efc9ec-b79c-4282-9cd2-49510eb95c4b}</Project>
-      <Name>MovieHunter.DataAccess</Name>
+      <Name>MovieHunter.DataAccess.Client</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -11,67 +11,59 @@ namespace MovieHunter.RESTApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ListsController : ControllerBase
+    public class MoviesController : ControllerBase
     {
         private readonly fredrifoContext _context;
 
-        public ListsController(fredrifoContext context)
+        public MoviesController(fredrifoContext context)
         {
             _context = context;
         }
 
-        // GET: api/Lists
+        // GET: api/Movies
         [HttpGet]
-        public IEnumerable<List> GetList()
+        public IEnumerable<Movie> GetMovie()
         {
-            return _context.List;
+            return _context.Movie;
         }
 
-        // GET: api/Lists/userLists
-        //Since the token is being transferred its using HttpPost. 
-        //This is because HttpGet sends the information in the header. 
-        //The header is easy to see by people monitoring the network. 
-        [HttpPost]
-        [Route("userLists")]
-        public async Task<IActionResult> GetList([FromBody] string token)
+        // GET: api/Movies/5
+        [HttpGet("{searchParameter}")]
+        public async Task<IActionResult> GetMovie([FromRoute] string searchParameter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            Nullable<int> id = SharedControllerFuntions.TokenVerificator(token);
 
-            //ID only excists if it gets an int as the return value
-            if (id == null)
+            var movie = _context.Movie.Where(c => EF.Functions.Like(c.Title, searchParameter + "%"));
+           
+
+           // var movie = await _context.Movie.FindAsync(id);
+
+            if (movie == null)
             {
                 return NotFound();
             }
 
-            var list = _context.List.Where(c => c.UserId == id);
-
-            if (list == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(list);
+            return Ok(movie);
         }
 
-        // PUT: api/Lists/5
+        // PUT: api/Movies/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutList([FromRoute] int id, [FromBody] List list)
+        public async Task<IActionResult> PutMovie([FromRoute] int id, [FromBody] Movie movie)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != list.ListId)
+            if (id != movie.MovieId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(list).State = EntityState.Modified;
+            _context.Entry(movie).State = EntityState.Modified;
 
             try
             {
@@ -79,7 +71,7 @@ namespace MovieHunter.RESTApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ListExists(id))
+                if (!MovieExists(id))
                 {
                     return NotFound();
                 }
@@ -92,45 +84,45 @@ namespace MovieHunter.RESTApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Lists/userLists
+        // POST: api/Movies/newMovie
         [HttpPost]
-        public async Task<IActionResult> PostList([FromBody] List list)
+        public async Task<IActionResult> PostMovie([FromBody] Movie movie)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.List.Add(list);
+            _context.Movie.Add(movie);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetList", new { id = list.ListId }, list);
+            return CreatedAtAction("GetMovie", new { id = movie.MovieId }, movie);
         }
 
-        // DELETE: api/Lists/5
+        // DELETE: api/Movies/deleteMovie/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteList([FromRoute] int id)
+        public async Task<IActionResult> DeleteMovie([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var list = await _context.List.FindAsync(id);
-            if (list == null)
+            var movie = await _context.Movie.FindAsync(id);
+            if (movie == null)
             {
                 return NotFound();
             }
 
-            _context.List.Remove(list);
+            _context.Movie.Remove(movie);
             await _context.SaveChangesAsync();
 
-            return Ok(list);
+            return Ok(movie);
         }
 
-        private bool ListExists(int id)
+        private bool MovieExists(int id)
         {
-            return _context.List.Any(e => e.ListId == id);
+            return _context.Movie.Any(e => e.MovieId == id);
         }
     }
 }

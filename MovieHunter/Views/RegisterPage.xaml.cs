@@ -27,6 +27,9 @@ namespace MovieHunter.Views
 
         private async void Register_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            //Turning on the loading indicator
+            loadingIndicator.IsActive = true;
+
             string userName = inp_Username.Text;
             string firstName = inp_FirstName.Text;
             string lastName = inp_LastName.Text;
@@ -34,24 +37,52 @@ namespace MovieHunter.Views
             string password2 = inp_Password2.Password;
             string password_Hashed = LoginPage.UserHasher(userName, password1);
 
-            User loginInformation = new User()
+            User loginInformation = new User();
+
+            try
             {
-                UserName = userName,
-                FirstName = firstName,
-                LastName = lastName,
-                Password = password_Hashed,
-            };
+                loginInformation = new User()
+                {
+                    UserName = userName,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Password = password_Hashed,
+                };
+            }
+            catch
+            {
+                //Turning off the loading indicator
+                loadingIndicator.IsActive = false;
+
+                //If the user object creation failed the registration will be aborted
+                return;
+                
+            }
+            
 
             string loginInformation_Json = JsonConvert.SerializeObject(loginInformation);
 
+
+            try
+            {
+                var client = new HttpClient();
+
+                string uri = "http://localhost:59713/api/Users/register";
+                await client.PostAsync(uri, new StringContent(loginInformation_Json, Encoding.UTF8, "application/json"));
+
+                Frame.Navigate(typeof(LoginPage));
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                //Turning off the loading indicator
+                loadingIndicator.IsActive = false;
+                Frame.Navigate(typeof(LoginPage));
+            }
             
-
-            var client = new HttpClient();
-
-            string uri = "http://localhost:59713/api/Users/register";
-            await client.PostAsync(uri, new StringContent(loginInformation_Json, Encoding.UTF8, "application/json"));
-
-            Frame.Navigate(typeof(LoginPage));
 
             return;
         }

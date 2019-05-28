@@ -233,4 +233,8 @@
     <value>ManageLists</value>
     <comment>Navigation view item name for ManageLists</comment>
   </data>
+  <data name="Shell_MovieList.Content" xml:space="preserve">
+    <value>MovieList</value>
+    <comment>Navigation view item name for MovieList</comment>
+  </data>
 </root>

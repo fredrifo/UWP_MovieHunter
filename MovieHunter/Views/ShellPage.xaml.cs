@@ -1,7 +1,7 @@
 ﻿using System;
 
 using MovieHunter.ViewModels;
-
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace MovieHunter.Views
@@ -19,6 +19,14 @@ namespace MovieHunter.Views
             InitializeComponent();
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame, navigationView, KeyboardAccelerators);
+
+            //new MainPage().Frame.Navigate(typeof(MovieListPage));
+            
+            //((Frame)Window.Current.Content).Navigate(typeof(Views.MainPage));
+
+
+
         }
+
     }
 }

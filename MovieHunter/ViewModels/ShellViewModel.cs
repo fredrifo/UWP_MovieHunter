@@ -64,6 +64,7 @@ namespace MovieHunter.ViewModels
             NavigationService.NavigationFailed += Frame_NavigationFailed;
             NavigationService.Navigated += Frame_Navigated;
             _navigationView.BackRequested += OnBackRequested;
+
         }
 
         private async void OnLoaded()
@@ -73,7 +74,8 @@ namespace MovieHunter.ViewModels
                 _keyboardAccelerators.Add(_altLeftKeyboardAccelerator);
                 _keyboardAccelerators.Add(_backKeyboardAccelerator);
                 await Task.CompletedTask;
-            }
+
+        }
 
         private void OnItemInvoked(WinUI.NavigationViewItemInvokedEventArgs args)
         {

@@ -26,12 +26,14 @@
                 
                 <Grid VerticalAlignment="Center"
                       HorizontalAlignment="Center"
-                      Height="350"
+                      Height="450"
                       Width="500">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
+                        <RowDefinition Height="40"/>
                         <RowDefinition Height="1.5*"/>
+                        
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -43,6 +45,7 @@
                                Grid.Row="0"
                                Grid.Column="0"
                                VerticalAlignment="Top"/>
+                    
                     
                     <TextBox 
                              x:Name="inp_Username"
@@ -66,14 +69,24 @@
                              Height="80"
                              VerticalAlignment="Top"/>
 
-                    <Button Grid.Row="2"
+                    <ProgressRing
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        x:Name="loadingIndicator"
+                        IsActive="False"
+                        Height="40"
+                        Width="40"/>
+                    
+                    <Button Grid.Row="3"
                             Grid.ColumnSpan="1"
                             Content="Login"
                             FontSize="50"
                             HorizontalAlignment="Stretch"
                             Click="Login_Click"/>
+
                     
-                    <Button Grid.Row="2"
+                    
+                    <Button Grid.Row="3"
                             Grid.Column="1"
                             Content="Register"
                             FontSize="50"

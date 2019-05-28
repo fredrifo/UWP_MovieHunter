@@ -10,13 +10,162 @@
         x:Name="ContentArea"
         Margin="{StaticResource MediumLeftRightMargin}"
        >
-        <!-- Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"-->
-        <!--
-        <Image Source="ms-appx:///Assets/grey_Gradient.png"
-                           Stretch="UniformToFill"
-               Opacity="0.3"
-               
-                       />
-        -->
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="1*"/>
+            
+        </Grid.RowDefinitions>
+
+        
+        <TextBox
+        Grid.Row="0"
+        Height="60"
+        Header="Search for movies"
+        x:Name="inp_SearchBox"
+        TextChanged="TextBox_SearchChanged"/>
+
+
+        <GridView
+            Grid.Row="1"
+            SelectionMode="Multiple"
+            x:Name="gridViewMovies"
+            ItemsSource="{x:Bind TableItems}"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            ScrollViewer.VerticalScrollMode="Enabled"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ItemClick="GridViewItemTapped"
+            
+            IsItemClickEnabled="True"
+            >
+
+            <GridView.ItemTemplate>
+                <DataTemplate>
+
+                    <!-- Datatemplate for each movie object -->
+
+                    <Grid Background="White">
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="166"/>
+                            <ColumnDefinition Width = "200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height = "60"/>
+                            <RowDefinition Height = "20"/>
+                            <RowDefinition Height = "160"/>
+
+                        </Grid.RowDefinitions >
+
+                        <!-- Cover image for the movie -->
+                        <Border
+                            Grid.Column = "0"
+                            Grid.Row = "0"
+                            Grid.RowSpan = "3" 
+                            BorderBrush="Black"
+                            Background="Black"
+                            BorderThickness="0.5"
+                            CornerRadius="5"
+                            Margin="1"
+                            Width="auto"
+                            Height="auto">
+
+                            <Image Stretch="Fill">
+
+                                <Image.Source >
+
+                                    <BitmapImage UriSource = "{Binding CoverImage}" />
+
+                                </Image.Source >
+
+                            </Image>
+                        </Border>
+
+                        <!-- Title -->
+                        <TextBlock Grid.Column = "1"
+                                    Grid.Row = "0"
+                                    FontSize = "22"
+                                    Padding = "6,0,0,0"
+                                    TextWrapping = "WrapWholeWords"
+                                    Text = "{Binding Title}"
+                                    Foreground="Black"/>
+
+                        <!-- Stack panel for adding text aroun the rating number-->
+                        <StackPanel
+                        Grid.Column = "1"
+                        Grid.Row = "1"
+                        Orientation="Horizontal">
+
+                            <TextBlock 
+                                Padding = "24,0,5,0"
+                                Foreground="Black"
+                                Text="Rating:"/>
+                            <TextBlock 
+                                Foreground="Black"
+                                Text="{Binding Rating}"/>
+
+                            <TextBlock 
+                                Padding = "0,0,5,0"
+                                Foreground="Black"
+                                Text="/10"/>
+
+                        </StackPanel>
+
+                        <!-- Summary -->
+                        <TextBlock
+                        Grid.Column = "1"
+                        Grid.Row = "2"
+                        Padding = "6,0,0,0"
+                        TextWrapping = "WrapWholeWords"
+                        Text = "{Binding Summary}"
+                        Foreground="Black"/>
+
+                    </Grid >
+
+
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+
+                    <ItemsWrapGrid
+                    Orientation="Horizontal"/>
+
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+
+        <Grid
+            Grid.Row="1"
+            Margin="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            >
+            <!-- Floating button -->
+            <ComboBox x:Name="comboBox_Options"
+                      
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Stretch"
+                      Width="400"
+                      Height="50"
+                      Background="Black"
+                      FontSize="26"
+                      Margin="0,0,-25,-2"
+                      PlaceholderText="Manage Notes"
+                      SelectionChanged="Combobox_Options_SelectionChanged"
+                      
+                    
+                >
+                <x:String>Open</x:String>
+                <x:String>Edit</x:String>
+                <x:String>Delete</x:String>
+                <x:String>Add to ToWatch list</x:String>
+                <x:String>Add to Watched list</x:String>
+            </ComboBox>
+        </Grid>
     </Grid>
 </Page>

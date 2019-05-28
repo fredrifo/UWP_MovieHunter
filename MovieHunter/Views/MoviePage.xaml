@@ -147,59 +147,32 @@
                            Grid.Row="2"
                            FontSize="22"/>
 
-                    <!--Specify row-->
-                    <TextBlock Text="Release year"
-                           Grid.Column="0"
-                           Grid.Row="3"
-                           FontSize="22"
-                           FontWeight="Bold"/>
-
-                    <TextBlock Text="{x:Bind ReleaseYear}"
-                           Grid.Column="1"
-                           Grid.Row="3"
-                           FontSize="22"/>
-
-                    <!--Specify row-->
-                    <TextBlock Text="Runtime"
-                           Grid.Column="0"
-                           Grid.Row="4"
-                           FontSize="22"
-                           FontWeight="Bold"/>
-
-                    <TextBlock Text="{x:Bind Runtime}"
-                           Grid.Column="1"
-                           Grid.Row="4"
-                           FontSize="22"/>
-
-
                     <!--Row 2-->
                     <TextBlock Text="Director"
                            Grid.Column="0"
-                           Grid.Row="5"
+                           Grid.Row="3"
                            FontSize="22"
                            FontWeight="Bold"/>
 
                     <TextBlock Text="{x:Bind Director}"
                            Grid.Column="1"
-                           Grid.Row="5"
+                           Grid.Row="3"
                            FontSize="22"/>
                     <!--Row 3-->
                     <TextBlock Text="Writers"
                            Grid.Column="0"
-                           Grid.Row="6"
+                           Grid.Row="4"
                            FontSize="22"
                            FontWeight="Bold"/>
 
                     <TextBlock Text="{x:Bind Writer}"
                            Grid.Column="1"
-                           Grid.Row="6"
+                           Grid.Row="4"
                            FontSize="22"/>
 
-                    <!--Row 5-->
-
+                    <!-- Row 5 -->
                     
-
-                    <!--Row 1-5 -->
+                    <!-- Row 1-5 -->
                     <Image Grid.Column="2"
                        Grid.Row="1"
                        Grid.RowSpan="6"

@@ -18,6 +18,7 @@ using System.Text;
 using System.Net.Http;
 using HttpClient = System.Net.Http.HttpClient;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MovieHunter.Views
 {
@@ -78,6 +79,7 @@ namespace MovieHunter.Views
 
         private async void Login_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            //Frame.Navigate(typeof(ShellPage));
             string username = inp_Username.Text;
             string password = inp_Password.Password;
             string password_Hashed = UserHasher(username, password);
@@ -90,7 +92,10 @@ namespace MovieHunter.Views
 
             string loginInformation_Json = JsonConvert.SerializeObject(loginInformation);
 
+            //Starting the loading indicator
+            loadingIndicator.IsActive = true;
 
+            //Logs in with a HttpPost request to the api
             var client = new HttpClient();
             try
             {
@@ -103,8 +108,15 @@ namespace MovieHunter.Views
                     LoginResponse loginResponse = JsonConvert.DeserializeObject<LoginResponse>(json);
                     if (loginResponse.Token != "Null")
                     {
+                        //Saving the token in a dynamic string so that it is accessible from every page
                         token = loginResponse.Token;
+
+                        //Open the shellpage with menu
+                       // navigationFrame.Navigate(typeof(MainPage));
                         Frame.Navigate(typeof(ShellPage));
+
+                        
+
                     }
                     else
                     {
@@ -115,6 +127,11 @@ namespace MovieHunter.Views
             catch
             {
                 //Write error as feedback
+            }
+            finally
+            {
+                //Finally makes sure that the loadingindicator will end when the db connection is over
+                loadingIndicator.IsActive = false;
             }
 
         }
