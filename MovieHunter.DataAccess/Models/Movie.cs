@@ -20,6 +20,12 @@ namespace MovieHunter.DataAccess.Models
         public int? WriterId { get; set; }
         public int? Star { get; set; }
 
+        public string GenreName { get; set; }
+        public string DirectorName { get; set; }
+        public string WriterName { get; set; }
+        public string StarName { get; set; }
+        public double RatingImageWidth { get; set; }
+
         public Person Director { get; set; }
         public Genre Genre { get; set; }
         public Person StarNavigation { get; set; }

@@ -127,6 +127,7 @@
     <Compile Include="Services\NavigationServiceEx.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ViewModels\AdministrationViewModel.cs" />
+    <Compile Include="ViewModels\EditMovieViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ManageListsViewModel.cs" />
@@ -143,6 +144,9 @@
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AdministrationPage.xaml.cs">
       <DependentUpon>AdministrationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditMoviePage.xaml.cs">
+      <DependentUpon>EditMoviePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -170,9 +174,6 @@
     </Compile>
     <Compile Include="Views\ShellPage.xaml.cs">
       <DependentUpon>ShellPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ToWatchedPage.xaml.cs">
-      <DependentUpon>ToWatchedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ToWatchPage.xaml.cs">
       <DependentUpon>ToWatchPage.xaml</DependentUpon>
@@ -209,6 +210,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\EditMoviePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -242,10 +247,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ToWatchedPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

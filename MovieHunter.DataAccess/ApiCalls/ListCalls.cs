@@ -39,19 +39,16 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
                         }
                         if((reader.TokenType == JsonToken.StartObject))
                         {
-                        // Load each object from the stream and do something with it
-                        JObject obj = JObject.Load(reader);
+                            // Load each object from the stream and do something with it
+                            JObject obj = JObject.Load(reader);
 
 
-                        returnList.Add(new AllList
-                        {
-                            listName = (obj["listName"]).ToString(),
-                            listId = Convert.ToInt32( obj["listId"]),
-                            userId = Convert.ToInt32(obj["userId"]) 
-                        }
-
-
-                            );
+                            returnList.Add(new AllList
+                            {
+                                listName = (obj["listName"]).ToString(),
+                                listId = Convert.ToInt32( obj["listId"]),
+                                userId = Convert.ToInt32(obj["userId"]) 
+                            });
                         }
                         
                     };

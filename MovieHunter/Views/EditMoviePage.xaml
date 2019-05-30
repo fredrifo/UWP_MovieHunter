@@ -1,0 +1,103 @@
+﻿<Page
+    x:Class="MovieHunter.Views.EditMoviePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+                Place your content here.-->
+
+            <ScrollViewer>
+
+                <!-- Row 1 -->
+                <StackPanel Orientation="Vertical">
+
+                    <TextBox
+                                Header="Title"
+                                x:Name="inp_MovieTitle"
+                                Width="600"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap"/>
+
+                    <!-- Text changed sets the new link in the coverimage display beneath -->
+                    <TextBlock
+                                x:Name="inp_MovieImageLink"
+                                Width="600"
+                                TextWrapping="Wrap"
+                                HorizontalAlignment="Left"/>
+
+                    <!-- Cover image for the movie -->
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Image Preview"/>
+
+                        <!--Creates a small border around the picture-->
+                        <Border
+                                    BorderBrush="White"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    Width="auto"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,4,0,4">
+                            <Image
+                                        HorizontalAlignment="Left"
+                                        MaxHeight="250"
+                                        Width="auto"
+                                        
+                                        >
+
+                                <Image.Source >
+
+                                    <!--
+                                            Default image to a template cover
+                                            TextBox_SearchChanged method updates
+                                            UriSource depending on user input
+                                        -->
+                                    <BitmapImage
+                                        x:Name="image_Cover"
+                                        UriSource = "https://nouberoakland.org/g/014-movie-poster-outline-resume-one-page-brochure-template-free-beautiful-word-image.jpg" />
+
+                                </Image.Source >
+
+                            </Image>
+                        </Border>
+                    </StackPanel>
+
+                    
+                    
+
+                    <TextBox
+                                Header="Summary"
+                                x:Name="inp_MovieSummary"
+                                Width="600"
+                                HorizontalAlignment="Left"
+                                TextWrapping="Wrap"
+                                />
+
+
+                    
+
+
+
+
+            
+                    <Button
+                                Content="Update Movie"
+                                Click="Btn_UpdateMovie"/>
+
+                    <TextBlock
+                                Foreground="Red"
+                                x:Name="output_Movie"
+                                Visibility="Collapsed"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

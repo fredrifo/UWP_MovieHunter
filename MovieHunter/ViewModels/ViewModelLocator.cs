@@ -21,7 +21,6 @@ namespace MovieHunter.ViewModels
             Register<MainViewModel, MainPage>();
             Register<MediaPlayerViewModel, MediaPlayerPage>();
             Register<ToWatchViewModel, ToWatchPage>();
-            Register<ToWatchedViewModel, ToWatchedPage>();
             Register<SettingsViewModel, SettingsPage>();
             Register<MovieViewModel, MoviePage>();
             Register<LoginViewModel, LoginPage>();
@@ -29,7 +28,10 @@ namespace MovieHunter.ViewModels
             Register<AdministrationViewModel, AdministrationPage>();
             Register<ManageListsViewModel, ManageListsPage>();
             Register<MovieListViewModel, MovieListPage>();
+            Register<EditMovieViewModel, EditMoviePage>();
         }
+
+        public EditMovieViewModel EditMovieViewModel => SimpleIoc.Default.GetInstance<EditMovieViewModel>();
 
         public MovieListViewModel MovieListViewModel => SimpleIoc.Default.GetInstance<MovieListViewModel>();
 

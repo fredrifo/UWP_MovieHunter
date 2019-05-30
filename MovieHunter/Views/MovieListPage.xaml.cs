@@ -2,8 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using MovieHunter.DataAccess.Client.ApiCalls;
 using MovieHunter.DataAccess.Client.Models;
+using MovieHunter.DataAccess.Models;
 using MovieHunter.ViewModels;
 using Newtonsoft.Json;
 using Windows.UI.Xaml.Controls;
@@ -24,7 +26,9 @@ namespace MovieHunter.Views
             InitializeComponent();
 
             ListItems.Add(new AllListItems() { ListMessage = "Loading..." });
-            getListsAsync();
+
+            //Using loaded so that the OnNavigationTo has time to finish before running the getListAsync
+            Loaded += (sender, args) => getListsAsync();
         }
 
 
@@ -54,6 +58,8 @@ namespace MovieHunter.Views
                 ListMessage = "Loading listItems"
             });
 
+            //Small delay so that 
+            //await Task.Delay(50);
             if (ListId == null)
             {
                 //The listId doesnt exist, and the user cant retrieve from database
@@ -62,7 +68,7 @@ namespace MovieHunter.Views
                 });
                 return;
             }
-            ObservableCollection<AllListItems> returnedCollection = await ListItemCalls.getListItems(1);
+            ObservableCollection<AllListItems> returnedCollection = await ListItemCalls.getListItems(Convert.ToInt32(ListId));
 
             //If the list is empty
             if(returnedCollection.Count == 0)
@@ -74,6 +80,9 @@ namespace MovieHunter.Views
             }
             ListItems.Clear();
 
+            //Getting the movie list for finding Movie name
+            ObservableCollection<Movie> allMovies = await MovieCalls.GetMovies();
+
             foreach (AllListItems a in returnedCollection)
             {
                 ListItems.Add(
@@ -81,7 +90,10 @@ namespace MovieHunter.Views
                     {
                         ListId = a.ListId,
                         ListItemId = a.ListItemId,
-                        MovieId = a.MovieId
+                        MovieId = a.MovieId,
+
+                        //Looking through the movie list for the title of the movie
+                        MovieName = MovieCalls.GetMovieNameFromList(allMovies, a.MovieId)
                     }
                     );
             }           

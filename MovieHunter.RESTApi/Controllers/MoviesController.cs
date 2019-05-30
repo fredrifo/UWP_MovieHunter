@@ -11,7 +11,7 @@ namespace MovieHunter.RESTApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MoviesController : ControllerBase
+    public class MoviesController : Controller
     {
         private readonly fredrifoContext _context;
 
@@ -37,9 +37,31 @@ namespace MovieHunter.RESTApi.Controllers
             }
 
             var movie = _context.Movie.Where(c => EF.Functions.Like(c.Title, searchParameter + "%"));
-           
 
-           // var movie = await _context.Movie.FindAsync(id);
+
+            // var movie = await _context.Movie.FindAsync(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movie);
+        }
+
+        // GET: api/Movies/object/5
+
+        [HttpGet("object/{movieId}")]
+        public async Task<IActionResult> GetMovie([FromRoute] int movieId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var movie = await _context.Movie.FindAsync(movieId);
+
+            // var movie = await _context.Movie.FindAsync(id);
 
             if (movie == null)
             {
@@ -99,7 +121,8 @@ namespace MovieHunter.RESTApi.Controllers
             return CreatedAtAction("GetMovie", new { id = movie.MovieId }, movie);
         }
 
-        // DELETE: api/Movies/deleteMovie/5
+        // DELETE movies and associated listitems
+        // api/Movies/deleteMovie/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie([FromRoute] int id)
         {
@@ -107,14 +130,28 @@ namespace MovieHunter.RESTApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            //Looking for movie with id
             var movie = await _context.Movie.FindAsync(id);
+
             if (movie == null)
             {
+                //If movie doesnt exist return
                 return NotFound();
             }
 
+            //remove from list
             _context.Movie.Remove(movie);
+
+            //Find every listItem that is the same movie
+            var listItems = _context.ListItem.Where(c => c.MovieId == movie.MovieId);
+
+            //Deleting all of these movies
+            foreach (ListItem l in listItems)
+            {
+                _context.ListItem.Remove(l);
+            }
+
+            //Saving changes
             await _context.SaveChangesAsync();
 
             return Ok(movie);

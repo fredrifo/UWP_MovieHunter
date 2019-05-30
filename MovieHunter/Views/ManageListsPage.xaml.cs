@@ -93,7 +93,7 @@ namespace MovieHunter.Views
                 //Task delay to fix a bug that causes the OnNavigateTo function to not recieve
                 //Found the answer from a similar issue at https://stackoverflow.com/questions/23995504/listview-containerfromitem-returns-null-after-a-new-item-is-added-in-windows-8-1
                 //Another sollution is to use a viewmodel
-                await Task.Delay(50);
+                
 
                 
                 Frame.Navigate(typeof(MovieListPage), param);

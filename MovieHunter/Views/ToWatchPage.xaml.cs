@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using MovieHunter.Classes;
+using MovieHunter.DataAccess.Client.ApiCalls;
+using MovieHunter.DataAccess.Client.Models;
+using MovieHunter.DataAccess.Models;
 using MovieHunter.ViewModels;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -11,142 +13,9 @@ namespace MovieHunter.Views
 {
     public sealed partial class ToWatchPage : Page
     {
-        Movie gump = new Movie(
-                    //Title
-                    "Forrest Gump (1994)",
-                    //Genre
-                    "Drama, Romance",
-                    //Director
-                    "Robert Zemeckis",
-                    //Stars
-                    "Tom Hanks, Robin Wright, Gary Sinise",
-                    //Summary
-                    "The presidencies of Kennedy and Johnson, the events of " +
-                    "Vietnam, Watergate, and other history unfold through the " +
-                    "perspective of an Alabama man with an IQ of 75.",
-                    //Cover Image
-                    "https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Forrest_Gump_poster.jpg/220px-Forrest_Gump_poster.jpg");
-        Movie fight = new Movie(
-                    //Title
-                    "Fight Club (1999)",
-                    //Genre
-                    "Drama",
-                    //Director
-                    "David Fincher",
-                    //Stars
-                    "Brad Pitt, Edward Norton, Meat Loaf ",
-                    //Summary
-                    "An insomniac office worker and a devil-may-care" +
-                    " soapmaker form an underground fight club that " +
-                    "evolves into something much, much more.",
-                    //Cover Image
-                    "https://m.media-amazon.com/images/M/MV5BMjJmYTNkNmItYjYyZC00MGUxLWJhNWMtZDY4Nzc1MDAwMzU5XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg");
-        Movie seven = new Movie(
-                    //Title
-                    "Se7en (1995)",
-                    //Genre
-                    "Crime, Drama, Mystery",
-                    //Director
-                    "David Fincher",
-                    //Stars
-                    "Morgan Freeman, Brad Pitt, Kevin Spacey",
-                    //Summary
-                    "Two detectives, a rookie and a veteran, " +
-                    "hunt a serial killer who uses the seven " +
-                    "deadly sins as his motives.",
-                    //Cover Image
-                    "https://m.media-amazon.com/images/M/MV5BOTUwODM5MTctZjczMi00OTk4LTg3NWUtNmVhMTAzNTNjYjcyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UX182_CR0,0,182,268_AL_.jpg")
-                ;
-        Movie privateRyan = new Movie(
-                    //Title
-                    "Saving Private Ryan (1998)",
-                    //Genre
-                    "Drama, War",
-                    //Director
-                    "Steven Spielberg",
-                    //Stars
-                    "Tom Hanks, Matt Damon, Tom Sizemore ",
-                    //Summary
-                    "Following the Normandy Landings, a group of U.S. soldiers " +
-                    "go behind enemy lines to retrieve a paratrooper whose " +
-                    "brothers have been killed in action.",
-                    //Cover Image
-                    "https://m.media-amazon.com/images/M/MV5BZjhkMDM4MWItZTVjOC00ZDRhLThmYTAtM2I5NzBmNmNlMzI1XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_UY268_CR0,0,182,268_AL_.jpg")
-                ;
-        Movie greenMile = new Movie(
-                    //Title
-                    "The Green Mile (1999)",
-
-                    //Genre
-                    "Crime, Drama, Fantasy",
-
-                    //Director
-                    "Frank Darabont",
-
-                    //Stars
-                    "Tom Hanks, Michael Clarke Duncan, David Morse",
-
-                    //Summary
-                    "The lives of guards on Death Row are affected by " +
-                    "one of their charges: a black man accused of child " +
-                    "murder and rape, yet who has a mysterious gift.",
-
-                    //Cover Image
-                    "https://m.media-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1_UX182_CR0,0,182,268_AL_.jpg")
-
-                ;
-        Movie firstMan = new Movie(
-                    //Title
-                    "First Man (2018)",
-
-                    //Genre
-                    "Biography, Drama, History",
-
-                    //Director
-                    "Damien Chazelle",
-
-                    //Stars
-                    "Ryan Gosling, Claire Foy, Jason Clarke",
-
-                    //Summary
-                    "A look at the life of the astronaut, Neil Armstrong, " +
-                    "and the legendary space mission that led him to become" +
-                    " the first man to walk on the Moon on July 20, 1969.",
-
-                    //Cover Image
-                    "https://m.media-amazon.com/images/M/MV5BMDBhOTMxN2UtYjllYS00NWNiLWE1MzAtZjg3NmExODliMDQ0XkEyXkFqcGdeQXVyMjMxOTE0ODA@._V1_UX182_CR0,0,182,268_AL_.jpg")
-
-                ;
-
-        Movie dunkirk = new Movie(
-                    //Title
-                    "Dunkirk (2017)",
-
-                    //Genre
-                    "Action, Drama, History ",
-
-                    //Director
-                    "Christopher Nolan",
-
-                    //Stars
-                    "Fionn Whitehead, Barry Keoghan, Mark Rylance",
-
-                    //Summary
-                    "Allied soldiers from Belgium, the British Empire," +
-                    " and France are surrounded by the German Army, " +
-                    "and evacuated during a fierce battle in World War II.",
-
-                    //Cover Image
-                    "https://m.media-amazon.com/images/M/MV5BN2YyZjQ0NTEtNzU5MS00NGZkLTg0MTEtYzJmMWY3MWRhZjM2XkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg")
-
-                ;
 
         private ObservableCollection<Movie> allMovies;
-        private ObservableCollection<Movie> action;
-        private ObservableCollection<Movie> comedy;
-        private ObservableCollection<Movie> drama;
-        private ObservableCollection<Movie> empty;
-        private ObservableCollection<Movie> thriller;
+
 
         private ToWatchViewModel ViewModel
         {
@@ -156,36 +25,139 @@ namespace MovieHunter.Views
         public ToWatchPage()
         {
             InitializeComponent();
-            
-
-            allMovies = new ObservableCollection<Movie>() { gump, fight, seven, privateRyan, greenMile, firstMan, dunkirk };
-            action = new ObservableCollection<Movie>() {dunkirk, seven, greenMile, firstMan };
-            comedy = new ObservableCollection<Movie>() { seven, gump, greenMile };
-            drama = new ObservableCollection<Movie>() { privateRyan, greenMile, dunkirk, firstMan };
-            thriller = new ObservableCollection<Movie>() { seven, greenMile, firstMan };
 
 
 
+            //Generate Lists for Categories
+            GetAllLists();
+        }
+
+        public async void GetAllLists()
+        {
+            //Getting the user owned lists
+            ObservableCollection<AllList> userLists = await ListCalls.getTokenOwnerLists(LoginPage.token);
+
+            //Creating objects that contains the listId's
+            AllList toWatchList = new AllList();
+            AllList watchedList = new AllList();
+
+            //Adding the listId's to the appropiat list object
+            foreach (AllList n in userLists)
+            {
+                //Adding to ToWatch List object
+                if (n.listName == "ToWatch")
+                {
+                    toWatchList.listId = n.listId;
+                    toWatchList.listName = n.listName;
+                }
+                //Adding to watched List object
+                if (n.listName == "Watched")
+                {
+                    watchedList.listId = n.listId;
+                    watchedList.listName = n.listName;
+                }
+            }
+
+            //Getting all the listItems from the ToWatch List
+            ObservableCollection<AllListItems> allTowatchListObjects = await ListItemCalls.getListItems(toWatchList.listId);
+
+            //Getting all the listItems from the ToWatch List
+            ObservableCollection<AllListItems> allWatchedListObjects = await ListItemCalls.getListItems(watchedList.listId);
+
+            //Getting All of the Movies
+            allMovies = await MovieCalls.GetMovies();
+
+            //Creating lists for storing allMovie object for the toWatch and watched list
+            ObservableCollection<Movie> allToWatchMovies = new ObservableCollection<Movie>();
+            ObservableCollection<Movie> allWatchedMovies = new ObservableCollection<Movie>();
+
+            //Comparing the All ListObjects movie id with tall movies (Intensive task that can be optimised)
+            foreach (Movie m in allMovies)
+            {
+                //ToWatch
+                foreach (AllListItems toWatchI in allTowatchListObjects)
+                {
+                    //If the movie exists in the towatchlist add the Movie object to the new list
+                    //This is so that the Movie object that contains all of the information can be displayed in the UI
+                    if(m.MovieId == toWatchI.MovieId)
+                    {
+                        //Adding the movie to the new list
+                        allToWatchMovies.Add(m);
+                    }
+                }
+                //Watched
+                foreach (AllListItems watched in allWatchedListObjects)
+                {
+                    //See comments on the foreach loop above
+                    if(m.MovieId == watched.MovieId)
+                    {
+                        allWatchedMovies.Add(m);
+                    }
+                }
+            }
+
+            //Creating reference to the stackPanel that should contain the list
+            StackPanel stack_toWatch = Stack_listViews;
+            StackPanel stack_Watched = Stack_Watched;
+
+            //Creating the stack lists in the ToWatch Tab
+            DynamicListViewCreator("All Genres", allToWatchMovies, stack_toWatch);
+
+            //Creating the stack lists in the Watched Tab
+            DynamicListViewCreator("All Genres", allWatchedMovies, Stack_Watched);
 
 
 
-            //list.ItemsSource = movies //OLD listView;
 
+            //The new lists can now be used to create seperate lists for every genreId that exists in the Movie collection lists
 
-            DynamicListViewCreator("Everything", allMovies);
-            DynamicListViewCreator("Thriller", thriller);
-            DynamicListViewCreator("Action", action);
-            
-            DynamicListViewCreator("Empty", empty);
-            DynamicListViewCreator("Comedy", comedy);
+            //Firstly we need all of the Genre objects that excist.
+            //Then we can compare all existing genreId's with the ones that exist in the Watched and toWatch lists.
+            ObservableCollection<Genre> allGenres = await GenreCalls.GetGenres();
 
+            //Looping through the allGenres list
+            foreach (Genre existingGenres in allGenres)
+            {
+                //Creates a temporary list to store the movie that contain the current genre
+                ObservableCollection<Movie> genreListWatched = new ObservableCollection<Movie>();
+                foreach (Movie allWatched in allWatchedMovies)
+                {
+                    //Finding out that if the allWatched contains the genre
+                    if (existingGenres.GenreId == allWatched.GenreId)
+                    {
+                        //Adding movie with same genre to the list
+                        genreListWatched.Add(allWatched);
+                       
+                    }
+                }
+                //If any movies got added create a new List in the UI
+                if (genreListWatched.Count > 0)
+                {
+                    DynamicListViewCreator(existingGenres.GenreName, genreListWatched, Stack_Watched);
+                }
 
-
+                //Creates a temporary list to store the movie that contain the current genre
+                ObservableCollection<Movie> genreListToWatch = new ObservableCollection<Movie>();
+                foreach (Movie allToWatch in allToWatchMovies)
+                {
+                    //Finding out that if the allToWatch contains the genre
+                    if (existingGenres.GenreId == allToWatch.GenreId)
+                    {
+                        //Adding movie with same genre to the list
+                        genreListToWatch.Add(allToWatch);
+                    }
+                }
+                //If any movies got added create a new List in the UI
+                if (genreListToWatch.Count > 0)
+                {
+                    DynamicListViewCreator(existingGenres.GenreName, genreListToWatch, stack_toWatch);
+                }
+                //End of Genre Loop
+            }
         }
 
         //programmatically clickevent for listview
-
-        private void DynamicListViewCreator(string genre, ObservableCollection<Movie> movieCollection)
+        private void DynamicListViewCreator(string genre, ObservableCollection<Movie> movieCollection, StackPanel stackPanel)
         {
             //listview programmatically
 
@@ -199,7 +171,7 @@ namespace MovieHunter.Views
             Genre.Text = genre;
             Genre.FontSize = 24;
             Genre.Margin = new Thickness(20, 30, 0, 0);
-            Stack_listViews.Children.Add(Genre);
+            stackPanel.Children.Add(Genre);
 
 
             //ListView
@@ -208,7 +180,7 @@ namespace MovieHunter.Views
             ListView listview = new ListView();
             listview.ItemsSource = movieCollection;
             //listview.SelectionChanged += listViewEvent;
-            Stack_listViews.Children.Add(listview);
+            stackPanel.Children.Add(listview);
 
             //Setting listView Properties
 
@@ -252,7 +224,7 @@ namespace MovieHunter.Views
                                    Grid.Row = ""0""
                                    Grid.RowSpan = ""3"" >
                             <Image.Source >
-                                <BitmapImage UriSource = ""{Binding CoverUri}"" />
+                                <BitmapImage UriSource = ""{Binding CoverImage}"" />
  
                              </Image.Source >
  
@@ -264,14 +236,22 @@ namespace MovieHunter.Views
                                        FontSize = ""22""
                                        Padding = ""6,0,0,0""
                                        TextWrapping = ""WrapWholeWords""
-                                       Text = ""{Binding CoverTitle}""
+                                       Text = ""{Binding Title}""
                                        Foreground=""Black""/>  
-
-                        <TextBlock Grid.Column = ""1""
+                        <StackPanel Orientation=""Horizontal""
+                                       Grid.Column = ""1""
                                        Grid.Row = ""1""
-                                       Padding = ""24,0,0,0""
-                                       Text = ""Rating 8.8/10""
+                                       Padding = ""15,0,0,0"">
+                                <TextBlock 
+                                       Text = ""Rating:""
+                                       Foreground=""Black""
+                                       Padding = ""5,0,0,0""/>
+
+                                <TextBlock 
+                                       Text = ""{Binding Rating}""
                                        Foreground=""Black""/>
+                        </StackPanel>
+                        
 
                         <TextBlock Grid.Column = ""1""
                                        Grid.Row = ""2""
@@ -336,6 +316,7 @@ namespace MovieHunter.Views
                     //Another sollution is to use a viewmodel
                     await Task.Delay(50);
                     Frame.Navigate(typeof(MoviePage), parameters);
+                    return;
                 }
                 
                 
@@ -356,6 +337,5 @@ namespace MovieHunter.Views
 
             }
         }
-
     }
 }

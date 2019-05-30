@@ -10,35 +10,29 @@
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
 
-    <!-- Grid for the whole page-->
-    <Grid x:Name="ContentArea">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            
+    <controls:TabView x:Name="Tabs">
 
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
-
-        <!-- Buttons for automatic sliding of listviews
-
-        <Frame Grid.Row="1" Grid.Column="0" Background="White">
-            <TextBlock Text="&#11176;"  VerticalAlignment="Center"/>
-        </Frame>
-        
-        <Frame Grid.Row="1" Grid.Column="3" Background="White">
-            <TextBlock Text="&#11177;" VerticalAlignment="Center"/>
-        </Frame>-->
+        <!--Tab for To-Watch List-->
+        <controls:TabViewItem Header="To-Watch List">
+            <Grid x:Name="ContentArea">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
 
 
-        <!-- Listview programmatically -->
-        <ScrollViewer VerticalScrollBarVisibility="Visible"
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+
+
+
+                <!-- Listview is created programmatically inside-->
+                <ScrollViewer VerticalScrollBarVisibility="Visible"
                       HorizontalScrollBarVisibility="Disabled"
                       HorizontalAlignment="Left"
                       Width="auto"
@@ -46,67 +40,57 @@
                       Grid.Row="2" Grid.ColumnSpan="3"
                       IsScrollInertiaEnabled="True"
                       >
-            
-            <StackPanel x:Name="Stack_listViews"
+                    
+                    <StackPanel x:Name="Stack_listViews"
                         Height="auto"
                         Orientation="Vertical" 
                         >
-            
-            </StackPanel>
-        </ScrollViewer>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </controls:TabViewItem>
 
 
-        <!--<controls:AdaptiveGridView
-            ItemsSource="{x:Bind ViewModel.Source,Mode=OneWay}"
-            ItemClickCommand="{x:Bind ViewModel.ItemClickCommand}"
-            StretchContentForSingleRow="False"
-            SelectionMode="None"
-            IsItemClickEnabled="True"
-            Padding="{StaticResource MediumLeftRightMargin}"
-            animations:Connected.ListItemElementName="itemThumbnail"
-            animations:Connected.ListItemKey="animationKeyToWatch"
-            DesiredWidth="400"
-            ItemHeight="300">
-            <controls:AdaptiveGridView.ItemTemplate>
-                
-                <DataTemplate x:DataType="models:SampleOrder">
-                   
+
+        <!--Tab for Watched List-->
+        <controls:TabViewItem Header="Watched List">
+            <Grid x:Name="ContentAreaWatched">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
 
 
-                        <Grid
-                            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-                            x:Name="itemThumbnail"
-                                >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                </Grid.ColumnDefinitions>
+                </Grid.RowDefinitions>
 
-                                <FontIcon Grid.Column="0"
-                                Glyph="{x:Bind Symbol}" />
-                                <Image Grid.Column="0"
-                                       Grid.RowSpan="5"
-                                       >
-                                    
-                                    <Image.Source>
-                                        <BitmapImage UriSource="https://upload.wikimedia.org/wikipedia/en/thumb/6/67/Forrest_Gump_poster.jpg/220px-Forrest_Gump_poster.jpg" />
-                                    </Image.Source>
-                                </Image>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="1"
-                                Margin="{StaticResource XXSmallTopMargin}"
-                                HorizontalAlignment="Center"
-                                Text="Hellooo
-                                           he
-                                           heeeh
-                                           e"
-                                Style="{ThemeResource BodyTextStyle}" />
-                                
-                            </Grid>
-                            
-                            
-                </DataTemplate>
-            </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>-->
-    </Grid>
+
+
+                <!-- Listview is created programmatically inside-->
+                <ScrollViewer VerticalScrollBarVisibility="Visible"
+                      HorizontalScrollBarVisibility="Disabled"
+                      HorizontalAlignment="Left"
+                      Width="auto"
+                      Margin="12,0,0,0"
+                      Grid.Row="2" Grid.ColumnSpan="3"
+                      IsScrollInertiaEnabled="True"
+                      >
+
+                    <StackPanel x:Name="Stack_Watched"
+                        Height="auto"
+                        Orientation="Vertical" 
+                        >
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </controls:TabViewItem>
+    </controls:TabView>
+
 </Page>

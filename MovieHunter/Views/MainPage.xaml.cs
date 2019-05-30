@@ -81,6 +81,7 @@ namespace MovieHunter.Views
                             Rating = item.rating,
                             DirectorId = item.directorId,
                             WriterId = item.writerId,
+                            Star = item.star,
                             Genre = item.genre
                         };
 
@@ -254,20 +255,24 @@ namespace MovieHunter.Views
                 //Opens movie
                 Movie selectedMovie = gridViewMovies.SelectedItem as Movie;
 
+                await Task.Delay(50);
+
                 //Creating parameter for tapped movie object
                 var parameters = selectedMovie;
 
 
                 //Task delay to ensure that the parameters are loaded correctly
-                await Task.Delay(50);
+                
 
 
                 //Navigate to new page, while also sending the Movie object parameters. T
                 //he parameters are handled in the override OnNavigatedTo method in MoviePage
-                Frame.Navigate(typeof(MoviePage), selectedMovie);
+                Frame.Navigate(typeof(MoviePage), parameters);
+
 
                 //Resets the combobox
                 comboBox_Options.SelectedIndex = -1;
+                return;
             }
 
 
@@ -289,10 +294,27 @@ namespace MovieHunter.Views
                     return;
                 }
 
+                //Saving The chosen Movie object
+                Movie selectedMovie = gridViewMovies.SelectedItem as Movie;
 
-                //Logic for edit
+                await Task.Delay(50);
+
+                //Creating parameter for tapped movie object
+                var parameters = selectedMovie;
 
 
+                //Task delay to ensure that the parameters are loaded correctly
+
+
+
+                //Navigate to new page, while also sending the Movie object parameters. T
+                //he parameters are handled in the override OnNavigatedTo method in EditMoviePage
+                Frame.Navigate(typeof(EditMoviePage), parameters);
+
+
+                //Resets the combobox
+                comboBox_Options.SelectedIndex = -1;
+                return;
             }
 
 
@@ -416,8 +438,11 @@ namespace MovieHunter.Views
                     string feedback = await ListItemCalls.postListItem(newListItem);
 
                     //
-                    await new MessageDialog(feedback, "Added to list?").ShowAsync();
+                    //await new MessageDialog(feedback, "Added to list?").ShowAsync();
                 }
+
+                //Resets the combobox
+                comboBox_Options.SelectedIndex = -1;
 
             }
 
@@ -455,6 +480,7 @@ namespace MovieHunter.Views
                 return false;
             }
             //Deleted successfully
+
             return true;
         }
     }

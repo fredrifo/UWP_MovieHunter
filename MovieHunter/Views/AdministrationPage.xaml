@@ -17,7 +17,6 @@
 
             <Pivot
                 x:Name="rootPivot"
-                Title="Add people, movies etc..."
                 HorizontalAlignment="Stretch"
                 IsHeaderItemsCarouselEnabled="False">
                 

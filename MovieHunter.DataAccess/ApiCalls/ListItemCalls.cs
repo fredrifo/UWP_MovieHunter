@@ -54,18 +54,19 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
 
 
 
-        public static async Task<ObservableCollection<AllListItems>> getListItems(int id)
+        public static async Task<ObservableCollection<AllListItems>> getListItems(int ListId)
         {
             //Uses the LoginPage.Token to find the id; 
-            //the id is used to find the client owners lists
-
-            string jsonInput = JsonConvert.SerializeObject(id);
+            //the ListId is used to find the client owners lists
+            
+            //Creates the List that will store list returned by the api
             ObservableCollection<AllListItems> returnList = new ObservableCollection<AllListItems>();
             var client = new HttpClient();
 
-            string uri = "http://localhost:59713/api/ListItems/";
+            //Adding the ListId to the get request
+            string uri = "http://localhost:59713/api/ListItems/" + ListId;
 
-            //Post request for getting all the listItems
+            //Get request for getting all the listItems
             var httpResponse = await client.GetAsync(uri);
 
             if (httpResponse.Content != null)

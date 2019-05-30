@@ -1,5 +1,8 @@
 ﻿using System;
-using MovieHunter.Classes;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using MovieHunter.DataAccess.Client.ApiCalls;
+using MovieHunter.DataAccess.Models;
 using MovieHunter.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -9,63 +12,16 @@ namespace MovieHunter.Views
 {
     public sealed partial class MoviePage : Page
     {
-        // Creating objects so that i can use binding
-        // This Movie object already contains all of the definitions so It would be better to not redefine everything
-        public string ImageSource
+
+        private ObservableCollection<Movie> _listItems = new ObservableCollection<Movie>();
+
+        //Collection for listItems in the listview
+        public ObservableCollection<Movie> ListItems
         {
-            get;
-            set;
-        }
-        public string CoverTitle
-        {
-            get;
-            set;
-        }
-        public string Category
-        {
-            get;
-            set;
+            get { return this._listItems; }
         }
 
-        public string Rating
-        {
-            get;
-            set;
-        }
-
-        public string ReleaseYear
-        {
-            get;
-            set;
-        }
-
-        public string Runtime
-        {
-            get;
-            set;
-        }
-
-        public string Director
-        {
-            get;
-            set;
-        }
-        public string Writer
-        {
-            get;
-            set;
-        }
-        public string Stars
-        {
-            get;
-            set;
-        }
-        public string Summary
-        {
-            get;
-            set;
-        }
-        public string CoverUri
+        static public int? ListId
         {
             get;
             set;
@@ -82,19 +38,163 @@ namespace MovieHunter.Views
 
             string coverurl = "https://pdfimages.wondershare.com/forms-templates/medium/movie-poster-template-3.png";
 
-            //If page opens with no movie params
-            this.CoverTitle = "Null";
-            this.Category = "Null";
-            this.Director = "Null";
-            this.Writer = "Null";
-            this.Stars = "Null";
-            this.Summary = "Summary: Null";
-            this.CoverUri = coverurl;
 
-            //MainPage movie = new MainPage("Null", "Null", "Null", "Null", "Null", coverurl);
+            Genre genreName = new Genre() { GenreName = "Fetching" };
+            ListItems.Add(
+                new Movie
+                {
+                    Title = "Title: Fetching...",
+                    GenreName = "Fetching",
+                    Genre = genreName,
+                    DirectorName = "Fetching",
+                    WriterName = "Fetching",
+                    StarName = "Fetching",
+                    Summary = "Summary: Fetching",
+                    CoverImage = coverurl,
+                    Rating = 5
+                });
+                
+            
+            //If page opens with no movie params
+            
+
+            //NullEverything();
+
+            //Loading the information sent from the onNavigateTo() parameters
+            Loaded += (sender, args) => FillContentAsync(this);
         }
 
-        private void CloseTrailerPopupClicked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        static public DataAccess.Models.Movie MovieContainer
+        {
+            get;
+            set;
+        }
+
+        public async void FillContentAsync(MoviePage thisT)
+        {
+            ObservableCollection<Genre> allGenres = await GenreCalls.GetGenres();
+
+            ////Getting a list of People
+            ObservableCollection<Person> allPeople = await PersonCalls.GetPeople();
+            //try
+            //{
+            
+            Genre genreName = new Genre() { GenreName = "Fetching" };
+
+            //Creating strings for a Movie object
+            string title = "title";
+            string genre = "genre";
+            string director = "director";
+            string writer = "writer";
+            string movieStar = "movieStar";
+            string summary = "summary";
+            string coveruri = "https://pdfimages.wondershare.com/forms-templates/medium/movie-poster-template-3.png";
+            byte rating = 0;
+
+
+            try
+            {
+                genre = GenreCalls.GetGenreNameFromList(allGenres, Convert.ToInt32(MovieContainer.GenreId));
+            }
+            catch
+            {
+                //if "parameters.GenreId" == null the convertion ToInt32 fails
+                //Category will not be displayed with the name
+                genre = MovieContainer.GenreId.ToString();
+            }
+            try
+            {
+                //finding the name of the director with help of the id from the parameter
+                director = PersonCalls.GetPersonNameFromList(allPeople, Convert.ToInt32(MovieContainer.DirectorId));
+            }
+            catch
+            {
+                //if "parameters.directorid" == null the convertion to int32 fails
+                //person will not be displayed with the name
+                director = MovieContainer.DirectorId.ToString();
+            }
+            try
+            {
+                //finding the name of the writer with help of the id from the parameter
+                writer = PersonCalls.GetPersonNameFromList(allPeople, Convert.ToInt32(MovieContainer.WriterId));
+            }
+            catch
+            {
+                //if "parameters.writerid" == null the convertion to int32 fails
+                //person will not be displayed with the name
+                writer = MovieContainer.WriterId.ToString();
+            }
+            try
+            {
+                //finding the name of the actor star with help of the id from the parameter
+                movieStar = PersonCalls.GetPersonNameFromList(allPeople, Convert.ToInt32(MovieContainer.Star));
+            }
+            catch
+            {
+                //if "parameters.star" == null the convertion to int32 fails
+                //person will not be displayed with the name
+                movieStar = MovieContainer.Star.ToString();
+            }
+
+            //self explainatory
+            summary = MovieContainer.Summary;
+            coveruri = MovieContainer.CoverImage;
+            title = MovieContainer.Title;
+
+            //converting the rating to a string to be displayed in the bound textblock
+            rating = Convert.ToByte(MovieContainer.Rating);
+
+            //defines the width of the yellow fill in the star image located above the cover image
+            //there are 5 stars with the width of 68px.
+            //since rating is up to 10 i need to divide it by 2. this makes the stars and rating equal.
+            //the "starrating.width" fills the stars so that it represents the real value.
+            double amountRatingStars = Convert.ToDouble((MovieContainer.Rating * 68) / 2); // rating/2 * 68pixels each star)
+                                                                           //}
+                                                                           //catch
+                                                                           //{
+                                                                           //    //setting all of the movie information text to could not fetch
+                                                                           //    nulleverything();
+
+            //}
+
+            //Clearing the listitems
+            ListItems.Clear();
+            //Adding a listitem with values specified above
+            ListItems.Add(
+                new Movie()
+                {
+                    Title = title,
+                    GenreName = genre,
+                    Genre = genreName,
+                    DirectorName = director,
+                    WriterName = writer,
+                    StarName = movieStar,
+                    Summary = summary,
+                    CoverImage = coveruri,
+                    Rating = rating, //Rating
+                    RatingImageWidth = amountRatingStars,
+                });
+            //Setting the bindings to be equal to the parameters
+
+            //Getting the list of Genre
+
+        }
+    //}
+
+    //private void NullEverything()
+    //{
+    //    string coverurl = "https://pdfimages.wondershare.com/forms-templates/medium/movie-poster-template-3.png";
+
+    //    //If page opens with no movie params
+    //    this.CoverTitle = "Title: Could not fetch";
+    //    this.Category = "Could not fetch";
+    //    this.Director = "Could not fetch";
+    //    this.Writer = "Could not fetch";
+    //    this.Stars = "Could not fetch";
+    //    this.Summary = "Summary: Could not fetch";
+    //    this.CoverUri = coverurl;
+    //}
+    private void CloseTrailerPopupClicked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             if (TrailerPopup.IsOpen) {
                 TrailerPopup.IsOpen = false;
@@ -110,7 +210,6 @@ namespace MovieHunter.Views
                 CloseButtonText = "Ok"
             };
             ContentDialogResult resulst = await notification.ShowAsync();
-            
         }
 
         private void OpenTrailerPopupClicked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -131,40 +230,26 @@ namespace MovieHunter.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var parameters = e.Parameter as MovieHunter.DataAccess.Models.Movie;
-
-
-            if (parameters != null)
+            try
             {
-                try
+                var parameters = e.Parameter as MovieHunter.DataAccess.Models.Movie;
+                if (parameters != null)
                 {
-                    //Setting the bindings to be equal to the parameters
-                    this.CoverTitle = parameters.Title;
-                    this.Category = parameters.GenreId.ToString();
-                    this.Director = parameters.DirectorId.ToString();
-                    this.Writer = parameters.WriterId.ToString();
-                    this.Stars = parameters.Star.ToString();
-                    this.Summary = parameters.Summary;
-                    this.CoverUri = parameters.CoverImage;
-                    //Converting the rating to a string to be displayed in the bound textblock
-                    this.Rating = parameters.Rating.ToString();
-
-                    //Defines the width of the yellow fill in the star image located above the icon
-                    //Since rating is from 0-10 i need to divide it by 2. This makes the rating go from 0-5.
-                    //There are 5 stars with the width of 68.
-                    //Rating times width fills the stars width colour so that it represents the real value.
-                    this.starRating.Width = (Convert.ToDouble(parameters.Rating) * 68) / 2; // Rating/2 * 68pixels each star)
+                    MovieContainer = parameters;
                 }
-                catch
+                else
                 {
-
+                    //NullEverything();
                 }
-                
-
-
-                
-            
             }
+            catch
+            {
+                //NullEverything();
+            }
+
+
+
+
         }
     }
 }

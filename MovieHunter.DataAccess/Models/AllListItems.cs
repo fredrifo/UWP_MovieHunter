@@ -9,6 +9,7 @@ namespace MovieHunter.DataAccess.Client.Models
         public int ListItemId { get; set; }
         public int ListId { get; set; }
         public int MovieId { get; set; }
+        public string MovieName { get; set; }
 
         public string ListMessage { get; set; }
     }

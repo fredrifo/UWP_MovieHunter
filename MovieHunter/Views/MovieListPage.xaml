@@ -53,7 +53,9 @@
                                         Margin="5,0,0,0"
                                         Background="LightSteelBlue"
                                         Content="Move to other list"/>
-                                    <TextBlock Padding="20,0,20,0" FontSize="25" Text="{Binding MovieId}"/>
+                                    <!-- Movie name -->
+                                    <TextBlock Padding="20,0,20,0" FontSize="25" Text="{Binding MovieName}"/>
+                                    <!-- Custom message displaying errors-->
                                     <TextBlock Padding="20,0,20,0" FontSize="25" Text="{Binding ListMessage}"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -69,52 +71,7 @@
 
                 </Grid>
 
-                <!-- Grid for Information box -->
-                <Grid Background="Transparent"
-                      Padding="20"
-                           Grid.Row="1">
-                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-                           Stretch="UniformToFill"
-                           Opacity="0.8"
-                       />
-
-                    <TextBlock TextWrapping="WrapWholeWords"
-                               FontSize="22"
-                               Padding="20"
-                               Text="Text here"
-                               />
-                </Grid>
-
-                <!-- Grid for buttons in the bottom of the page-->
-                <Grid Grid.Row="2"
-                      Padding="20,0,20,0">
-                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-                           Stretch="UniformToFill"
-                           Opacity="0.8"
-                       />
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Button
-                            Content="Other button"
-                            Grid.Column="0"
-                            VerticalAlignment="Stretch"
-                            FontSize="30"
-                            HorizontalAlignment="Stretch"/>
-
-                        <Button
-                            Content="Watch Trailer"
-                            Grid.Column="1"
-                            VerticalAlignment="Stretch"
-                            FontSize="30"
-                            HorizontalAlignment="Stretch"/>
-                    </Grid>
-
-
-                </Grid>
+                
 
             </Grid>
 

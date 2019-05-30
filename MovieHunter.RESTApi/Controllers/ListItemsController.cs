@@ -36,7 +36,8 @@ namespace MovieHunter.RESTApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var listItem = await _context.ListItem.FindAsync(id);
+            var listItem = _context.ListItem.Where(c => c.ListId == id);
+            //var listItem = await _context.ListItem.FindAsync(id);
 
             if (listItem == null)
             {
@@ -45,6 +46,25 @@ namespace MovieHunter.RESTApi.Controllers
 
             return Ok(listItem);
         }
+
+        //// GET: api/ListItems/5
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetListItem([FromRoute] int id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var listItem = await _context.ListItem.FindAsync(id);
+
+        //    if (listItem == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(listItem);
+        //}
 
         // PUT: api/ListItems/5
         [HttpPut("{id}")]
@@ -89,7 +109,16 @@ namespace MovieHunter.RESTApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            //Checking if the list exists. It exists only if the Movie ID exists in the the same List its being added to
+            var listIdenticals = _context.ListItem.Where(c => ((c.ListId == listItem.ListId)&& (c.MovieId == listItem.MovieId)));
+            
+            //If there are more than 0 identical listitems in the list
+            if (listIdenticals.Count() > 0)
+            {
+                //Cant be added as it is already in the list
+                //Return status code 201 (It was successfull because it is in the list)
+                return CreatedAtAction("GetListItem", new { id = listItem.ListItemId }, listItem);
+            }
             _context.ListItem.Add(listItem);
             await _context.SaveChangesAsync();
 
