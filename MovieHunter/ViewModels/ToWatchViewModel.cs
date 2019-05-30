@@ -39,7 +39,6 @@ namespace MovieHunter.ViewModels
             if (clickedItem != null)
             {
                 NavigationService.Frame.SetListDataItemForNextConnectedAnimation(clickedItem);
-                NavigationService.Navigate(typeof(ToWatchDetailViewModel).FullName, clickedItem.OrderId);
             }
         }
     }

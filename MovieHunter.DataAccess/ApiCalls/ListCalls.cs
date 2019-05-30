@@ -13,6 +13,11 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
 {
     public static class ListCalls
     {
+        /// <summary>Posting a token to the database. 
+        /// Then it returns the lists that are owned by the user. 
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <returns></returns>
         public static async Task<ObservableCollection<AllList>> getTokenOwnerLists(string token)
         {
             //Uses the LoginPage.Token to find the id; 
@@ -20,8 +25,9 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
 
             string jsonInput = JsonConvert.SerializeObject(token);
             ObservableCollection<AllList> returnList = new ObservableCollection<AllList>();
-            var client = new HttpClient();
-            
+
+            using (var client = new HttpClient())
+            {
                 string uri = "http://localhost:59713/api/Lists/userLists";
 
                 //Post request for getting all the listItems
@@ -31,40 +37,34 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
                 {
                     var json = await httpResponse.Content.ReadAsStringAsync();
                     JsonTextReader reader = new JsonTextReader(new StringReader(json));
+
+                    //Reading through the response
                     while (reader.Read())
                     {
                         if (reader.Value != null)
                         {
+                            //Console testing
                             Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
                         }
-                        if((reader.TokenType == JsonToken.StartObject))
+                        if ((reader.TokenType == JsonToken.StartObject))
                         {
-                            // Load each object from the stream and do something with it
+                            // Loading all objects from the stream 
                             JObject obj = JObject.Load(reader);
 
-
+                            //Adds an AllList object to the return list
                             returnList.Add(new AllList
                             {
                                 listName = (obj["listName"]).ToString(),
-                                listId = Convert.ToInt32( obj["listId"]),
-                                userId = Convert.ToInt32(obj["userId"]) 
+                                listId = Convert.ToInt32(obj["listId"]),
+                                userId = Convert.ToInt32(obj["userId"])
                             });
                         }
-                        
+
                     };
-                //returnList.Add(new JsonSerializer().Deserialize<AllList>(reader));
-
-
-
-                //dynamic dynJson = JsonConvert.DeserializeObject(json);
-                    //foreach (var item in dynJson)
-                    //{
-                    //    //Adding object to the list
-                    //    returnList.Add(new AllList() { userId = item.userId, listId = item.listId, listName = item.listName });
-                    //}
                 }
-                
-                return returnList;
+            }
+            //Returning the new list 
+            return returnList;
             
         }
     }

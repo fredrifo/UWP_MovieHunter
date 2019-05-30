@@ -19,7 +19,6 @@ namespace MovieHunter.ViewModels
             SimpleIoc.Default.Register(() => new NavigationServiceEx());
             SimpleIoc.Default.Register<ShellViewModel>();
             Register<MainViewModel, MainPage>();
-            Register<MediaPlayerViewModel, MediaPlayerPage>();
             Register<ToWatchViewModel, ToWatchPage>();
             Register<SettingsViewModel, SettingsPage>();
             Register<MovieViewModel, MoviePage>();
@@ -47,9 +46,6 @@ namespace MovieHunter.ViewModels
         public MovieViewModel MovieViewModel => SimpleIoc.Default.GetInstance<MovieViewModel>();
 
         public SettingsViewModel SettingsViewModel => SimpleIoc.Default.GetInstance<SettingsViewModel>();
-
-
-        public ToWatchedViewModel ToWatchedViewModel => SimpleIoc.Default.GetInstance<ToWatchedViewModel>();
 
 
         public ToWatchViewModel ToWatchViewModel => SimpleIoc.Default.GetInstance<ToWatchViewModel>();

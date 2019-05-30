@@ -20,6 +20,7 @@ namespace MovieHunter.Views
             set;
         }
 
+        /// <summary>Initializes a new instance of the <see cref="EditMoviePage"/> class.</summary>
         public EditMoviePage()
         {
             InitializeComponent();
@@ -28,6 +29,8 @@ namespace MovieHunter.Views
             Loaded += (sender, args) => FillContentAsync(this);
         }
 
+        /// <summary>Fills the content in the UI asynchronous.</summary>
+        /// <param name="editMoviePage">The edit movie page.</param>
         private void FillContentAsync(EditMoviePage editMoviePage)
         {
 
@@ -38,6 +41,12 @@ namespace MovieHunter.Views
 
         }
 
+        /// <summary>Handles the UpdateMovie event of the Btn control.
+        /// Creates the updated movie object
+        /// Updates the database by sending a putRequest
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.RoutedEventArgs"/> instance containing the event data.</param>
         private async void Btn_UpdateMovie(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Movie updateMovieObject = new Movie()
@@ -62,6 +71,15 @@ namespace MovieHunter.Views
 
         }
 
+        /// <summary>
+        /// Invoked when the Page is loaded and becomes the current source of a parent Frame.
+        /// When a frame navigations to this page with parameters.
+        /// The parameter is in this Case a Movie Object. This object is then saved in the MovieContainer object.
+        /// This makes it easy to handle the object data.
+        /// </summary>
+        /// <param name="e">
+        /// Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page.
+        /// </param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             try
@@ -69,11 +87,13 @@ namespace MovieHunter.Views
                 var parameters = e.Parameter as MovieHunter.DataAccess.Models.Movie;
                 if (parameters != null)
                 {
+                    //Adding to Movie MovieContainer object
                     MovieContainer = parameters;
                 }
             }
             catch
             {
+                //Could not add parameter to Movie Object
                 return;
             }
         }

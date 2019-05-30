@@ -21,6 +21,9 @@ namespace MovieHunter.Views
             get { return ViewModelLocator.Current.MovieListViewModel; }
         }
 
+        /// <summary>Initializes a new instance of the <see cref="MovieListPage"/> class.
+        /// Calling method that fills up the list
+        /// </summary>
         public MovieListPage()
         {
             InitializeComponent();
@@ -47,19 +50,23 @@ namespace MovieHunter.Views
         }
 
 
+        /// <summary>Gets the lists asynchronous.
+        /// Getting listItems for the chosen list
+        /// </summary>
         private async void getListsAsync()
         {
             //Adding object to the list
             //If database api request fails delete listview content.
             ListItems.Clear();
 
+
+            //Loading Output
             ListItems.Add(new AllListItems()
             {
                 ListMessage = "Loading listItems"
             });
 
-            //Small delay so that 
-            //await Task.Delay(50);
+            // If the listId is not set
             if (ListId == null)
             {
                 //The listId doesnt exist, and the user cant retrieve from database
@@ -68,9 +75,11 @@ namespace MovieHunter.Views
                 });
                 return;
             }
+
+            //Get Request to the server asking for listitems in specific list
             ObservableCollection<AllListItems> returnedCollection = await ListItemCalls.getListItems(Convert.ToInt32(ListId));
 
-            //If the list is empty
+            //There are no list items
             if(returnedCollection.Count == 0)
             {
                 //Add message
@@ -78,11 +87,14 @@ namespace MovieHunter.Views
                 ListItems.Add(new AllListItems() { ListMessage = "No listitems was retrieved." });
                 return;
             }
+
+            //Clear list
             ListItems.Clear();
 
             //Getting the movie list for finding Movie name
             ObservableCollection<Movie> allMovies = await MovieCalls.GetMovies();
 
+            //Looking through the list of items and adding it to the UI List
             foreach (AllListItems a in returnedCollection)
             {
                 ListItems.Add(
@@ -103,6 +115,12 @@ namespace MovieHunter.Views
         //On navigated override cant be defined here.. Look at MovieListPage.xaml.cs
 
 
+        /// <summary>Invoked when the Page is loaded and becomes the current source of a parent Frame.
+        /// Saves the parameter id that came as a parameter. 
+        /// </summary>
+        /// <param name="e">
+        /// Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.
+        /// </param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // passing the int as nullable.
@@ -120,7 +138,8 @@ namespace MovieHunter.Views
                 }
                 catch
                 {
-
+                    //The correct listId was not recieved
+                    return;
                 }
             }
         }

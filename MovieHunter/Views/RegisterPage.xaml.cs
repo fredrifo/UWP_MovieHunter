@@ -15,16 +15,26 @@ namespace MovieHunter.Views
             get { return ViewModelLocator.Current.RegisterViewModel; }
         }
 
+        /// <summary>Initializes a new instance of the <see cref="RegisterPage"/> class.</summary>
         public RegisterPage()
         {
             InitializeComponent();
         }
 
+        /// <summary>Handles the Click event of the Login control.
+        /// Navigates to Login Page</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.RoutedEventArgs"/> instance containing the event data.</param>
         private void Login_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Frame.Navigate(typeof(LoginPage));
         }
 
+        /// <summary>Handles the Click event of the Register control.
+        /// Reads User input at registers user with a post request
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.RoutedEventArgs"/> instance containing the event data.</param>
         private async void Register_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             //Turning on the loading indicator
@@ -87,7 +97,13 @@ namespace MovieHunter.Views
             return;
         }
 
-        //When the user clicks enter they will register
+        
+        /// <summary>Called when [key down handler]
+        ///
+        /// When the user clicks enter they will register
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.Input.KeyRoutedEventArgs"/> instance containing the event data.</param>
         private void OnKeyDownHandler(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)

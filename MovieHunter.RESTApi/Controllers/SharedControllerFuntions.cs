@@ -10,6 +10,12 @@ namespace MovieHunter.RESTApi.Controllers
     {
 
 
+        /// <summary>
+        /// Tokens verificator. Cheks the token against the database. If the token exists, return the userId.
+        /// This UserId is used by the api to decide if it the database rows belong to the user.
+        /// </summary>
+        /// <param name="token">The token.</param>
+        /// <returns>The user id as a Nullable int.</returns>
         public static Nullable<int> TokenVerificator(string token)
         {
             fredrifoContext _context = new fredrifoContext();
@@ -29,8 +35,6 @@ namespace MovieHunter.RESTApi.Controllers
             {
                 tokenOwner.UserId = u.UserId;
             }
-
-            
 
             //The token excists. 
             return tokenOwner.UserId;

@@ -22,16 +22,18 @@ namespace MovieHunter.Views
             get { return ViewModelLocator.Current.ToWatchViewModel; }
         }
 
+        /// <summary>Initializes a new instance of the <see cref="ToWatchPage"/> class.
+        /// </summary>
+        /// <code>Calls the method GetAllLists to</code>
         public ToWatchPage()
         {
             InitializeComponent();
-
-
 
             //Generate Lists for Categories
             GetAllLists();
         }
 
+        /// <summary>Creates collection for all of the genres in the current list</summary>
         public async void GetAllLists()
         {
             //Getting the user owned lists
@@ -156,7 +158,13 @@ namespace MovieHunter.Views
             }
         }
 
-        //programmatically clickevent for listview
+        //
+        /// <summary>Dynamic ListView creator.
+        /// programmatically adds a horizontal listview with clickevents
+        /// </summary>
+        /// <param name="genre">The genre as the title of the new list</param>
+        /// <param name="movieCollection">The movie collection containing all of the movie object</param>
+        /// <param name="stackPanel">The stack panel that the list should be appended to</param>
         private void DynamicListViewCreator(string genre, ObservableCollection<Movie> movieCollection, StackPanel stackPanel)
         {
             //listview programmatically
@@ -175,14 +183,12 @@ namespace MovieHunter.Views
 
 
             //ListView
-
             string[] test = { "test", "test2", "test3", "test4" };
             ListView listview = new ListView();
             listview.ItemsSource = movieCollection;
             //listview.SelectionChanged += listViewEvent;
             stackPanel.Children.Add(listview);
 
-            //Setting listView Properties
 
             //Making the listView horizontal
             listview.SetValue(ScrollViewer.HorizontalScrollModeProperty, ScrollMode.Enabled);
@@ -196,7 +202,7 @@ namespace MovieHunter.Views
             listview.ItemClick += openMovieAsync;
 
 
-            //Set dataTemplate
+            //Set dataTemplate from saved xaml string
             string sXAML = @"<DataTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
 
                         
@@ -260,14 +266,17 @@ namespace MovieHunter.Views
                                        Text = ""{Binding Summary}""
                                        Foreground=""Black""/>
 
-                    </Grid >
+                                        </Grid >
 
-</DataTemplate>";
+                    </DataTemplate>";
             var itemTemplate = Windows.UI.Xaml.Markup.XamlReader.Load(sXAML) as DataTemplate;
 
 
+            //The itemtemplate = the string 
             listview.ItemTemplate = itemTemplate;
 
+
+            //Creates an itemsPaneTemplate
             string xxaml = @"
 
                         <ItemsPanelTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
@@ -293,6 +302,9 @@ namespace MovieHunter.Views
             await dialog.ShowAsync();
         }
 
+        /// <summary>Opens the movie item that is clicked</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ItemClickEventArgs"/> instance containing the event data.</param>
         private async void openMovieAsync(object sender, ItemClickEventArgs e)
         {
             Movie tappeditem = e.ClickedItem as Movie;
@@ -303,38 +315,20 @@ namespace MovieHunter.Views
                 //saving a copy of the selected list object:
                 tappeditem = e.ClickedItem as Movie;
 
-
-
                 var parameters = tappeditem;
-                
 
-               
+                //Always true
                 if (parameters.Equals(tappeditem))
                 {
                     //Task delay to fix a bug that causes the OnNavigateTo function to not recieve
                     //Found the answer from a similar issue at https://stackoverflow.com/questions/23995504/listview-containerfromitem-returns-null-after-a-new-item-is-added-in-windows-8-1
                     //Another sollution is to use a viewmodel
                     await Task.Delay(50);
+
+                    //Navigating with parameters
                     Frame.Navigate(typeof(MoviePage), parameters);
                     return;
                 }
-                
-                
-
-
-
-                /** 
-                 *  DisplayAlert for the clicked item
-                 **/
-                //ContentDialog notification = new ContentDialog
-                //{
-                //    Title = tappeditem.CoverTitle,
-                //    Content = tappeditem.Summary,
-                //    CloseButtonText = "Ok"
-                //};
-                ////ContentDialogResult result = await notification.ShowAsync();
-                
-
             }
         }
     }

@@ -13,39 +13,48 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
 {
     public static class GenreCalls
     {
+        /// <summary>Posts a genre object.</summary>
+        /// <param name="genre">Genre Object</param>
+        /// <returns></returns>
         public static async Task<string> PostGenre(Genre genre)
         {
+            //Genre name is empty
             if (genre.GenreName.Length < 1)
             {
+                //Exiting method giving the user a response
                 return "Please specify a genre name.";
             }
 
-
-
-            //HttpPost
+            //Serializing object
             string jsonInput = JsonConvert.SerializeObject(genre);
 
-            var client = new HttpClient();
-            try
+            //Starting PostRequest
+            using (var client = new HttpClient())
             {
-                string uri = "http://localhost:59713/api/Genres/new";
-                var httpResponse = await client.PostAsync(uri, new StringContent(jsonInput, Encoding.UTF8, "application/json"));
-
-                if (httpResponse.Content != null)
+                try
                 {
-                    var json = await httpResponse.Content.ReadAsStringAsync();
-                    return json;
+                    string uri = "http://localhost:59713/api/Genres/new";
+
+                    using (var httpResponse = await client.PostAsync(uri, new StringContent(jsonInput, Encoding.UTF8, "application/json")))
+                    {
+                        if (httpResponse.Content != null)
+                        {
+                            var json = await httpResponse.Content.ReadAsStringAsync();
+                            return json;
+                        }
+                    } 
+                }
+                catch(Exception e)
+                {
+                    return "Failed to add genre to database :" + e;
                 }
             }
-            catch
-            {
-                return "Failed to add genre to database";
-            }
-            return "lal";
+            return "";
         }
 
 
-        //HTTPGet for retrieving a list of all the genres in the database
+        /// <summary>HTTPGet for retrieving a list of all the genres in the database</summary>
+        /// <returns>A collection of genres</returns>
         public static async Task<ObservableCollection<Genre>> GetGenres()
         {
 
@@ -58,8 +67,7 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
                     string uri = "http://localhost:59713/api/Genres/";
 
                     //Sends the post request
-                    using (
-                    var httpResponse = await client.GetAsync(uri))
+                    using (var httpResponse = await client.GetAsync(uri))
                     {
                         //If there is a response from the server
                         if (httpResponse.Content != null)
@@ -97,6 +105,7 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
 
                 catch
                 {
+                    //Returns empty list
                     return returnList;
                 }
                 //Returning the Genre List
@@ -104,10 +113,13 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
             }
         }
 
-                
 
 
-        //Uses a list of Genres to find the title using the genreId
+
+        /// <summary>Uses a list of Genres to find the title using the genreId</summary>
+        /// <param name="list">List of genres</param>
+        /// <param name="genreId">genreId used for comparing</param>
+        /// <returns></returns>
         public static string GetGenreNameFromList(ObservableCollection<Genre> list, int genreId)
         {
             //Looking at all movie object

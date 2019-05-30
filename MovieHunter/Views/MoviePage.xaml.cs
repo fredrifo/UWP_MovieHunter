@@ -32,6 +32,9 @@ namespace MovieHunter.Views
             get { return ViewModelLocator.Current.MovieViewModel; }
         }
 
+        /// <summary>Initializes a new instance of the <see cref="MoviePage"/> class.
+        /// Adds the default template values for the movie. then calls the fillContent method
+        /// </summary>
         public MoviePage()
         {
             InitializeComponent();
@@ -54,11 +57,6 @@ namespace MovieHunter.Views
                     Rating = 5
                 });
                 
-            
-            //If page opens with no movie params
-            
-
-            //NullEverything();
 
             //Loading the information sent from the onNavigateTo() parameters
             Loaded += (sender, args) => FillContentAsync(this);
@@ -70,14 +68,16 @@ namespace MovieHunter.Views
             set;
         }
 
+        /// <summary>Adds the infomation from the chosen Movie to the UI</summary>
+        /// <param name="thisT">The current page</param>
         public async void FillContentAsync(MoviePage thisT)
         {
+            //Getting a list of all Genres
             ObservableCollection<Genre> allGenres = await GenreCalls.GetGenres();
 
-            ////Getting a list of People
+            ////Getting a list of all People
             ObservableCollection<Person> allPeople = await PersonCalls.GetPeople();
-            //try
-            //{
+
             
             Genre genreName = new Genre() { GenreName = "Fetching" };
 
@@ -94,44 +94,44 @@ namespace MovieHunter.Views
 
             try
             {
+                //Adding the name of the genreId with an api call 
                 genre = GenreCalls.GetGenreNameFromList(allGenres, Convert.ToInt32(MovieContainer.GenreId));
             }
             catch
             {
-                //if "parameters.GenreId" == null the convertion ToInt32 fails
                 //Category will not be displayed with the name
                 genre = MovieContainer.GenreId.ToString();
             }
             try
             {
-                //finding the name of the director with help of the id from the parameter
+                //finding the name of the director with help of the id from the parameter (API CALL)
+                //if "parameters.directorid" == null the convertion to int32 fails
                 director = PersonCalls.GetPersonNameFromList(allPeople, Convert.ToInt32(MovieContainer.DirectorId));
             }
             catch
             {
-                //if "parameters.directorid" == null the convertion to int32 fails
                 //person will not be displayed with the name
                 director = MovieContainer.DirectorId.ToString();
             }
             try
             {
                 //finding the name of the writer with help of the id from the parameter
+                //if "parameters.writerid" == null the convertion to int32 fails
                 writer = PersonCalls.GetPersonNameFromList(allPeople, Convert.ToInt32(MovieContainer.WriterId));
             }
             catch
             {
-                //if "parameters.writerid" == null the convertion to int32 fails
                 //person will not be displayed with the name
                 writer = MovieContainer.WriterId.ToString();
             }
             try
             {
                 //finding the name of the actor star with help of the id from the parameter
+                //if "parameters.star" == null the convertion to int32 fails and is Catched
                 movieStar = PersonCalls.GetPersonNameFromList(allPeople, Convert.ToInt32(MovieContainer.Star));
             }
             catch
             {
-                //if "parameters.star" == null the convertion to int32 fails
                 //person will not be displayed with the name
                 movieStar = MovieContainer.Star.ToString();
             }
@@ -149,16 +149,10 @@ namespace MovieHunter.Views
             //since rating is up to 10 i need to divide it by 2. this makes the stars and rating equal.
             //the "starrating.width" fills the stars so that it represents the real value.
             double amountRatingStars = Convert.ToDouble((MovieContainer.Rating * 68) / 2); // rating/2 * 68pixels each star)
-                                                                           //}
-                                                                           //catch
-                                                                           //{
-                                                                           //    //setting all of the movie information text to could not fetch
-                                                                           //    nulleverything();
-
-            //}
 
             //Clearing the listitems
             ListItems.Clear();
+
             //Adding a listitem with values specified above
             ListItems.Add(
                 new Movie()
@@ -174,33 +168,22 @@ namespace MovieHunter.Views
                     Rating = rating, //Rating
                     RatingImageWidth = amountRatingStars,
                 });
-            //Setting the bindings to be equal to the parameters
-
-            //Getting the list of Genre
-
         }
-    //}
 
-    //private void NullEverything()
-    //{
-    //    string coverurl = "https://pdfimages.wondershare.com/forms-templates/medium/movie-poster-template-3.png";
 
-    //    //If page opens with no movie params
-    //    this.CoverTitle = "Title: Could not fetch";
-    //    this.Category = "Could not fetch";
-    //    this.Director = "Could not fetch";
-    //    this.Writer = "Could not fetch";
-    //    this.Stars = "Could not fetch";
-    //    this.Summary = "Summary: Could not fetch";
-    //    this.CoverUri = coverurl;
-    //}
-    private void CloseTrailerPopupClicked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        /// <summary>Closes the trailer popup.</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.RoutedEventArgs"/> instance containing the event data.</param>
+        private void CloseTrailerPopupClicked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             if (TrailerPopup.IsOpen) {
                 TrailerPopup.IsOpen = false;
             }
         }
 
+        /// <summary>Other button clicked. Displays the user token.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog notification = new ContentDialog
@@ -212,6 +195,9 @@ namespace MovieHunter.Views
             ContentDialogResult resulst = await notification.ShowAsync();
         }
 
+        /// <summary>Opens the trailer in a popup</summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.RoutedEventArgs"/> instance containing the event data.</param>
         private void OpenTrailerPopupClicked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             // open the Popup if it isn't open already 
@@ -228,6 +214,12 @@ namespace MovieHunter.Views
             webView2.NavigateToString(html);
         }
 
+        /// <summary>Invoked when the Page is loaded and becomes the current source of a parent Frame.
+        /// Saves the parametes as a Movie that can be retrieved in this class.
+        /// </summary>
+        /// <param name="e">
+        /// Event data that can be examined by overriding code. The event data is representative of the pending navigation that will load the current Page. Usually the most relevant property to examine is Parameter.
+        /// </param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             try
@@ -237,19 +229,12 @@ namespace MovieHunter.Views
                 {
                     MovieContainer = parameters;
                 }
-                else
-                {
-                    //NullEverything();
-                }
+
             }
             catch
             {
-                //NullEverything();
+                return;
             }
-
-
-
-
         }
     }
 }

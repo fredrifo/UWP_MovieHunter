@@ -42,27 +42,38 @@ namespace MovieHunter.Views
 
         }
 
+        /// <summary>Initializes a new instance of the <see cref="LoginPage"/> class.</summary>
         public LoginPage()
         {
             InitializeComponent();
         }
 
+        /// <summary>Creates a hashed password using Username and password</summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns> Returns a string with the new hasehed password </returns>
         public static string UserHasher(string username, string password)
         {
 
-            //put the string in a buffer, UTF-8 encoded
+            // putting the string in a buffer UTF-8 encoded
             IBuffer preHashed = CryptographicBuffer.ConvertStringToBinary(password + username,
                 BinaryStringEncoding.Utf8);
 
-            // hash it...
+            // hash it using Sha246
             var hasher = HashAlgorithmProvider.OpenAlgorithm("SHA256");
             IBuffer hashed = hasher.HashData(preHashed);
 
-            // format it...
+            // formatting it
             return CryptographicBuffer.EncodeToBase64String(hashed);
         }
 
 
+        /// <summary>
+        /// This static isLogged is being used to check if the user is logged in
+        /// Can call LoginPage.isLoggedIn to verify
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is logged in; otherwise, <c>false</c>.</value>
         public static bool isLoggedIn
         {
             get;
@@ -77,19 +88,31 @@ namespace MovieHunter.Views
             public string Result { get; set; }
         }
 
+        /// <summary>
+        /// Handles the Click event of the Login control.
+        /// Reads input username and password. Creating hashvalue for password for added security.
+        /// Creates a token that for the clients session (the api can decrypt this to find userId when deciding which table rows to return
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.RoutedEventArgs"/> instance containing the event data.</param>
         private async void Login_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            //Frame.Navigate(typeof(ShellPage));
+            //Getting user input
             string username = inp_Username.Text;
             string password = inp_Password.Password;
+
+            //Creates the hased password
             string password_Hashed = UserHasher(username, password);
 
+            //Creating user Object with username and salted password
             User loginInformation = new User()
             {
                 UserName = username,
                 Password = password_Hashed,
             };
 
+
+            //Post request to the api that checks if the User object is matching 
             string loginInformation_Json = JsonConvert.SerializeObject(loginInformation);
 
             //Starting the loading indicator
@@ -114,9 +137,6 @@ namespace MovieHunter.Views
                         //Open the shellpage with menu
                        // navigationFrame.Navigate(typeof(MainPage));
                         Frame.Navigate(typeof(ShellPage));
-
-                        
-
                     }
                     else
                     {
@@ -126,8 +146,11 @@ namespace MovieHunter.Views
             }
             catch
             {
-                //Write error as feedback
+                //Stops the loading indicator
+                loadingIndicator.IsActive = false;
             }
+
+            //This will happen about the same time the Frame is navigater
             finally
             {
                 //Finally makes sure that the loadingindicator will end when the db connection is over
@@ -136,12 +159,23 @@ namespace MovieHunter.Views
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the Register control.
+        /// Navigates user to Registration page</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.RoutedEventArgs"/> instance containing the event data.</param>
         private void Register_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Frame.Navigate(typeof(RegisterPage));
         }
 
-        //When the user clicks enter they will login
+        
+        /// <summary>
+        /// Called when [key down] is clicked.
+        /// When the user clicks enter they will login.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.Input.KeyRoutedEventArgs"/> instance containing the event data.</param>
         private void OnKeyDownHandler(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)

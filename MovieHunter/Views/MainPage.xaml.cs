@@ -24,6 +24,10 @@ namespace MovieHunter.Views
             get { return ViewModelLocator.Current.MainViewModel; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainPage"/> class.
+        /// Adding loading message and intiates list loading of all movies
+        /// </summary>
         public MainPage()
         {
             InitializeComponent();
@@ -43,6 +47,11 @@ namespace MovieHunter.Views
             get { return this._tableItems; }
         }
 
+        /// <summary>
+        /// Gets movie lists asynchronously from database.
+        /// Can send in extenstions for the get list so that it returns a list matching a user search.
+        /// </summary>
+        /// <param name="getExtention">The get extention. if empty it will return the complete movie list</param>
         private async void getListsAsync(string getExtention)
         {
             //The users current login token
@@ -61,8 +70,6 @@ namespace MovieHunter.Views
                 if (httpResponse.Content != null)
                 {
                     var json = await httpResponse.Content.ReadAsStringAsync();
-
-                    //await new MessageDialog(json, "Title of the message dialog").ShowAsync(); //Display message
 
                     //Deleting content in Listview
                     TableItems.Clear();
@@ -84,7 +91,7 @@ namespace MovieHunter.Views
                             Star = item.star,
                             Genre = item.genre
                         };
-
+                        //Adding movie object to the list that is connected to the table.
                         TableItems.Add(movieObject);
                         //await new MessageDialog(movieObject.ToString(), "Title of the message dialog").ShowAsync(); //Display message
                     }
@@ -92,12 +99,20 @@ namespace MovieHunter.Views
             }
             catch
             {
+                //If the loading failed.
+                //Clear list and display "Loading failed"
                 TableItems.Clear();
                 TableItems.Add(new Movie() { Title = "Loading failed.." });
             }
         }
 
 
+        /// <summary>
+        /// Handles the SearchChanged event of the TextBox control.
+        /// calls getListAsync with the search parameter
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
         private void TextBox_SearchChanged(object sender, TextChangedEventArgs e)
         {
             //Reads search input
@@ -117,12 +132,19 @@ namespace MovieHunter.Views
             }
         }
 
-        private async void BtnAddToDo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BtnAddToDo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             
 
         }
 
+        /// <summary>
+        /// When a movie item is tapped.
+        /// Gives the user an option to open the clicked movie, or continouse selecting
+        /// This is extremely annoying, but i'm leaving it in here as I was using delegate (part of the curiculum) 
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="ItemClickEventArgs"/> instance containing the event data.</param>
         private async void GridViewItemTapped(object sender, ItemClickEventArgs e)
         {
             //Delay the task so that the selected item will have time to get registered.
@@ -179,7 +201,7 @@ namespace MovieHunter.Views
                 }));
 
                 ////Commenting out the popup since it was annoying to see every time i selected 1 item
-                //await userMessage.ShowAsync();
+                await userMessage.ShowAsync();
             }
 
             //If more than one movie is selected do not ask 
@@ -189,9 +211,18 @@ namespace MovieHunter.Views
             }            
         }
 
+        /// <summary>
+        /// Handles the SelectionChanged event of the Combobox_Options control.
+        /// Logic for all of the the different selection options
+        /// Sorry to the person reading this. I should definitely have called methods instead of writing so much code.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="SelectionChangedEventArgs"/> instance containing the event data.</param>
         private async void Combobox_Options_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Amount of selected items
             int selectedAmount = gridViewMovies.SelectedItems.Count;
+
             // Get the ComboBox instance
             ComboBox comboBox = sender as ComboBox;
 
@@ -260,11 +291,7 @@ namespace MovieHunter.Views
                 //Creating parameter for tapped movie object
                 var parameters = selectedMovie;
 
-
-                //Task delay to ensure that the parameters are loaded correctly
                 
-
-
                 //Navigate to new page, while also sending the Movie object parameters. T
                 //he parameters are handled in the override OnNavigatedTo method in MoviePage
                 Frame.Navigate(typeof(MoviePage), parameters);
@@ -448,8 +475,14 @@ namespace MovieHunter.Views
 
         }
 
-        
 
+
+        /// <summary>
+        /// Deletes the movie asynchronous from the database usind DeleteAsync
+        /// 
+        /// </summary>
+        /// <param name="movieId">The movie identifier.</param>
+        /// <returns></returns>
         private async Task<bool> deleteMovieAsync(int movieId)
         {
             //If movie Id is not valid

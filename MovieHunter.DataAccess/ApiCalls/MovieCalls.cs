@@ -13,133 +13,138 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
 {
     public static class MovieCalls
     {
-        //Method for Posting a new Movie object to the db
+
+        /// <summary>Method for Posting a new Movie object to the db.</summary>
+        /// <param name="movie">The movie object</param>
+        /// <returns>Returning a message string</returns>
         public static async Task<string> PostMovieAsync(Movie movie)
         {
             //Serializing movie object
             string input = JsonConvert.SerializeObject(movie);
             string output = "";
-            var client = new HttpClient();
 
-            try
+            //Post request
+            using (var client = new HttpClient())
             {
-                string uri = "http://localhost:59713/api/Movies/";
-
-                //Sends the post request
-                var httpResponse = await client.PostAsync(uri, new StringContent(input, Encoding.UTF8, "application/json"));
-
-                //If there is a response from the server
-                if (httpResponse.Content != null)
+                try
                 {
-                    var json = await httpResponse.Content.ReadAsStringAsync();
+                    string uri = "http://localhost:59713/api/Movies/";
+
+                    //Sends the post request
+                    var httpResponse = await client.PostAsync(uri, new StringContent(input, Encoding.UTF8, "application/json"));
                 }
-
-                else
+                catch
                 {
-                    output += "The api did not send a response\r\n";
+                    output += "Failed to add Movie to database\r\n";
                     return output;
                 }
+                output = "Successfully uploaded";
             }
-
-            catch
-            {
-                output += "Failed to add Movie to database\r\n";
-                return output;
-            }
-            output = "Successfully uploaded";
+            //returning the output string
             return output;
         }
+        
 
-        //HTTPGet for retrieving a list of all the movies in the database
+        /// <summary>Gets the complete list of movies from the api.</summary>
+        /// <returns></returns>
         public static async Task<ObservableCollection<Movie>> GetMovies()
         {
-
+            //Creates a list
             ObservableCollection<Movie> returnList = new ObservableCollection<Movie>();
 
-            var client = new HttpClient();
-
-            try
+            using (var client = new HttpClient())
             {
-                string uri = "http://localhost:59713/api/Movies/";
-
-                //Sends the post request
-                var httpResponse = await client.GetAsync(uri);
-
-                //If there is a response from the server
-                if (httpResponse.Content != null)
+                try
                 {
-                    var json = await httpResponse.Content.ReadAsStringAsync();
+                    string uri = "http://localhost:59713/api/Movies/";
 
-                    //Reading the response so that it will only return the string Name
-                    JsonTextReader reader = new JsonTextReader(new StringReader(json));
-
-                    while (reader.Read())
+                    //Sends the post request
+                    using (var httpResponse = await client.GetAsync(uri))
                     {
-                        if ((reader.TokenType == JsonToken.StartObject))
+                        //If there is a response from the server
+                        if (httpResponse.Content != null)
                         {
-                            // Load object from the stream and do something with it
-                            JObject obj = JObject.Load(reader);
+                            var json = await httpResponse.Content.ReadAsStringAsync();
 
-                            //returning the title string to the user
-                            returnList.Add(new Movie
+                            //Reading the response so that it will only return the string Name
+                            JsonTextReader reader = new JsonTextReader(new StringReader(json));
+
+                            while (reader.Read())
                             {
-                                MovieId = Convert.ToInt32(obj["movieId"]),
-                                Title = Convert.ToString(obj["title"]),
-                                CoverImage = Convert.ToString(obj["coverImage"]),
-                                Summary = Convert.ToString(obj["summary"]),
-                                Rating = Convert.ToByte(obj["rating"]),
-                                GenreId = Convert.ToInt32(obj["genreId"]),
-                                DirectorId = Convert.ToInt32(obj["directorId"]),
-                                WriterId = Convert.ToInt32(obj["writerId"]),
-                                Star = Convert.ToInt32(obj["star"])
+                                if ((reader.TokenType == JsonToken.StartObject))
+                                {
+                                    // Load object from the stream and do something with it
+                                    JObject obj = JObject.Load(reader);
 
-                            });
+                                    //returning the title string to the user
+                                    returnList.Add(new Movie
+                                    {
+                                        MovieId = Convert.ToInt32(obj["movieId"]),
+                                        Title = Convert.ToString(obj["title"]),
+                                        CoverImage = Convert.ToString(obj["coverImage"]),
+                                        Summary = Convert.ToString(obj["summary"]),
+                                        Rating = Convert.ToByte(obj["rating"]),
+                                        GenreId = Convert.ToInt32(obj["genreId"]),
+                                        DirectorId = Convert.ToInt32(obj["directorId"]),
+                                        WriterId = Convert.ToInt32(obj["writerId"]),
+                                        Star = Convert.ToInt32(obj["star"])
+
+                                    });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return returnList;
                         }
                     }
                 }
-                else
+                catch
                 {
                     return returnList;
                 }
             }
-
-            catch
-            {
-                return returnList;
-            }
             //Returning the movie name
             return returnList;
-
-
         }
 
 
-        //HttpPut for Updating/Overwriting a movie in the database
+        /// <summary>HttpPut for Updating/Overwriting a movie in the database</summary>
+        /// <param name="movieObject">The movie object that is replacing.</param>
+        /// <param name="movieId">The id to the movie that is replaced.</param>
+        /// <returns></returns>
         public static async Task PutMovie(Movie movieObject, int movieId)
         {
-
             ObservableCollection<Movie> returnList = new ObservableCollection<Movie>();
 
-            var client = new HttpClient();
-            string input = JsonConvert.SerializeObject(movieObject);
-            try
+            using (var client = new HttpClient())
             {
-                //Address for HttpPut
-                string uri = "http://localhost:59713/api/Movies/"+ movieId;
+                string input = JsonConvert.SerializeObject(movieObject);
+                try
+                {
+                    //Address for HttpPut
+                    string uri = "http://localhost:59713/api/Movies/" + movieId;
 
-                //Sends the put request
-                var httpResponse = await client.PutAsync(uri, new StringContent(input, Encoding.UTF8, "application/json"));
-            }
+                    //Sends the put request
+                    var httpResponse = await client.PutAsync(uri, new StringContent(input, Encoding.UTF8, "application/json"));
+                }
 
-            catch
-            {
-                return;
+                catch
+                {
+                    return;
+                }
             }
             return;
         }
 
 
-        //Uses a list of Movies to find the title using the movieId
+
+        /// <summary>Uses a list of Movies to find the title using the movieId.
+        /// This can be helpfull if the movieId is in a ListItem object that doesnt contain the title.
+        /// </summary>
+        /// <param name="list">  Movie list that will be compared.</param>
+        /// <param name="movieId"> movieId that is compared with the list</param>
+        /// <returns>The title of the movie</returns>
         public static string GetMovieNameFromList(ObservableCollection<Movie> list, int movieId)
         {
             //Looking at all movie object
@@ -154,7 +159,6 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
             }
             //Could not find that movieId in the list
             return "Could not find name in list";
-
         }
     }
 }

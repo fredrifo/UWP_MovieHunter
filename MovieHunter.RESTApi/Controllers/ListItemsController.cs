@@ -21,6 +21,8 @@ namespace MovieHunter.RESTApi.Controllers
         }
 
         // GET: api/ListItems
+        /// <summary>Gets all listItems</summary>
+        /// <returns>The list of all listitems</returns>
         [HttpGet]
         public IEnumerable<ListItem> GetListItem()
         {
@@ -28,6 +30,9 @@ namespace MovieHunter.RESTApi.Controllers
         }
 
         // GET: api/ListItems/5
+        /// <summary>Gets the list item that has the id specified in the parameter.</summary>
+        /// <param name="id">  list item id</param>
+        /// <returns>returns the list item object</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetListItem([FromRoute] int id)
         {
@@ -44,48 +49,41 @@ namespace MovieHunter.RESTApi.Controllers
                 return NotFound();
             }
 
+            //returning the list item object
             return Ok(listItem);
         }
 
-        //// GET: api/ListItems/5
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetListItem([FromRoute] int id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var listItem = await _context.ListItem.FindAsync(id);
-
-        //    if (listItem == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(listItem);
-        //}
 
         // PUT: api/ListItems/5
+        /// <summary>  Replacing a listitem with a new object</summary>
+        /// <param name="id">  The id of the object that will be replaced</param>
+        /// <param name="listItem">  The object that will replace the list</param>
+        /// <returns>Returns the result</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutListItem([FromRoute] int id, [FromBody] ListItem listItem)
         {
+            //checking the state of the model
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            //If the id of the list item that is gonna be replaced isnt the same as the object, return a status code 400 
             if (id != listItem.ListItemId)
             {
                 return BadRequest();
             }
 
+            //Sets the state to modified
             _context.Entry(listItem).State = EntityState.Modified;
 
+            //Tries to save changes
             try
             {
                 await _context.SaveChangesAsync();
             }
+
+            // checking an unexpected number of rows has been modified
             catch (DbUpdateConcurrencyException)
             {
                 if (!ListItemExists(id))
@@ -102,6 +100,9 @@ namespace MovieHunter.RESTApi.Controllers
         }
 
         // POST: api/ListItems
+        /// <summary> Posting a new ListItem. If it aready exists in the list do nothing.</summary>
+        /// <param name="listItem">The list item.</param>
+        /// <returns>Status of the post</returns>
         [HttpPost]
         public async Task<IActionResult> PostListItem([FromBody] ListItem listItem)
         {
@@ -126,6 +127,9 @@ namespace MovieHunter.RESTApi.Controllers
         }
 
         // DELETE: api/ListItems/5
+        /// <summary>Deletes a list item by looking at the id in the url</summary>
+        /// <param name="id">  The listItemId of the ListItem that will be deleted</param>
+        /// <returns>Status and item deleted</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteListItem([FromRoute] int id)
         {
@@ -134,18 +138,26 @@ namespace MovieHunter.RESTApi.Controllers
                 return BadRequest(ModelState);
             }
 
+            // checking if the ListItem exists
             var listItem = await _context.ListItem.FindAsync(id);
             if (listItem == null)
             {
+                // No listItem exists
                 return NotFound();
             }
 
+            //Removing item
             _context.ListItem.Remove(listItem);
+
+            //saving changes
             await _context.SaveChangesAsync();
 
             return Ok(listItem);
         }
 
+        /// <summary>  Checks if there exists a list item with matching id.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Bool for if it exists</returns>
         private bool ListItemExists(int id)
         {
             return _context.ListItem.Any(e => e.ListItemId == id);

@@ -15,89 +15,100 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
     public static class ListItemCalls
     {
 
+        /// <summary>Posting a list item to the database.</summary>
+        /// <param name="listItem">The list item object.</param>
+        /// <returns></returns>
         public static async Task<string> postListItem(ListItem listItem)
         {
             //Serializing movie object
             string input = JsonConvert.SerializeObject(listItem);
             string output = "";
-            var client = new HttpClient();
 
-            try
+            //Posting a new item to a list
+            using (var client = new HttpClient())
             {
-                string uri = "http://localhost:59713/api/ListItems/";
-
-                //Sends the post request
-                var httpResponse = await client.PostAsync(uri, new StringContent(input, Encoding.UTF8, "application/json"));
-
-                //If there is a response from the server
-                if (httpResponse.Content != null)
+                try
                 {
-                    var json = await httpResponse.Content.ReadAsStringAsync();
+                    string uri = "http://localhost:59713/api/ListItems/";
+
+                    //Sends the post request
+                    using (var httpResponse = await client.PostAsync(uri, new StringContent(input, Encoding.UTF8, "application/json")))
+                    {
+                        //If there is a response from the server
+                        if (httpResponse.Content != null)
+                        {
+                            var json = await httpResponse.Content.ReadAsStringAsync();
+                        }
+
+                        //If there was no response message
+                        else
+                        {
+                            output += "The api did not send a response\r\n";
+                            return output;
+                        }
+                    }                    
                 }
-
-                //
-                else
+                catch
                 {
-                    output += "The api did not send a response\r\n";
+                    output += "Failed to add Movie to database\r\n";
                     return output;
                 }
             }
-
-            catch
-            {
-                output += "Failed to add Movie to database\r\n";
-                return output;
-            }
+            //Returns a string to the user client
             output = "Successfully uploaded";
             return output;
         }
 
 
 
+        /// <summary>Gets all the list items from a list with a getRequest.</summary>
+        /// <param name="ListId">The id of the list.</param>
+        /// <returns> A list of all list items</returns>
         public static async Task<ObservableCollection<AllListItems>> getListItems(int ListId)
         {
-            //Uses the LoginPage.Token to find the id; 
             //the ListId is used to find the client owners lists
             
             //Creates the List that will store list returned by the api
             ObservableCollection<AllListItems> returnList = new ObservableCollection<AllListItems>();
-            var client = new HttpClient();
 
             //Adding the ListId to the get request
-            string uri = "http://localhost:59713/api/ListItems/" + ListId;
-
-            //Get request for getting all the listItems
-            var httpResponse = await client.GetAsync(uri);
-
-            if (httpResponse.Content != null)
+            using (var client = new HttpClient())
             {
-                var json = await httpResponse.Content.ReadAsStringAsync();
-                JsonTextReader reader = new JsonTextReader(new StringReader(json));
-                while (reader.Read())
+                string uri = "http://localhost:59713/api/ListItems/" + ListId;
+
+                //Get request for getting all the listItems
+                using (var httpResponse = await client.GetAsync(uri))
                 {
-                    if (reader.Value != null)
+                    if (httpResponse.Content != null)
                     {
-                        Console.WriteLine("Token: {0}, Value: {1}", reader.TokenType, reader.Value);
-                    }
-                    if ((reader.TokenType == JsonToken.StartObject))
-                    {
-                        // Load each object from the stream and do something with it
-                        JObject obj = JObject.Load(reader);
-
-
-                        returnList.Add(new AllListItems
+                        var json = await httpResponse.Content.ReadAsStringAsync();
+                        JsonTextReader reader = new JsonTextReader(new StringReader(json));
+                        while (reader.Read())
                         {
-                            ListItemId = Convert.ToInt32(obj["listItemId"]),
-                            ListId = Convert.ToInt32(obj["listId"]),
-                            MovieId = Convert.ToInt32(obj["movieId"])
-                        });
-                    }
+                            if (reader.Value != null)
+                            {
+                                //Console testing
+                                Console.WriteLine("Value: {0}", reader.Value);
+                            }
+                            if ((reader.TokenType == JsonToken.StartObject))
+                            {
+                                // Load each object from the stream and do something with it
+                                JObject obj = JObject.Load(reader);
 
+                                //adding an allListItems object to the return list
+                                returnList.Add(new AllListItems
+                                {
+                                    ListItemId = Convert.ToInt32(obj["listItemId"]),
+                                    ListId = Convert.ToInt32(obj["listId"]),
+                                    MovieId = Convert.ToInt32(obj["movieId"])
+                                });
+                            }
+                        }
+                    }
                 }
             }
-
+            //returning the list
             return returnList;
-
         }
 
     }

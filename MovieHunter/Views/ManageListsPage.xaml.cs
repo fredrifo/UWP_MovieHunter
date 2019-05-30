@@ -38,6 +38,7 @@ namespace MovieHunter.Views
         }
 
 
+        /// <summary>Initializes a new instance of the <see cref="ManageListsPage"/> class.</summary>
         public ManageListsPage()
         {
             InitializeComponent();
@@ -45,14 +46,16 @@ namespace MovieHunter.Views
             //Default listitem
             ListItems.Add(new AllList() { listName = "Loading"});
 
+            //Loading user owned lists
             getListsAsync();
 
 
         }
 
-        
 
 
+
+        /// <summary>Gets the lists asynchronous. Creates listitems from user owned lists in the database</summary>
         private async void getListsAsync()
         {
             //The users current login token
@@ -78,24 +81,22 @@ namespace MovieHunter.Views
             
         }
 
+        /// <summary>
+        /// Handles the ListView event of the SelectedItem control.
+        /// Navigates to the movie that was clicked on.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ItemClickEventArgs"/> instance containing the event data.</param>
         private async void SelectedItem_ListView(object sender, ItemClickEventArgs e)
         {
+            //Getting the clicked item
             AllList clickedItem = e.ClickedItem as AllList;
-
-            //await new MessageDialog(clickedItem.listId.ToString(), "Title of the message dialog").ShowAsync(); //Display message
-
-
-
 
             try
             {
                 var param = clickedItem.listId as int?;
-                //Task delay to fix a bug that causes the OnNavigateTo function to not recieve
-                //Found the answer from a similar issue at https://stackoverflow.com/questions/23995504/listview-containerfromitem-returns-null-after-a-new-item-is-added-in-windows-8-1
-                //Another sollution is to use a viewmodel
-                
 
-                
+                //Navigate to the selected list
                 Frame.Navigate(typeof(MovieListPage), param);
 
 
