@@ -1,4 +1,4 @@
 # UWP_MovieHunter
 
-- DOCUMENTATION
-https://github.com/fredrifo/PDF_Documentation/blob/master/MovieHunter_Description.pdf
+- Documentation with pictures:
+https://github.com/fredrifo/PDF_Documentation/blob/master/MovieHunter/Documentation/MovieHunter_Description.pdf
