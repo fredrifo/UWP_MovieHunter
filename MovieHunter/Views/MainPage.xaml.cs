@@ -35,7 +35,7 @@ namespace MovieHunter.Views
             TableItems.Add(new Movie() { Title = "Loading.." });
 
             //Sends an empty string so that it will load all movies
-            getListsAsync("");
+            GetListsAsync("");
         }
 
         
@@ -52,7 +52,7 @@ namespace MovieHunter.Views
         /// Can send in extenstions for the get list so that it returns a list matching a user search.
         /// </summary>
         /// <param name="getExtention">The get extention. if empty it will return the complete movie list</param>
-        private async void getListsAsync(string getExtention)
+        private async void GetListsAsync(string getExtention)
         {
             //The users current login token
             string token = LoginPage.token;
@@ -122,13 +122,13 @@ namespace MovieHunter.Views
             if(search.Length > 0)
             {
                 //Sends a string so that it will send getrequest with search parameter
-                getListsAsync("/" + search + "? searchParameter="+search);
+                GetListsAsync("/" + search + "? searchParameter="+search);
             }
 
             else
             {
                 //Empty extension. It will get all movies
-                getListsAsync("");
+                GetListsAsync("");
             }
         }
 
@@ -177,7 +177,7 @@ namespace MovieHunter.Views
                 //Using delegate command for yes and no buttons
                 userMessage.Commands.Add(new UICommand("Yes!", async delegate (IUICommand command)
                  {
-                     await new MessageDialog("Writer: " + clickedObject.WriterId, "|Open move").ShowAsync();
+                     //await new MessageDialog("Writer: " + clickedObject.WriterId, "|Open move").ShowAsync();
                      //Open the MoviePage
 
                      //Creating parameter for tapped movie object
@@ -201,7 +201,7 @@ namespace MovieHunter.Views
                 }));
 
                 ////Commenting out the popup since it was annoying to see every time i selected 1 item
-                await userMessage.ShowAsync();
+                //await userMessage.ShowAsync();
             }
 
             //If more than one movie is selected do not ask 
@@ -238,6 +238,9 @@ namespace MovieHunter.Views
                 //This occurs if the combobox is reset. Since the selection is changed into an invalid value the method must be stopped
                 selectedName = nullReffEx.ToString();
 
+                //Resets the combobox
+                comboBox_Options.SelectedIndex = -1;
+
                 //Exiting method.
                 return;
             }
@@ -249,6 +252,9 @@ namespace MovieHunter.Views
                     "No items are selected",
                     //Failed to (Open/Edit/Delete/Add to ToWatch list/Add to Watched list)
                     "Failed to " + selectedName).ShowAsync(); //Display message
+
+                //Resets the combobox
+                comboBox_Options.SelectedIndex = -1;
                 return;
             }
 
@@ -383,7 +389,7 @@ namespace MovieHunter.Views
                     {
                         //Removing objects from TableItems ObservableCollection. (Bound to gridViewModels)
                         TableItems.Remove(remove);
-                        await deleteMovieAsync(remove.MovieId);
+                        await DeleteMovieAsync(remove.MovieId);
                     }
                 }));
 
@@ -413,7 +419,7 @@ namespace MovieHunter.Views
             {
 
                 //Getting all user owned lists with a httpRequest
-                ObservableCollection<AllList> userLists = await ListCalls.getTokenOwnerLists(LoginPage.token);
+                ObservableCollection<AllList> userLists = await ListCalls.GetTokenOwnerLists(LoginPage.token);
 
                 //Id of the chosen userlist
                 Nullable<int> chosenUserList = null;
@@ -424,9 +430,9 @@ namespace MovieHunter.Views
                     if (selectedName == "Add to ToWatch list")
                     {
                         //Checking for the for ToWatch list
-                        if (ali.listName == "ToWatch")
+                        if (ali.ListName == "ToWatch")
                         {
-                            chosenUserList = ali.listId;
+                            chosenUserList = ali.ListId;
                             await new MessageDialog("", chosenUserList.ToString()).ShowAsync();
                         }
                     }
@@ -434,9 +440,9 @@ namespace MovieHunter.Views
                     if (selectedName == "Add to Watched list")
                     {
                         //Checking for the id for Watched list
-                        if (ali.listName == "Watched")
+                        if (ali.ListName == "Watched")
                         {
-                            chosenUserList = ali.listId;
+                            chosenUserList = ali.ListId;
                             await new MessageDialog("", chosenUserList.ToString()).ShowAsync();
                         }
                     }
@@ -445,6 +451,8 @@ namespace MovieHunter.Views
                 //Checking if userlist was defined
                 if(chosenUserList == null)
                 {
+                    //Resets the combobox
+                    comboBox_Options.SelectedIndex = -1;
                     //returning if not defined
                     return;
                 }
@@ -462,7 +470,7 @@ namespace MovieHunter.Views
 
                     };
                     //api/ListItems
-                    string feedback = await ListItemCalls.postListItem(newListItem);
+                    string feedback = await ListItemCalls.PostListItem(newListItem);
 
                     //
                     //await new MessageDialog(feedback, "Added to list?").ShowAsync();
@@ -483,13 +491,16 @@ namespace MovieHunter.Views
         /// </summary>
         /// <param name="movieId">The movie identifier.</param>
         /// <returns></returns>
-        private async Task<bool> deleteMovieAsync(int movieId)
+        private async Task<bool> DeleteMovieAsync(int movieId)
         {
             //If movie Id is not valid
             if(movieId == 0)
             {
                 //Display message
                 await new MessageDialog("", "movieId was not valid").ShowAsync();
+
+                //Resets the combobox
+                comboBox_Options.SelectedIndex = -1;
 
                 //Deleting failed
                 return false;
@@ -512,6 +523,9 @@ namespace MovieHunter.Views
                 //Deleting failed
                 return false;
             }
+
+            //Resets the combobox
+            comboBox_Options.SelectedIndex = -1;
             //Deleted successfully
 
             return true;

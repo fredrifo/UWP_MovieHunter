@@ -13,9 +13,9 @@ namespace MovieHunter.RESTApi.Controllers
     [ApiController]
     public class ListItemsController : ControllerBase
     {
-        private readonly fredrifoContext _context;
+        private readonly FredrifoContext _context;
 
-        public ListItemsController(fredrifoContext context)
+        public ListItemsController(FredrifoContext context)
         {
             _context = context;
         }
@@ -34,7 +34,7 @@ namespace MovieHunter.RESTApi.Controllers
         /// <param name="id">  list item id</param>
         /// <returns>returns the list item object</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetListItem([FromRoute] int id)
+        public IActionResult GetListItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {

@@ -224,7 +224,7 @@ namespace MovieHunter.Views
         {
             try
             {
-                var parameters = e.Parameter as MovieHunter.DataAccess.Models.Movie;
+                var parameters = (e.Parameter as MovieHunter.DataAccess.Models.Movie);
                 if (parameters != null)
                 {
                     MovieContainer = parameters;

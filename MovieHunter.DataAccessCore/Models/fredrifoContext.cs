@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MovieHunter.DataAccessCore.Models
 {
-    public partial class fredrifoContext : DbContext
+    public partial class FredrifoContext : DbContext
     {
-        public fredrifoContext()
+        public FredrifoContext()
         {
         }
 
-        public fredrifoContext(DbContextOptions<fredrifoContext> options)
+        public FredrifoContext(DbContextOptions<FredrifoContext> options)
             : base(options)
         {
         }

@@ -18,7 +18,7 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
         /// <returns>
         ///   <para>A response message in the type string</para>
         /// </returns>
-        public static async Task<string> postPerson(Person newPerson)
+        public static async Task<string> PostPerson(Person newPerson)
         {
             //HttpPost
             string jsonInput = JsonConvert.SerializeObject(newPerson);

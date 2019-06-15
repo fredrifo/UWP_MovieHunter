@@ -84,7 +84,7 @@ namespace MovieHunter.Views
         {
             try
             {
-                var parameters = e.Parameter as MovieHunter.DataAccess.Models.Movie;
+                var parameters = (e.Parameter as Movie);
                 if (parameters != null)
                 {
                     //Adding to Movie MovieContainer object

@@ -37,7 +37,7 @@ namespace MovieHunter.Views
         public async void GetAllLists()
         {
             //Getting the user owned lists
-            ObservableCollection<AllList> userLists = await ListCalls.getTokenOwnerLists(LoginPage.token);
+            ObservableCollection<AllList> userLists = await ListCalls.GetTokenOwnerLists(LoginPage.token);
 
             //Creating objects that contains the listId's
             AllList toWatchList = new AllList();
@@ -47,24 +47,24 @@ namespace MovieHunter.Views
             foreach (AllList n in userLists)
             {
                 //Adding to ToWatch List object
-                if (n.listName == "ToWatch")
+                if (n.ListName == "ToWatch")
                 {
-                    toWatchList.listId = n.listId;
-                    toWatchList.listName = n.listName;
+                    toWatchList.ListId = n.ListId;
+                    toWatchList.ListName = n.ListName;
                 }
                 //Adding to watched List object
-                if (n.listName == "Watched")
+                if (n.ListName == "Watched")
                 {
-                    watchedList.listId = n.listId;
-                    watchedList.listName = n.listName;
+                    watchedList.ListId = n.ListId;
+                    watchedList.ListName = n.ListName;
                 }
             }
 
             //Getting all the listItems from the ToWatch List
-            ObservableCollection<AllListItems> allTowatchListObjects = await ListItemCalls.getListItems(toWatchList.listId);
+            ObservableCollection<AllListItems> allTowatchListObjects = await ListItemCalls.GetListItems(toWatchList.ListId);
 
             //Getting all the listItems from the ToWatch List
-            ObservableCollection<AllListItems> allWatchedListObjects = await ListItemCalls.getListItems(watchedList.listId);
+            ObservableCollection<AllListItems> allWatchedListObjects = await ListItemCalls.GetListItems(watchedList.ListId);
 
             //Getting All of the Movies
             allMovies = await MovieCalls.GetMovies();
@@ -175,17 +175,21 @@ namespace MovieHunter.Views
                 return;
             }
             //Genre title
-            TextBlock Genre = new TextBlock();
-            Genre.Text = genre;
-            Genre.FontSize = 24;
-            Genre.Margin = new Thickness(20, 30, 0, 0);
+            TextBlock Genre = new TextBlock
+            {
+                Text = genre,
+                FontSize = 24,
+                Margin = new Thickness(20, 30, 0, 0)
+            };
             stackPanel.Children.Add(Genre);
 
 
             //ListView
             string[] test = { "test", "test2", "test3", "test4" };
-            ListView listview = new ListView();
-            listview.ItemsSource = movieCollection;
+            ListView listview = new ListView
+            {
+                ItemsSource = movieCollection
+            };
             //listview.SelectionChanged += listViewEvent;
             stackPanel.Children.Add(listview);
 
@@ -199,7 +203,7 @@ namespace MovieHunter.Views
 
             //Enabling ItemClick
             listview.IsItemClickEnabled = true;
-            listview.ItemClick += openMovieAsync;
+            listview.ItemClick += OpenMovieAsync;
 
 
             //Set dataTemplate from saved xaml string
@@ -294,7 +298,7 @@ namespace MovieHunter.Views
         }
 
 
-        private async void listViewEvent(object sender, SelectionChangedEventArgs e)
+        private async void ListViewEvent(object sender, SelectionChangedEventArgs e)
         {
             ListView l1 = sender as ListView;
             string selected = l1.SelectedItem.ToString();
@@ -305,7 +309,7 @@ namespace MovieHunter.Views
         /// <summary>Opens the movie item that is clicked</summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ItemClickEventArgs"/> instance containing the event data.</param>
-        private async void openMovieAsync(object sender, ItemClickEventArgs e)
+        private async void OpenMovieAsync(object sender, ItemClickEventArgs e)
         {
             Movie tappeditem = e.ClickedItem as Movie;
             

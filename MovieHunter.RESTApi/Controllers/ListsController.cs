@@ -13,9 +13,9 @@ namespace MovieHunter.RESTApi.Controllers
     [ApiController]
     public class ListsController : ControllerBase
     {
-        private readonly fredrifoContext _context;
+        private readonly FredrifoContext _context;
 
-        public ListsController(fredrifoContext context)
+        public ListsController(FredrifoContext context)
         {
             _context = context;
         }
@@ -36,7 +36,7 @@ namespace MovieHunter.RESTApi.Controllers
         /// <returns>Lists that belong to the token-owner</returns>
         [HttpPost]
         [Route("userLists")]
-        public async Task<IActionResult> GetList([FromBody] string token)
+        public IActionResult GetList([FromBody] string token)
         {
             //Since the token is being transferred its using HttpPost. 
             //This is because HttpGet sends the information in the header. 

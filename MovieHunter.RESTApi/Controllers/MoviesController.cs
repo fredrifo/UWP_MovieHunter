@@ -13,9 +13,9 @@ namespace MovieHunter.RESTApi.Controllers
     [ApiController]
     public class MoviesController : Controller
     {
-        private readonly fredrifoContext _context;
+        private readonly FredrifoContext _context;
 
-        public MoviesController(fredrifoContext context)
+        public MoviesController(FredrifoContext context)
         {
             _context = context;
         }
@@ -38,7 +38,7 @@ namespace MovieHunter.RESTApi.Controllers
         /// <param name="searchParameter">The search parameter.</param>
         /// <returns>The list of movies</returns>
         [HttpGet("{searchParameter}")]
-        public async Task<IActionResult> GetMovie([FromRoute] string searchParameter)
+        public IActionResult GetMovie([FromRoute] string searchParameter)
         {
             if (!ModelState.IsValid)
             {

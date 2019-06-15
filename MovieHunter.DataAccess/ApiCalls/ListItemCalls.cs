@@ -18,7 +18,7 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
         /// <summary>Posting a list item to the database.</summary>
         /// <param name="listItem">The list item object.</param>
         /// <returns></returns>
-        public static async Task<string> postListItem(ListItem listItem)
+        public static async Task<string> PostListItem(ListItem listItem)
         {
             //Serializing movie object
             string input = JsonConvert.SerializeObject(listItem);
@@ -64,7 +64,7 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
         /// <summary>Gets all the list items from a list with a getRequest.</summary>
         /// <param name="ListId">The id of the list.</param>
         /// <returns> A list of all list items</returns>
-        public static async Task<ObservableCollection<AllListItems>> getListItems(int ListId)
+        public static async Task<ObservableCollection<AllListItems>> GetListItems(int ListId)
         {
             //the ListId is used to find the client owners lists
             

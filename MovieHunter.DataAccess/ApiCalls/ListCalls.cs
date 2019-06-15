@@ -18,7 +18,7 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
         /// </summary>
         /// <param name="token">The token.</param>
         /// <returns></returns>
-        public static async Task<ObservableCollection<AllList>> getTokenOwnerLists(string token)
+        public static async Task<ObservableCollection<AllList>> GetTokenOwnerLists(string token)
         {
             //Uses the LoginPage.Token to find the id; 
             //the id is used to find the client owners lists
@@ -54,9 +54,9 @@ namespace MovieHunter.DataAccess.Client.ApiCalls
                             //Adds an AllList object to the return list
                             returnList.Add(new AllList
                             {
-                                listName = (obj["listName"]).ToString(),
-                                listId = Convert.ToInt32(obj["listId"]),
-                                userId = Convert.ToInt32(obj["userId"])
+                                ListName = (obj["listName"]).ToString(),
+                                ListId = Convert.ToInt32(obj["listId"]),
+                                UserId = Convert.ToInt32(obj["userId"])
                             });
                         }
 

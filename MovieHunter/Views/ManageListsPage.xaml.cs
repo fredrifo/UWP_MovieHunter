@@ -23,9 +23,9 @@ namespace MovieHunter.Views
 
         public class AllLists
         {
-            public int userId { get; set; }
-            public int listId { get; set; }
-            public string listName { get; set; }
+            public int UserId { get; set; }
+            public int ListId { get; set; }
+            public string ListName { get; set; }
         }
 
         private ObservableCollection<AllList> _listItems = new ObservableCollection<AllList>();
@@ -44,10 +44,10 @@ namespace MovieHunter.Views
             InitializeComponent();
 
             //Default listitem
-            ListItems.Add(new AllList() { listName = "Loading"});
+            ListItems.Add(new AllList() { ListName = "Loading"});
 
             //Loading user owned lists
-            getListsAsync();
+            GetListsAsync();
 
 
         }
@@ -56,7 +56,7 @@ namespace MovieHunter.Views
 
 
         /// <summary>Gets the lists asynchronous. Creates listitems from user owned lists in the database</summary>
-        private async void getListsAsync()
+        private async void GetListsAsync()
         {
             //The users current login token
             string token = LoginPage.token;
@@ -64,16 +64,16 @@ namespace MovieHunter.Views
                         //Adding object to the list
                            //If database api request fails delete listview content.
             ListItems.Clear();
-            ObservableCollection<AllList> returnedCollection = await ListCalls.getTokenOwnerLists(token);
+            ObservableCollection<AllList> returnedCollection = await ListCalls.GetTokenOwnerLists(token);
 
             foreach( AllList a in returnedCollection)
             {
                 ListItems.Add(
                     new AllList()
                     {
-                        listId = a.listId,
-                        listName = a.listName,
-                        userId = a.userId
+                        ListId = a.ListId,
+                        ListName = a.ListName,
+                        UserId = a.UserId
                     }
                     );
             }
@@ -94,7 +94,7 @@ namespace MovieHunter.Views
 
             try
             {
-                var param = clickedItem.listId as int?;
+                var param = clickedItem.ListId as int?;
 
                 //Navigate to the selected list
                 Frame.Navigate(typeof(MovieListPage), param);
@@ -103,7 +103,7 @@ namespace MovieHunter.Views
             } 
             catch
             {
-                await new MessageDialog(clickedItem.listName, "Could not open list").ShowAsync(); //Display message
+                await new MessageDialog(clickedItem.ListName, "Could not open list").ShowAsync(); //Display message
             }
         }
     }

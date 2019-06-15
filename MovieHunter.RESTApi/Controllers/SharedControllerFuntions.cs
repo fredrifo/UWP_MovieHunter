@@ -18,7 +18,7 @@ namespace MovieHunter.RESTApi.Controllers
         /// <returns>The user id as a Nullable int.</returns>
         public static Nullable<int> TokenVerificator(string token)
         {
-            fredrifoContext _context = new fredrifoContext();
+            FredrifoContext _context = new FredrifoContext();
 
             //TODO: check if the token is valid  var list = _context.TokenValidator.Where(d => d.Token == token && d.ValidFrom,...);
             var list = _context.TokenValidator.Where(d => d.Token == token);

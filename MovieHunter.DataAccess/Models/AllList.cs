@@ -7,9 +7,9 @@ namespace MovieHunter.DataAccess.Client.Models
     public partial class AllList
     {
 
-        public int userId { get; set; }
-        public int listId { get; set; }
-        public string listName { get; set; }
+        public int UserId { get; set; }
+        public int ListId { get; set; }
+        public string ListName { get; set; }
    
     }
 }

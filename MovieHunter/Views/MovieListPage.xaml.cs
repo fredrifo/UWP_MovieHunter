@@ -31,7 +31,7 @@ namespace MovieHunter.Views
             ListItems.Add(new AllListItems() { ListMessage = "Loading..." });
 
             //Using loaded so that the OnNavigationTo has time to finish before running the getListAsync
-            Loaded += (sender, args) => getListsAsync();
+            Loaded += (sender, args) => GetListsAsync();
         }
 
 
@@ -53,7 +53,7 @@ namespace MovieHunter.Views
         /// <summary>Gets the lists asynchronous.
         /// Getting listItems for the chosen list
         /// </summary>
-        private async void getListsAsync()
+        private async void GetListsAsync()
         {
             //Adding object to the list
             //If database api request fails delete listview content.
@@ -77,7 +77,7 @@ namespace MovieHunter.Views
             }
 
             //Get Request to the server asking for listitems in specific list
-            ObservableCollection<AllListItems> returnedCollection = await ListItemCalls.getListItems(Convert.ToInt32(ListId));
+            ObservableCollection<AllListItems> returnedCollection = await ListItemCalls.GetListItems(Convert.ToInt32(ListId));
 
             //There are no list items
             if(returnedCollection.Count == 0)

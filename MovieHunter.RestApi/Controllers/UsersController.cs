@@ -17,9 +17,9 @@ namespace MovieHunter.RESTApi.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private readonly fredrifoContext _context;
+        private readonly FredrifoContext _context;
 
-        public UsersController(fredrifoContext context)
+        public UsersController(FredrifoContext context)
         {
             _context = context;
         }

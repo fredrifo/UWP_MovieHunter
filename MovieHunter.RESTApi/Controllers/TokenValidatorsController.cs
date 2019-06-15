@@ -13,9 +13,9 @@ namespace MovieHunter.RESTApi.Controllers
     [ApiController]
     public class TokenValidatorsController : ControllerBase
     {
-        private readonly fredrifoContext _context;
+        private readonly FredrifoContext _context;
 
-        public TokenValidatorsController(fredrifoContext context)
+        public TokenValidatorsController(FredrifoContext context)
         {
             _context = context;
         }

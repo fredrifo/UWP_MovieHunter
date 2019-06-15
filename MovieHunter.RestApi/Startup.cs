@@ -30,7 +30,7 @@ namespace MovieHunter.RESTApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connection = @"Server=tcp:donau.hiof.no,1433;Database=fredrifo;User Id=fredrifo;Password=asD8TMgJ;Trusted_Connection=False";
-            services.AddDbContext<fredrifoContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<FredrifoContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

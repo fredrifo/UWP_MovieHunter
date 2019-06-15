@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MovieHunter.DataAccess.Models
 {
-    public partial class fredrifoContext : DbContext
+    public partial class FredrifoContext : DbContext
     {
-        public fredrifoContext()
+        public FredrifoContext()
         {
         }
 
-        public fredrifoContext(DbContextOptions<fredrifoContext> options)
+        public FredrifoContext(DbContextOptions<FredrifoContext> options)
             : base(options)
         {
         }
@@ -25,8 +25,8 @@ namespace MovieHunter.DataAccess.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=tcp:donau.hiof.no,1433;Database=fredrifo;User Id=fredrifo;Password=asD8TMgJ;Trusted_Connection=True");
+// To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+             //   optionsBuilder.UseSqlServer("Server=tcp:donau.hiof.no,1433;Database=fredrifo;User Id=fredrifo;Password=asD8TMgJ;Trusted_Connection=True");
             }
         }
 

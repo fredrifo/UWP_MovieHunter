@@ -13,9 +13,9 @@ namespace MovieHunter.RESTApi.Controllers
     [ApiController]
     public class PeopleController : ControllerBase
     {
-        private readonly fredrifoContext _context;
+        private readonly FredrifoContext _context;
 
-        public PeopleController(fredrifoContext context)
+        public PeopleController(FredrifoContext context)
         {
             _context = context;
         }
@@ -132,7 +132,7 @@ namespace MovieHunter.RESTApi.Controllers
         /// <returns>a list of matching people</returns>
         [HttpPost]
         [Route("search")]
-        public async Task<IActionResult> PostSearchPerson([FromBody] string currentSearch)
+        public IActionResult PostSearchPerson([FromBody] string currentSearch)
         {
             if (!ModelState.IsValid)
             {

@@ -13,9 +13,9 @@ namespace MovieHunter.RESTApi.Controllers
     [ApiController]
     public class GenresController : ControllerBase
     {
-        private readonly fredrifoContext _context;
+        private readonly FredrifoContext _context;
 
-        public GenresController(fredrifoContext context)
+        public GenresController(FredrifoContext context)
         {
             _context = context;
         }
@@ -121,7 +121,7 @@ namespace MovieHunter.RESTApi.Controllers
         /// <returns>A list of all matching genres</returns>
         [HttpPost]
         [Route("search")]
-        public async Task<IActionResult> PostSearchGenre([FromBody] string currentSearch)
+        public IActionResult PostSearchGenre([FromBody] string currentSearch)
         {
             if (!ModelState.IsValid)
             {

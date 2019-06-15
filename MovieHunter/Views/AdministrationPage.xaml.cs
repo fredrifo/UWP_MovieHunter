@@ -21,7 +21,7 @@ namespace MovieHunter.Views
 
         public int genreId;
 
-        public Visibility Visibility { get; set; }
+        public Visibility Visibilityy { get; set; }
 
         private AdministrationViewModel ViewModel
         {
@@ -236,7 +236,7 @@ namespace MovieHunter.Views
             };
 
             //Logic for adding person via HttpPost
-            await PersonCalls.postPerson(newPerson);
+            await PersonCalls.PostPerson(newPerson);
             
         }
 

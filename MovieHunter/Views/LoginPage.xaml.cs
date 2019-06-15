@@ -74,7 +74,7 @@ namespace MovieHunter.Views
         /// </summary>
         /// <value>
         ///   <c>true</c> if this instance is logged in; otherwise, <c>false</c>.</value>
-        public static bool isLoggedIn
+        public static bool IsLoggedIn
         {
             get;
             set;
